@@ -1,4 +1,4 @@
-# calculator-comrade-pages
+# Calculator Comrade
 
 bla-bla-bla
 
