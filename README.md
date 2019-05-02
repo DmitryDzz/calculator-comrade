@@ -2,4 +2,4 @@
 
 bla-bla-bla
 
-[privacy-policy text](privacy-policy)
+[privacy-policy text](privacy-policy.md)
