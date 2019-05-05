@@ -1,4 +1,8 @@
-# Privacy Policy
+---
+layout: page
+title: Privacy Policy
+permalink: /privacy-policy/
+---
 
 "Robot Mitya" built the Calculator Comrade app as a non-commercial app as well as an no-ad app. This service is provided by "Robot Mitya" and is intended for use as is.
 
@@ -9,3 +13,4 @@ We neither collect nor require you to provide us with any personally identifiabl
 
 ## Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us: <info@robot-mitya.ru>.
+
