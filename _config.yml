@@ -16,7 +16,7 @@
 title: Calculator Comrade
 email: info@robot-mitya.ru
 description: >- # this means to ignore newlines until "baseurl:"
-  Calculator Comrade is an accurate software replica of an old-school 8-digit hardware calculator.
+  Calculator Comrade is an accurate software replica of an old-school 8-digit pocket calculator.
 baseurl: "/calculator-comrade-pages" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: DmitryDzz
