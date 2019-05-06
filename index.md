@@ -5,7 +5,7 @@
 layout: default
 ---
 
-![Calculator Comrade](images/Pixel2_1080x1920_framed.png){:height="512px"}
+![Calculator Comrade](images/Pixel2_277x512_framed.png){:height="512px"}
 
 # Why yet another calculator app?
 Shortly - I tried a lot of calculator apps, and I have to admit: an old pocket calculator is much more handy in everyday life.
