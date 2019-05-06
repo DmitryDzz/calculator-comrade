@@ -19,7 +19,7 @@ Or do you know that you can get a square number by pressing `× =`? And you don'
 To change sign press `– =`. To get the result of 1/X operation press `÷ =`. Read more about these and other forgotten spells on [Tips & Tricks](tips-n-tricks/) page.
 
 # What is this calculator?
-This app is an emulator of an old pocket calculator. It uses my [open source project](https://github.com/DmitryDzz/calculator-comrade-lib) that emulates calculator's microprocessor architecture and algorithms. I found no similar open projects nor detailed documentation, so this project is a consequence of my painstaking research and reverse engineering.
+This app is an emulator of an old pocket calculator. It uses my [open source project](https://github.com/DmitryDzz/calculator-comrade-lib) that emulates calculator's microprocessor architecture and algorithms. I found neither similar open projects nor detailed documentation, so this project is a consequence of my painstaking research and reverse engineering.
 
 Since this is an emulator, I reproduced the design of my favorite CASIO HS-8VA pocket calculator as close as I could. In case modern software calculators don't have hardware buttons I had to add a vibration option to give the user some tactile feedback. Vibration option is the only unoriginal option in this software replica. I do not plan to add more functions in this calculator - that's the point of another app. On the other hand, I'd like to make this emulator as close to the original as possible, so feel free to [contact me](mailto:info@robot-mitya.ru) if you find any inaccuracies.
 
