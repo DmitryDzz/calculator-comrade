@@ -27,3 +27,6 @@ Since this is an emulator, I reproduced the design of my favorite CASIO HS-8VA p
 1. There are thousands of calculators in Google Play market, so I have to find another way to become rich and rule the world. I can't take the money of all my three users.
 1. I'm a hobbyist, and this project brings me a lot of fun. That's the price.
 1. I dedicate this project to the pioneers who designed those ancient microprocessors. The deeper I dived in calculator's hardware, the more profound respect I fill to the developers.
+
+<br/>
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=ru.robotmitya.comrade)
