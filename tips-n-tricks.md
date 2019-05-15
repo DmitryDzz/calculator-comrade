@@ -48,7 +48,7 @@ ERROR flag means that overflow occurred during the calculation and the point aft
 
 # Counter (+=)
 
-`1 + =` returns `1`. Press `=` again and get `2`, one more `=` will return `3` and so on. Note, that latter you can type a new number and continue counting from it.
+`1 + =` returns `1`. Press `=` again and get `2`, one more `=` will return `3` and so on. Note, that later you can type a new number and continue counting from it.
 
 # Power (×=)
 
