@@ -68,7 +68,7 @@ or
 
 `5 + 5 ÷ =` ⇒ `0.1`
 
-`2 c 3 + 4 ÷ =` ⇒ `0.1`
+`2 × 3 + 4 ÷ =` ⇒ `0.1`
 
 # Change sign (–=)
 
@@ -78,7 +78,7 @@ or
 
 `7 – 2 – =` ⇒ `-5`
 
-`10 c 2 – =` ⇒ `-5`
+`10 ÷ 2 – =` ⇒ `-5`
 
 **WARNING:** this trick doesn’t work if the last operation in the expression is multiplication:
 
