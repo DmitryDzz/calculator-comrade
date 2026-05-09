@@ -4,8 +4,8 @@ export function CalculatorAppButtons() {
     return (
         <>
             <CalculatorAppButton
-                ariaLabel="Share"
-                className="calculator-app-button--share"
+                ariaLabel="Primary action"
+                className="calculator-app-button--primary"
                 src="/assets/calculator/buttons/app_button_share.webp"
             />
             <CalculatorAppButton

@@ -394,7 +394,7 @@
     filter: none;
 }
 
-.calculator-app-button--share {
+.calculator-app-button--primary {
     left: calc(880px + 111.68314px);
     top: calc(1560px - 1266.6582px);
 }
