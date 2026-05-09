@@ -1,0 +1,92 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.out/
+.cache/
+.vite/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+
+# IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# WebAssembly / native build artifacts
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.wasm.map
+
+# Keep final wasm only if it is generated
+# If wasm is built from calculator-comrade-lib, ignore it:
+*.wasm
+*.js.symbols
+
+# Capacitor
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+android/.idea/
+android/*.iml
+
+# Capacitor generated web assets inside Android project
+android/app/src/main/assets/public/
+
+# Gradle
+.gradle/
+
+## Logs
+#logs
+#*.log
+#npm-debug.log*
+#yarn-debug.log*
+#yarn-error.log*
+#pnpm-debug.log*
+#lerna-debug.log*
+#
+#node_modules
+#dist
+#dist-ssr
+#*.local
+#
+## Editor directories and files
+#.vscode/*
+#!.vscode/extensions.json
+#.idea
+#.DS_Store
+#*.suo
+#*.ntvs*
+#*.njsproj
+#*.sln
+#*.sw?

@@ -1,0 +1,410 @@
+.calculator-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 100dvh;
+}
+
+.calculator-shell {
+    position: relative;
+
+    /*width: min(90vw, calc(66dvh * 1760 / 3120));*/
+    height: 100vh;
+    aspect-ratio: 1760 / 3120;
+
+    overflow: hidden;
+}
+
+.calculator-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transform-origin: left top;
+}
+
+.calculator-body {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 1760px;
+    height: 3120px;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.calculator-button {
+    position: absolute;
+
+    width: 322px;
+    height: 246px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    transform: translate(-50%, -50%);
+
+    cursor: pointer;
+}
+
+.calculator-button:active {
+    transform: translate(-50%, calc(-50% - 8px));
+}
+
+.calculator-button__body {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.calculator-button__label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    user-select: none;
+    pointer-events: none;
+
+    transition: opacity 60ms ease-out;
+}
+
+.calculator-button:active .calculator-button__label {
+    opacity: 0.85;
+    filter: none;
+}
+
+.calculator-button--7 {
+    left: calc(880px - 569.7573px);
+    top: calc(1560px + 462.52374px);
+}
+
+.calculator-button--8 {
+    left: calc(880px - 187.89531px);
+    top: calc(1560px + 461.36127px);
+}
+
+.calculator-button--9 {
+    left: calc(880px + 201.12996px);
+    top: calc(1560px + 460.03082px);
+}
+
+.calculator-button--4 {
+    left: calc(880px - 570.0676px);
+    top: calc(1560px + 735.60645px);
+}
+
+.calculator-button--5 {
+    left: calc(880px - 187.58499px);
+    top: calc(1560px + 734.36px);
+}
+
+.calculator-button--6 {
+    left: calc(880px + 200.19374px);
+    top: calc(1560px + 732.8183px);
+}
+
+.calculator-button--1 {
+    left: calc(880px - 567.5747px);
+    top: calc(1560px + 1008.9002px);
+}
+
+.calculator-button--2 {
+    left: calc(880px - 188.83145px);
+    top: calc(1560px + 1007.3585px);
+}
+
+.calculator-button--3 {
+    left: calc(880px + 198.65173px);
+    top: calc(1560px + 1005.16077px);
+}
+
+.calculator-button--0 {
+    left: calc(880px - 569.0631px);
+    top: calc(1560px + 1281.899px);
+}
+
+.calculator-button--func {
+    width: 239px;
+    height: 157px;
+}
+
+.calculator-button--plus {
+    width: 322px;
+    height: 537px;
+}
+
+.calculator-button--ce-ca {
+    left: calc(880px - 567.5747px);
+    top: calc(1560px + 187.03229px);
+}
+
+.calculator-button--mu {
+    left: calc(880px - 188.83145px);
+    top: calc(1560px + 186.7371px);
+}
+
+.calculator-button--percent {
+    left: calc(880px + 201.4402px);
+    top: calc(1560px + 187.03229px);
+}
+
+.calculator-button--div {
+    left: calc(880px + 580.1298px);
+    top: calc(1560px + 186.08086px);
+}
+
+.calculator-button--mul {
+    left: calc(880px + 578.88336px);
+    top: calc(1560px + 457.5379px);
+}
+
+.calculator-button--minus {
+    left: calc(880px + 577.63696px);
+    top: calc(1560px + 730.6206px);
+}
+
+.calculator-button--plus {
+    left: calc(880px + 574.9021px);
+    top: calc(1560px + 1137.6865px);
+}
+
+.calculator-button--point {
+    left: calc(880px - 190.07791px);
+    top: calc(1560px + 1278.1597px);
+}
+
+.calculator-button--equals {
+    left: calc(880px + 198.63704px);
+    top: calc(1560px + 1275.6667px);
+}
+
+.calculator-button--mrc {
+    left: calc(880px - 612.9111px);
+    top: calc(1560px - 85.96641px);
+}
+
+.calculator-button--mem-minus {
+    left: calc(880px - 301.99405px);
+    top: calc(1560px - 85.96641px);
+}
+
+.calculator-button--mem-plus {
+    left: calc(880px + 7.0559893px);
+    top: calc(1560px - 85.96641px);
+}
+
+.calculator-button--sqrt {
+    left: calc(880px + 314.92783px);
+    top: calc(1560px - 87.50805px);
+}
+
+.calculator-button--change-sign {
+    left: calc(880px + 623.9778px);
+    top: calc(1560px - 87.50805px);
+}
+
+.calculator-display-digit,
+.calculator-display-point,
+.calculator-display-indicator {
+    position: absolute;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.calculator-display-digit {
+    width: 139px;
+    height: 420px;
+
+    transform: translate(-50%, -50%);
+}
+
+.calculator-display-point {
+    width: 40px;
+    height: 40px;
+
+    transform: translate(-50%, -50%);
+}
+
+.calculator-display-indicator {
+    height: 74px;
+
+    transform: translate(-50%, -50%);
+}
+
+.calculator-display-minus,
+.calculator-display-memory {
+    width: 400px;
+}
+
+.calculator-display-error {
+    width: 286px;
+}
+
+/* Android Display.java digit positions */
+.calculator-display-digit--0 {
+    left: calc(880px + 499.83002px);
+    top: calc(1560px - 629.46173px);
+}
+
+.calculator-display-digit--1 {
+    left: calc(880px + 360.22662px);
+    top: calc(1560px - 629.46173px);
+}
+
+.calculator-display-digit--2 {
+    left: calc(880px + 220.62323px);
+    top: calc(1560px - 629.46173px);
+}
+
+.calculator-display-digit--3 {
+    left: calc(880px + 82.26629px);
+    top: calc(1560px - 630.7082px);
+}
+
+.calculator-display-digit--4 {
+    left: calc(880px - 57.33711px);
+    top: calc(1560px - 630.7082px);
+}
+
+.calculator-display-digit--5 {
+    left: calc(880px - 196.9405px);
+    top: calc(1560px - 630.7082px);
+}
+
+.calculator-display-digit--6 {
+    left: calc(880px - 337.79037px);
+    top: calc(1560px - 631.95465px);
+}
+
+.calculator-display-digit--7 {
+    left: calc(880px - 477.39377px);
+    top: calc(1560px - 631.95465px);
+}
+
+/* Android Display.java point positions */
+.calculator-display-point--0 {
+    left: calc(880px + 549.813px);
+    top: calc(1560px - 445.23505px);
+}
+.calculator-display-point--1 {
+    left: calc(880px + 410.2096px);
+    top: calc(1560px - 445.23505px);
+}
+.calculator-display-point--2 {
+    left: calc(880px + 270.6062px);
+    top: calc(1560px - 445.23505px);
+}
+.calculator-display-point--3 {
+    left: calc(880px + 132.24927px);
+    top: calc(1560px - 446.4815px);
+}
+.calculator-display-point--4 {
+    left: calc(880px - 7.3541374px);
+    top: calc(1560px - 446.4815px);
+}
+.calculator-display-point--5 {
+    left: calc(880px - 146.95753px);
+    top: calc(1560px - 446.4815px);
+}
+.calculator-display-point--6 {
+    left: calc(880px - 287.8074px);
+    top: calc(1560px - 447.72797px);
+}
+.calculator-display-point--7 {
+    left: calc(880px - 427.4108px);
+    top: calc(1560px - 447.72797px);
+}
+
+/* Indicators */
+.calculator-display-minus {
+    left: calc(880px - 360.22662px);
+    top: calc(1560px - 906.1756px);
+}
+
+.calculator-display-memory {
+    left: calc(880px + 61.076485px);
+    top: calc(1560px - 906.1756px);
+}
+
+.calculator-display-error {
+    left: calc(880px + 440px);
+    top: calc(1560px - 906.1756px);
+}
+
+/*
+ * Android inactive symbols used alpha 15/255.
+ * CSS opacity around 0.06 gives a similar faint display shadow.
+ */
+.calculator-display-symbol--inactive {
+    opacity: 0.06;
+}
+
+.calculator-display-symbol--active {
+    opacity: 1;
+    filter: brightness(0);
+}
+
+.calculator-app-button {
+    position: absolute;
+
+    width: 160px;
+    height: 160px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    transform: translate(-50%, -50%);
+
+    cursor: pointer;
+}
+
+.calculator-app-button:active {
+    transform: translate(-50%, calc(-50% - 2px));
+}
+
+.calculator-app-button__image {
+    width: 100%;
+    height: 100%;
+
+    opacity: 0.12;
+
+    user-select: none;
+    pointer-events: none;
+
+    transition: opacity 60ms ease-out;
+}
+
+.calculator-app-button:active .calculator-app-button__image {
+    opacity: 0.51;
+    filter: none;
+}
+
+.calculator-app-button--share {
+    left: calc(880px + 111.68314px);
+    top: calc(1560px - 1266.6582px);
+}
+
+.calculator-app-button--info {
+    left: calc(880px + 321.08823px);
+    top: calc(1560px - 1266.6582px);
+}
+
+.calculator-app-button--settings {
+    left: calc(880px + 544.20436px);
+    top: calc(1560px - 1266.6582px);
+}
