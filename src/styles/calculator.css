@@ -50,9 +50,12 @@
     transform: translate(-50%, -50%);
 
     cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-.calculator-button:active {
+.calculator-button--pressed {
     transform: translate(-50%, calc(-50% - 8px));
 }
 
@@ -66,6 +69,16 @@
 
     user-select: none;
     pointer-events: none;
+
+    transition: opacity 60ms ease-out;
+}
+
+.calculator-button--pressed .calculator-button__body {
+    opacity: 0.4;
+}
+
+.calculator-button--clear.calculator-button--pressed .calculator-button__body {
+    opacity: 0.81;
 }
 
 .calculator-button__label {
@@ -81,7 +94,7 @@
     transition: opacity 60ms ease-out;
 }
 
-.calculator-button:active .calculator-button__label {
+.calculator-button--pressed .calculator-button__label {
     opacity: 0.85;
     filter: none;
 }
@@ -371,9 +384,12 @@
     transform: translate(-50%, -50%);
 
     cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-.calculator-app-button:active {
+.calculator-app-button--pressed {
     transform: translate(-50%, calc(-50% - 2px));
 }
 
@@ -389,7 +405,7 @@
     transition: opacity 60ms ease-out;
 }
 
-.calculator-app-button:active .calculator-app-button__image {
+.calculator-app-button--pressed .calculator-app-button__image {
     opacity: 0.51;
     filter: none;
 }
