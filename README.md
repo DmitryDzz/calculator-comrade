@@ -1,73 +1,196 @@
-# React + TypeScript + Vite
+# Calculator Comrade Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web version of Calculator Comrade.
 
-Currently, two official plugins are available:
+This application is a basic calculator that emulates the processor logic of classic handheld calculators to faithfully reproduce their behavior.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Current stage
 
-## React Compiler
+The project is currently at the `architecture/bootstrap` stage.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Implemented:
 
-## Expanding the ESLint configuration
+- Vite + React + TypeScript application bootstrap.
+- Responsive calculator visual layout.
+- Visual layout ported from the old Android application.
+- Calculator body, keyboard, display, and app buttons.
+- CSS-based positioning in the original calculator coordinate system.
+- PWA manifest.
+- PWA icons and screenshots.
+- Basic service worker with offline support.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Not implemented yet:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Calculator logic.
+- WebAssembly integration with `calculator-comrade-lib`.
+- Real display state.
+- Real keyboard input handling.
+- Platform-specific app button behavior.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Architecture notes
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The visual layout is based on the original Android application assets and coordinates.
+
+The original calculator body image has the size:
+
+```text
+1760 x 3120
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The web application uses an internal stage with the same coordinate system. The stage is scaled to fit the visible application shell.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This allows CSS positions to use the original Android coordinates almost directly.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Example:
+
+```css
+.calculator-button--7 {
+    left: calc(880px - 569.7573px);
+    top: calc(1560px + 462.52374px);
+}
 ```
+
+Where:
+
+```text
+880  = 1760 / 2
+1560 = 3120 / 2
+```
+
+## Project structure
+
+```text
+public/
+├── assets/
+│   └── calculator/
+├── icons/
+├── screenshots/
+├── manifest.webmanifest
+└── sw.js
+
+src/
+├── app/
+│   └── App.tsx
+├── calculator/
+│   ├── CalculatorAppButton.tsx
+│   ├── CalculatorAppButtons.tsx
+│   ├── CalculatorButton.tsx
+│   ├── CalculatorDisplay.tsx
+│   ├── CalculatorKeyboard.tsx
+│   ├── CalculatorView.tsx
+│   └── calculatorGeometry.ts
+├── styles/
+│   ├── calculator.css
+│   └── index.css
+├── main.tsx
+└── registerServiceWorker.ts
+```
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+The service worker is not registered in development mode. This avoids stale cached files while working on the app.
+
+## Production build
+
+Build the application:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+The service worker is registered only in production mode.
+
+## Offline testing
+
+To test offline support:
+
+1. Build and preview the app:
+
+```bash
+npm run build
+npm run preview
+```
+
+2. Open the preview URL in Chrome or Chromium.
+
+3. Open DevTools:
+
+```text
+Application → Service workers
+```
+
+4. Confirm that `/sw.js` is registered and active.
+
+5. Open:
+
+```text
+Application → Cache storage
+```
+
+6. Confirm that `calculator-comrade-web-v1` contains the application shell and Vite build assets.
+
+7. Switch to offline mode:
+
+```text
+Network → Offline
+```
+
+8. Reload the page.
+
+The app should still open from the service worker cache.
+
+If testing gets confusing, clear the local PWA state:
+
+```text
+Application → Service workers → Unregister
+Application → Storage → Clear site data
+```
+
+Then reload the page online.
+
+## PWA notes
+
+The manifest is located at:
+
+```text
+public/manifest.webmanifest
+```
+
+The service worker is located at:
+
+```text
+public/sw.js
+```
+
+The current service worker is intentionally simple and manual. It caches static files and discovers Vite build assets from `index.html`.
+
+Later, we may replace it with a generated precache setup, for example via `vite-plugin-pwa`.
+
+## Next planned steps
+
+Possible next steps:
+
+- Add a typed display state model.
+- Add visual-only keyboard press events.
+- Prepare the boundary for WebAssembly integration.
+- Connect `calculator-comrade-lib`.
+- Implement platform-specific app buttons.
+- Add Capacitor support for Android.

@@ -5,6 +5,9 @@ const STATIC_ASSETS = [
     "/index.html",
     "/manifest.webmanifest",
 
+    "/wasm/calculator.js",
+    "/wasm/calculator.wasm",
+
     "/favicon-48.png",
     "/favicon-72.png",
     "/favicon-96.png",
