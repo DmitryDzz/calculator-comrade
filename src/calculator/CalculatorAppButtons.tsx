@@ -1,4 +1,4 @@
-import { CalculatorAppButton } from "./CalculatorAppButton";
+import { CalculatorAppButton } from "./CalculatorAppButton.tsx";
 
 export function CalculatorAppButtons() {
     return (

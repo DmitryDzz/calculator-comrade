@@ -90,8 +90,8 @@ export type CalculatorModuleFactory = (
     options?: CalculatorModuleFactoryOptions,
 ) => Promise<CalculatorWasmModule>;
 
-// declare global {
-//     interface Window {
-//         createCalculatorModule?: CalculatorModuleFactory;
-//     }
-// }
+declare global {
+    interface Window {
+        createCalculatorModule?: CalculatorModuleFactory;
+    }
+}

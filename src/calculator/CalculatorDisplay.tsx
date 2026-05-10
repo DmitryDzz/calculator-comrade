@@ -1,141 +1,144 @@
-export function CalculatorDisplay() {
-    return (
-        <>
-            {/* Inactive digit shadows */}
-            <img
-                className="calculator-display-digit calculator-display-digit--0 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--1 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--2 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--3 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--4 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--5 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--6 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-digit calculator-display-digit--7 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_digit8.webp"
-                alt=""
-                draggable={false}
-            />
+import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
 
-            {/* Active mock value: 0 on the rightmost display position */}
-            <img
-                className="calculator-display-digit calculator-display-digit--0 calculator-display-symbol--active"
-                src="/assets/calculator/display/display_digit0.webp"
-                alt=""
-                draggable={false}
-            />
+interface CalculatorDisplayProps {
+        display: CalculatorDisplaySnapshot | null;
+}
 
-            {/* Inactive indicators */}
-            <img
-                className="calculator-display-indicator calculator-display-minus calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_minus.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-indicator calculator-display-memory calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_memory.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-indicator calculator-display-error calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_error.webp"
-                alt=""
-                draggable={false}
-            />
+const DISPLAY_POSITIONS = [0, 1, 2, 3, 4, 5, 6, 7];
 
-            {/* Inactive points */}
-            <img
-                className="calculator-display-point calculator-display-point--0 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--1 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--2 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--3 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--4 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--5 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--6 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-            <img
-                className="calculator-display-point calculator-display-point--7 calculator-display-symbol--inactive"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
+export function CalculatorDisplay({ display }: CalculatorDisplayProps) {
+        return (
+            <>
+                    <CalculatorDisplayInactiveLayer />
 
-            {/* Active decimal point mock can stay disabled for now */}
-            <img
-                className="calculator-display-point calculator-display-point--0 calculator-display-symbol--active"
-                src="/assets/calculator/display/display_point.webp"
-                alt=""
-                draggable={false}
-            />
-        </>
-    );
+                    {display !== null && (
+                        <CalculatorDisplayActiveLayer display={display} />
+                    )}
+            </>
+        );
+}
+
+function CalculatorDisplayInactiveLayer() {
+        return (
+            <>
+                    {DISPLAY_POSITIONS.map((position) => (
+                        <img
+                            key={`inactive-digit-${position}`}
+                            className={[
+                                    "calculator-display-digit",
+                                    `calculator-display-digit--${position}`,
+                                    "calculator-display-symbol--inactive",
+                            ].join(" ")}
+                            src="/assets/calculator/display/display_digit8.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    ))}
+
+                    {DISPLAY_POSITIONS.map((position) => (
+                        <img
+                            key={`inactive-point-${position}`}
+                            className={[
+                                    "calculator-display-point",
+                                    `calculator-display-point--${position}`,
+                                    "calculator-display-symbol--inactive",
+                            ].join(" ")}
+                            src="/assets/calculator/display/display_point.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    ))}
+
+                    <img
+                        className="calculator-display-indicator calculator-display-minus calculator-display-symbol--inactive"
+                        src="/assets/calculator/display/display_minus.webp"
+                        alt=""
+                        draggable={false}
+                    />
+                    <img
+                        className="calculator-display-indicator calculator-display-memory calculator-display-symbol--inactive"
+                        src="/assets/calculator/display/display_memory.webp"
+                        alt=""
+                        draggable={false}
+                    />
+                    <img
+                        className="calculator-display-indicator calculator-display-error calculator-display-symbol--inactive"
+                        src="/assets/calculator/display/display_error.webp"
+                        alt=""
+                        draggable={false}
+                    />
+            </>
+        );
+}
+
+interface CalculatorDisplayActiveLayerProps {
+        display: CalculatorDisplaySnapshot;
+}
+
+function CalculatorDisplayActiveLayer({
+                                              display,
+                                      }: CalculatorDisplayActiveLayerProps) {
+        return (
+            <>
+                    {display.digits.map((digit, position) => {
+                            if (digit < 0) {
+                                    return null;
+                            }
+
+                            return (
+                                <img
+                                    key={`active-digit-${position}`}
+                                    className={[
+                                            "calculator-display-digit",
+                                            `calculator-display-digit--${position}`,
+                                            "calculator-display-symbol--active",
+                                    ].join(" ")}
+                                    src={`/assets/calculator/display/display_digit${digit}.webp`}
+                                    alt=""
+                                    draggable={false}
+                                />
+                            );
+                    })}
+
+                    {display.pointPos >= 0 && (
+                        <img
+                            className={[
+                                    "calculator-display-point",
+                                    `calculator-display-point--${display.pointPos}`,
+                                    "calculator-display-symbol--active",
+                            ].join(" ")}
+                            src="/assets/calculator/display/display_point.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    )}
+
+                    {display.negative && (
+                        <img
+                            className="calculator-display-indicator calculator-display-minus calculator-display-symbol--active"
+                            src="/assets/calculator/display/display_minus.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    )}
+
+                    {display.memory && (
+                        <img
+                            className="calculator-display-indicator calculator-display-memory calculator-display-symbol--active"
+                            src="/assets/calculator/display/display_memory.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    )}
+
+                    {display.error && (
+                        <img
+                            className="calculator-display-indicator calculator-display-error calculator-display-symbol--active"
+                            src="/assets/calculator/display/display_error.webp"
+                            alt=""
+                            draggable={false}
+                        />
+                    )}
+            </>
+        );
 }

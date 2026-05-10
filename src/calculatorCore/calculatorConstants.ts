@@ -2,7 +2,7 @@ import type {
     CalculatorButtonCode,
     CalculatorOptions,
     CalculatorResult,
-} from "./calculatorWasmTypes";
+} from "./calculatorWasmTypes.ts";
 
 /**
  * Calculator C API result codes.

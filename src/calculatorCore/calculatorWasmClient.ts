@@ -1,11 +1,11 @@
-import { CALC_OK } from "./calculatorConstants";
+import { CALC_OK } from "./calculatorConstants.ts";
 import type {
     CalculatorButtonCode,
     CalculatorHandle,
     CalculatorOptions,
     CalculatorResult,
     CalculatorWasmModule,
-} from "./calculatorWasmTypes";
+} from "./calculatorWasmTypes.ts";
 
 export interface CalculatorDisplaySnapshot {
     size: number;

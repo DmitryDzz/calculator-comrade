@@ -1,24 +1,33 @@
 import { useEffect, useRef, useState } from "react";
+import { CalculatorAppButtons } from "./CalculatorAppButtons.tsx";
+import { CalculatorDisplay } from "./CalculatorDisplay.tsx";
+import { CalculatorKeyboard } from "./CalculatorKeyboard.tsx";
 import {
     CALCULATOR_BODY_HEIGHT,
     CALCULATOR_BODY_WIDTH,
-} from "./calculatorGeometry";
-import { CalculatorKeyboard } from "./CalculatorKeyboard";
-import { CalculatorDisplay } from "./CalculatorDisplay";
-import {CalculatorAppButtons} from "./CalculatorAppButtons.tsx";
+} from "./calculatorGeometry.ts";
+import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
+import type {CalculatorButtonCode} from "../calculatorCore/calculatorWasmTypes.ts";
 
-export function CalculatorView() {
+interface CalculatorViewProps {
+    display: CalculatorDisplaySnapshot | null;
+    onButtonPress: (buttonCode: CalculatorButtonCode) => void;
+}
+
+export function CalculatorView({ display, onButtonPress }: CalculatorViewProps) {
     const shellRef = useRef<HTMLDivElement | null>(null);
     const [scale, setScale] = useState(1);
 
     useEffect(() => {
         const shell = shellRef.current;
+
         if (!shell) {
             return;
         }
 
         const updateScale = () => {
             const rect = shell.getBoundingClientRect();
+
             setScale(rect.width / CALCULATOR_BODY_WIDTH);
         };
 
@@ -50,10 +59,9 @@ export function CalculatorView() {
                         draggable={false}
                     />
 
-                    <CalculatorKeyboard />
-                    <CalculatorDisplay />
+                    <CalculatorDisplay display={display} />
+                    <CalculatorKeyboard onButtonPress={onButtonPress} />
                     <CalculatorAppButtons />
-
                 </div>
             </div>
         </section>
