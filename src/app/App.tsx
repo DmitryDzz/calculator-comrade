@@ -36,6 +36,10 @@ export function App() {
         const handleKeyDown = (event: KeyboardEvent) => {
             const buttonCode = getCalculatorButtonCodeFromKeyboardEvent(event);
 
+            if (event.repeat) {
+                return;
+            }
+
             if (buttonCode === null) {
                 return;
             }
