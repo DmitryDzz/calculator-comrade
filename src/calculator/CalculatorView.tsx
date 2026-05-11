@@ -5,7 +5,7 @@ import { CalculatorKeyboard } from "./CalculatorKeyboard.tsx";
 import {
     CALCULATOR_BODY_HEIGHT,
     CALCULATOR_BODY_WIDTH,
-} from "./calculatorGeometry.ts";
+} from "../calculatorCore/calculatorGeometry.ts";
 import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
 
