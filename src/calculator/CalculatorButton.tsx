@@ -1,5 +1,6 @@
 import { useState } from "react";
-import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
+import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes";
+import * as React from "react";
 
 interface CalculatorButtonProps {
     className?: string;
@@ -8,6 +9,7 @@ interface CalculatorButtonProps {
     buttonSrc: string;
     labelSrc: string;
     onPress: (buttonCode: CalculatorButtonCode) => void;
+    pressedButtonCode: CalculatorButtonCode | null;
 }
 
 export function CalculatorButton({
@@ -17,8 +19,10 @@ export function CalculatorButton({
                                      buttonSrc,
                                      labelSrc,
                                      onPress,
+                                     pressedButtonCode,
                                  }: CalculatorButtonProps) {
-    const [pressed, setPressed] = useState(false);
+    const [pointerPressed, setPointerPressed] = useState(false);
+    const pressed = pointerPressed || pressedButtonCode === buttonCode;
 
     return (
         <button
@@ -35,21 +39,21 @@ export function CalculatorButton({
                 }
 
                 event.currentTarget.setPointerCapture(event.pointerId);
-                setPressed(true);
+                setPointerPressed(true);
             }}
             onPointerUp={() => {
-                if (!pressed) {
+                if (!pointerPressed) {
                     return;
                 }
 
-                setPressed(false);
+                setPointerPressed(false);
                 onPress(buttonCode);
             }}
             onPointerCancel={() => {
-                setPressed(false);
+                setPointerPressed(false);
             }}
             onLostPointerCapture={() => {
-                setPressed(false);
+                setPointerPressed(false);
             }}
             onContextMenu={(event) => {
                 event.preventDefault();

@@ -12,9 +12,10 @@ import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes
 interface CalculatorViewProps {
     display: CalculatorDisplaySnapshot | null;
     onButtonPress: (buttonCode: CalculatorButtonCode) => void;
+    pressedButtonCode: CalculatorButtonCode | null;
 }
 
-export function CalculatorView({ display, onButtonPress }: CalculatorViewProps) {
+export function CalculatorView({ display, onButtonPress, pressedButtonCode }: CalculatorViewProps) {
     const shellRef = useRef<HTMLDivElement | null>(null);
     const [scale, setScale] = useState<number | null>(null);
 
@@ -61,7 +62,10 @@ export function CalculatorView({ display, onButtonPress }: CalculatorViewProps) 
                         />
 
                         <CalculatorDisplay display={display} />
-                        <CalculatorKeyboard onButtonPress={onButtonPress} />
+                        <CalculatorKeyboard
+                            onButtonPress={onButtonPress}
+                            pressedButtonCode={pressedButtonCode}
+                        />
                         <CalculatorAppButtons />
                     </div>
                 )}

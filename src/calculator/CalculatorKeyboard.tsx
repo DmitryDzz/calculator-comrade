@@ -28,10 +28,11 @@ import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes
 import { CalculatorButton } from "./CalculatorButton.tsx";
 
 interface CalculatorKeyboardProps {
-        onButtonPress: (buttonCode: CalculatorButtonCode) => void;
+    onButtonPress: (buttonCode: CalculatorButtonCode) => void;
+    pressedButtonCode: CalculatorButtonCode | null;
 }
 
-export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
+export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: CalculatorKeyboardProps) {
     return (
         <>
             {/* Digits */}
@@ -42,6 +43,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label7.webp"
                 buttonCode={CALC_BUTTON_D7}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="8"
@@ -50,6 +52,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label8.webp"
                 buttonCode={CALC_BUTTON_D8}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="9"
@@ -58,6 +61,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label9.webp"
                 buttonCode={CALC_BUTTON_D9}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="4"
@@ -66,6 +70,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label4.webp"
                 buttonCode={CALC_BUTTON_D4}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="5"
@@ -74,6 +79,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label5.webp"
                 buttonCode={CALC_BUTTON_D5}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="6"
@@ -82,6 +88,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label6.webp"
                 buttonCode={CALC_BUTTON_D6}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="1"
@@ -90,6 +97,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label1.webp"
                 buttonCode={CALC_BUTTON_D1}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="2"
@@ -98,6 +106,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label2.webp"
                 buttonCode={CALC_BUTTON_D2}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="3"
@@ -106,6 +115,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label3.webp"
                 buttonCode={CALC_BUTTON_D3}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="0"
@@ -114,6 +124,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label0.webp"
                 buttonCode={CALC_BUTTON_D0}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
 
             {/* Function row */}
@@ -124,6 +135,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_ce_ca.webp"
                 buttonCode={CALC_BUTTON_CECA}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="MU"
@@ -132,6 +144,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_mu.webp"
                 buttonCode={CALC_BUTTON_MU}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Percent"
@@ -140,6 +153,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_percent.webp"
                 buttonCode={CALC_BUTTON_PERCENT}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Divide"
@@ -148,6 +162,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_div.webp"
                 buttonCode={CALC_BUTTON_DIV}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
 
             {/* Memory row */}
@@ -158,6 +173,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_mrc.webp"
                 buttonCode={CALC_BUTTON_MEMRC}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Memory minus"
@@ -166,6 +182,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_mem_minus.webp"
                 buttonCode={CALC_BUTTON_MEMMINUS}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Memory plus"
@@ -174,6 +191,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_mem_plus.webp"
                 buttonCode={CALC_BUTTON_MEMPLUS}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Square root"
@@ -182,6 +200,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_sqrt.webp"
                 buttonCode={CALC_BUTTON_SQRT}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Change sign"
@@ -190,6 +209,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_change_sign.webp"
                 buttonCode={CALC_BUTTON_CHANGESIGN}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
 
             {/* Operation buttons */}
@@ -200,6 +220,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_mul.webp"
                 buttonCode={CALC_BUTTON_MUL}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Minus"
@@ -208,6 +229,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_minus.webp"
                 buttonCode={CALC_BUTTON_MINUS}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Plus"
@@ -216,6 +238,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_plus.webp"
                 buttonCode={CALC_BUTTON_PLUS}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
 
             {/* Bottom row */}
@@ -226,6 +249,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_point.webp"
                 buttonCode={CALC_BUTTON_POINT}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
             <CalculatorButton
                 ariaLabel="Equals"
@@ -234,6 +258,7 @@ export function CalculatorKeyboard({ onButtonPress }: CalculatorKeyboardProps) {
                 labelSrc="/assets/calculator/labels/label_equals.webp"
                 buttonCode={CALC_BUTTON_EQUALS}
                 onPress={onButtonPress}
+                pressedButtonCode={pressedButtonCode}
             />
         </>
     );
