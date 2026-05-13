@@ -5,6 +5,7 @@ interface CalculatorAppButtonProps {
     className?: string;
     ariaLabel: string;
     src: string;
+    onPressStart?: () => void;
     onPress?: () => void;
 }
 
@@ -12,6 +13,7 @@ export function CalculatorAppButton({
                                         className,
                                         ariaLabel,
                                         src,
+                                        onPressStart,
                                         onPress,
                                     }: CalculatorAppButtonProps) {
     const [pressed, setPressed] = useState(false);
@@ -32,6 +34,7 @@ export function CalculatorAppButton({
 
                 event.currentTarget.setPointerCapture(event.pointerId);
                 setPressed(true);
+                onPressStart?.();
             }}
             onPointerUp={() => {
                 if (!pressed) {

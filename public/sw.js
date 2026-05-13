@@ -8,6 +8,10 @@ const STATIC_ASSETS = [
     "/wasm/calculator.js",
     "/wasm/calculator.wasm",
 
+    "/sounds/key-down.ogg",
+    "/sounds/key-up.ogg",
+    "/sounds/tap.ogg",
+
     "/favicon-48.png",
     "/favicon-72.png",
     "/favicon-96.png",

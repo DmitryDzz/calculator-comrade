@@ -8,6 +8,7 @@ interface CalculatorButtonProps {
     buttonCode: CalculatorButtonCode;
     buttonSrc: string;
     labelSrc: string;
+    onPressStart?: (buttonCode: CalculatorButtonCode) => void;
     onPress: (buttonCode: CalculatorButtonCode) => void;
     pressedButtonCode: CalculatorButtonCode | null;
 }
@@ -18,6 +19,7 @@ export function CalculatorButton({
                                      buttonCode,
                                      buttonSrc,
                                      labelSrc,
+                                     onPressStart,
                                      onPress,
                                      pressedButtonCode,
                                  }: CalculatorButtonProps) {
@@ -40,6 +42,7 @@ export function CalculatorButton({
 
                 event.currentTarget.setPointerCapture(event.pointerId);
                 setPointerPressed(true);
+                onPressStart?.(buttonCode);
             }}
             onPointerUp={() => {
                 if (!pointerPressed) {

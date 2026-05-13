@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CalculatorView } from "../calculator/CalculatorView";
+import CalculatorView from "../calculator/CalculatorView";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes";
+import {useCalculatorAudioFeedback} from "../calculatorFeedback/useCalculatorAudioFeedback.ts";
 
 const KEYBOARD_PRESS_VISUAL_DELAY_MS = 90;
 
@@ -19,8 +20,20 @@ export function App() {
         calculatorInputRef.current = calculator.input;
     }, [calculator.input]);
 
-    const flashButton = useCallback((buttonCode: CalculatorButtonCode) => {
+    const audioFeedback = useCalculatorAudioFeedback();
+
+    const handleCalculatorButtonPressStart = useCallback(() => {
+        audioFeedback.playCalculatorButtonDownSound();
+    }, [audioFeedback]);
+
+    const handleCalculatorButtonPress = useCallback((buttonCode: CalculatorButtonCode) => {
+        audioFeedback.playCalculatorButtonUpSound();
+        calculator.input(buttonCode);
+    }, [audioFeedback, calculator]);
+
+    const pressKeyboardButton = useCallback((buttonCode: CalculatorButtonCode) => {
         setPressedButtonCode(buttonCode);
+        audioFeedback.playCalculatorButtonDownSound();
 
         if (keyboardPressTimeoutRef.current !== null) {
             window.clearTimeout(keyboardPressTimeoutRef.current);
@@ -28,9 +41,19 @@ export function App() {
 
         keyboardPressTimeoutRef.current = window.setTimeout(() => {
             setPressedButtonCode(null);
+            audioFeedback.playCalculatorButtonUpSound();
+            calculatorInputRef.current(buttonCode);
             keyboardPressTimeoutRef.current = null;
         }, KEYBOARD_PRESS_VISUAL_DELAY_MS);
-    }, []);
+    }, [audioFeedback]);
+
+    const handleOptionsButtonPressStart = useCallback(() => {
+        audioFeedback.playAppButtonTapSound();
+    }, [audioFeedback]);
+
+    const handleOptionsButtonPress = useCallback(() => {
+        // audioFeedback.playAppButtonTapSound();
+    }, [audioFeedback]);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -47,7 +70,7 @@ export function App() {
             event.preventDefault();
 
             calculatorInputRef.current(buttonCode);
-            flashButton(buttonCode);
+            pressKeyboardButton(buttonCode);
         };
 
         window.addEventListener("keydown", handleKeyDown);
@@ -55,7 +78,7 @@ export function App() {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [flashButton]);
+    }, [pressKeyboardButton]);
 
     useEffect(() => {
         return () => {
@@ -70,8 +93,11 @@ export function App() {
         <main className="app">
             <CalculatorView
                 display={calculator.display}
-                onButtonPress={calculator.input}
+                onButtonPressStart={handleCalculatorButtonPressStart}
+                onButtonPress={handleCalculatorButtonPress}
                 pressedButtonCode={pressedButtonCode}
+                onAppButtonPressStart={handleOptionsButtonPressStart}
+                onAppButtonPress={handleOptionsButtonPress}
             />
         </main>
     );

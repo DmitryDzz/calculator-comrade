@@ -1,38 +1,39 @@
 import {
-        CALC_BUTTON_CECA,
-        CALC_BUTTON_CHANGESIGN,
-        CALC_BUTTON_D0,
-        CALC_BUTTON_D1,
-        CALC_BUTTON_D2,
-        CALC_BUTTON_D3,
-        CALC_BUTTON_D4,
-        CALC_BUTTON_D5,
-        CALC_BUTTON_D6,
-        CALC_BUTTON_D7,
-        CALC_BUTTON_D8,
-        CALC_BUTTON_D9,
-        CALC_BUTTON_DIV,
-        CALC_BUTTON_EQUALS,
-        CALC_BUTTON_MEMMINUS,
-        CALC_BUTTON_MEMPLUS,
-        CALC_BUTTON_MEMRC,
-        CALC_BUTTON_MINUS,
-        CALC_BUTTON_MU,
-        CALC_BUTTON_MUL,
-        CALC_BUTTON_PERCENT,
-        CALC_BUTTON_PLUS,
-        CALC_BUTTON_POINT,
-        CALC_BUTTON_SQRT,
+    CALC_BUTTON_CECA,
+    CALC_BUTTON_CHANGESIGN,
+    CALC_BUTTON_D0,
+    CALC_BUTTON_D1,
+    CALC_BUTTON_D2,
+    CALC_BUTTON_D3,
+    CALC_BUTTON_D4,
+    CALC_BUTTON_D5,
+    CALC_BUTTON_D6,
+    CALC_BUTTON_D7,
+    CALC_BUTTON_D8,
+    CALC_BUTTON_D9,
+    CALC_BUTTON_DIV,
+    CALC_BUTTON_EQUALS,
+    CALC_BUTTON_MEMMINUS,
+    CALC_BUTTON_MEMPLUS,
+    CALC_BUTTON_MEMRC,
+    CALC_BUTTON_MINUS,
+    CALC_BUTTON_MU,
+    CALC_BUTTON_MUL,
+    CALC_BUTTON_PERCENT,
+    CALC_BUTTON_PLUS,
+    CALC_BUTTON_POINT,
+    CALC_BUTTON_SQRT,
 } from "../calculatorCore/calculatorConstants.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
 import { CalculatorButton } from "./CalculatorButton.tsx";
 
 interface CalculatorKeyboardProps {
+    onButtonPressStart: (buttonCode: CalculatorButtonCode) => void;
     onButtonPress: (buttonCode: CalculatorButtonCode) => void;
     pressedButtonCode: CalculatorButtonCode | null;
 }
 
-export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: CalculatorKeyboardProps) {
+export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedButtonCode }: CalculatorKeyboardProps) {
     return (
         <>
             {/* Digits */}
@@ -42,6 +43,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label7.webp"
                 buttonCode={CALC_BUTTON_D7}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -51,6 +53,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label8.webp"
                 buttonCode={CALC_BUTTON_D8}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -60,6 +63,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label9.webp"
                 buttonCode={CALC_BUTTON_D9}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -69,6 +73,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label4.webp"
                 buttonCode={CALC_BUTTON_D4}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -78,6 +83,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label5.webp"
                 buttonCode={CALC_BUTTON_D5}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -87,6 +93,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label6.webp"
                 buttonCode={CALC_BUTTON_D6}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -96,6 +103,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label1.webp"
                 buttonCode={CALC_BUTTON_D1}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -105,6 +113,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label2.webp"
                 buttonCode={CALC_BUTTON_D2}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -114,6 +123,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label3.webp"
                 buttonCode={CALC_BUTTON_D3}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -123,6 +133,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label0.webp"
                 buttonCode={CALC_BUTTON_D0}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -134,6 +145,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_clear.webp"
                 labelSrc="/assets/calculator/labels/label_ce_ca.webp"
                 buttonCode={CALC_BUTTON_CECA}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -143,6 +155,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_mu.webp"
                 buttonCode={CALC_BUTTON_MU}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -152,6 +165,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_percent.webp"
                 buttonCode={CALC_BUTTON_PERCENT}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -161,6 +175,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_div.webp"
                 buttonCode={CALC_BUTTON_DIV}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -172,6 +187,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_func.webp"
                 labelSrc="/assets/calculator/labels/label_mrc.webp"
                 buttonCode={CALC_BUTTON_MEMRC}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -181,6 +197,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_func.webp"
                 labelSrc="/assets/calculator/labels/label_mem_minus.webp"
                 buttonCode={CALC_BUTTON_MEMMINUS}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -190,6 +207,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_func.webp"
                 labelSrc="/assets/calculator/labels/label_mem_plus.webp"
                 buttonCode={CALC_BUTTON_MEMPLUS}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -199,6 +217,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_func.webp"
                 labelSrc="/assets/calculator/labels/label_sqrt.webp"
                 buttonCode={CALC_BUTTON_SQRT}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -208,6 +227,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_func.webp"
                 labelSrc="/assets/calculator/labels/label_change_sign.webp"
                 buttonCode={CALC_BUTTON_CHANGESIGN}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -219,6 +239,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_mul.webp"
                 buttonCode={CALC_BUTTON_MUL}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -228,6 +249,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_minus.webp"
                 buttonCode={CALC_BUTTON_MINUS}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -237,6 +259,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_plus.webp"
                 labelSrc="/assets/calculator/labels/label_plus.webp"
                 buttonCode={CALC_BUTTON_PLUS}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -248,6 +271,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_point.webp"
                 buttonCode={CALC_BUTTON_POINT}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
@@ -257,6 +281,7 @@ export function CalculatorKeyboard({ onButtonPress, pressedButtonCode }: Calcula
                 buttonSrc="/assets/calculator/buttons/button_digit.webp"
                 labelSrc="/assets/calculator/labels/label_equals.webp"
                 buttonCode={CALC_BUTTON_EQUALS}
+                onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
                 pressedButtonCode={pressedButtonCode}
             />
