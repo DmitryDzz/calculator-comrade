@@ -55,6 +55,17 @@
     touch-action: manipulation;
 }
 
+.calculator-button:focus,
+.calculator-button:focus-visible,
+.calculator-app-button:focus,
+.calculator-app-button:focus-visible {
+    outline: none;
+}
+.calculator-button::-moz-focus-inner,
+.calculator-app-button::-moz-focus-inner {
+    border: 0;
+}
+
 .calculator-button--pressed {
     transform: translate(-50%, calc(-50% - 8px));
 }

@@ -26,6 +26,7 @@ export function CalculatorAppButton({
                 pressed ? "calculator-app-button--pressed" : undefined,
             ].filter(Boolean).join(" ")}
             type="button"
+            tabIndex={-1}
             aria-label={ariaLabel}
             onPointerDown={(event) => {
                 if (!isPrimaryPointer(event)) {
