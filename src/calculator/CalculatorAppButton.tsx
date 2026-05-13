@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import * as React from "react";
 
 interface CalculatorAppButtonProps {
     className?: string;
     ariaLabel: string;
     src: string;
-    onPressStart?: () => void;
-    onPress?: () => void;
+    onPressStart: () => void;
+    onPress: () => void;
 }
 
 export function CalculatorAppButton({
@@ -16,14 +16,28 @@ export function CalculatorAppButton({
                                         onPressStart,
                                         onPress,
                                     }: CalculatorAppButtonProps) {
-    const [pressed, setPressed] = useState(false);
+    const [pointerPressed, setPointerPressed] = useState(false);
+
+    const activePointerIdRef = useRef<number | null>(null);
+    const pointerPressedRef = useRef(false);
+
+    const releaseButton = useCallback(() => {
+        if (!pointerPressedRef.current) {
+            return;
+        }
+
+        pointerPressedRef.current = false;
+        setPointerPressed(false);
+
+        onPress();
+    }, [onPress]);
 
     return (
         <button
             className={[
                 "calculator-app-button",
                 className,
-                pressed ? "calculator-app-button--pressed" : undefined,
+                pointerPressed ? "calculator-app-button--pressed" : undefined,
             ].filter(Boolean).join(" ")}
             type="button"
             tabIndex={-1}
@@ -33,23 +47,51 @@ export function CalculatorAppButton({
                     return;
                 }
 
-                event.currentTarget.setPointerCapture(event.pointerId);
-                setPressed(true);
-                onPressStart?.();
-            }}
-            onPointerUp={() => {
-                if (!pressed) {
+                if (activePointerIdRef.current !== null) {
                     return;
                 }
 
-                setPressed(false);
-                onPress?.();
+                activePointerIdRef.current = event.pointerId;
+                pointerPressedRef.current = true;
+
+                event.currentTarget.setPointerCapture(event.pointerId);
+
+                setPointerPressed(true);
+                onPressStart();
             }}
-            onPointerCancel={() => {
-                setPressed(false);
+            onPointerMove={(event) => {
+                if (event.pointerId !== activePointerIdRef.current) {
+                    return;
+                }
+
+                if (!isPointerInsideElement(event, event.currentTarget)) {
+                    releaseButton();
+                }
+            }}
+            onPointerUp={(event) => {
+                if (event.pointerId !== activePointerIdRef.current) {
+                    return;
+                }
+
+                activePointerIdRef.current = null;
+
+                if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                }
+
+                releaseButton();
+            }}
+            onPointerCancel={(event) => {
+                if (event.pointerId !== activePointerIdRef.current) {
+                    return;
+                }
+
+                activePointerIdRef.current = null;
+                releaseButton();
             }}
             onLostPointerCapture={() => {
-                setPressed(false);
+                activePointerIdRef.current = null;
+                releaseButton();
             }}
             onContextMenu={(event) => {
                 event.preventDefault();
@@ -65,6 +107,7 @@ export function CalculatorAppButton({
     );
 }
 
+// noinspection DuplicatedCode
 function isPrimaryPointer(event: React.PointerEvent<HTMLButtonElement>): boolean {
     if (!event.isPrimary) {
         return false;
@@ -75,4 +118,18 @@ function isPrimaryPointer(event: React.PointerEvent<HTMLButtonElement>): boolean
     }
 
     return true;
+}
+
+function isPointerInsideElement(
+    event: React.PointerEvent<HTMLButtonElement>,
+    element: HTMLElement,
+): boolean {
+    const rect = element.getBoundingClientRect();
+
+    return (
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom
+    );
 }

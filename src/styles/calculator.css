@@ -23,6 +23,7 @@
     top: 0;
 
     transform-origin: left top;
+    /*touch-action: none;*/
 }
 
 .calculator-body {
@@ -52,7 +53,8 @@
     cursor: pointer;
 
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    /*touch-action: manipulation;*/
+    touch-action: none;
 }
 
 .calculator-button:focus,
@@ -397,7 +399,8 @@
     cursor: pointer;
 
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    /*touch-action: manipulation;*/
+    touch-action: none;
 }
 
 .calculator-app-button--pressed {

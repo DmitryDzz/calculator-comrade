@@ -28,8 +28,8 @@ export function useCalculatorAudioFeedback(): UseCalculatorAudioFeedbackResult {
     }, [audioFeedback]);
 
     const playCalculatorButtonUpSound = useCallback(() => {
-        audioFeedback.play("key-up");
-    }, [audioFeedback]);
+        //audioFeedback.play("key-up");
+    }, [/*audioFeedback*/]);
 
     const playAppButtonTapSound = useCallback(() => {
         audioFeedback.play("tap");

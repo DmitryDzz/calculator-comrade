@@ -1,8 +1,8 @@
 import { CalculatorAppButton } from "./CalculatorAppButton.tsx";
 
 interface CalculatorAppButtonsProps {
-    onPressStart?: () => void;
-    onPress?: () => void;
+    onPressStart: () => void;
+    onPress: () => void;
 }
 
 export function CalculatorAppButtons({ onPressStart, onPress }: CalculatorAppButtonsProps) {
