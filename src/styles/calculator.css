@@ -3,18 +3,26 @@
     align-items: center;
     justify-content: center;
 
-    width: 100%;
-    min-height: 100dvh;
+    width: 100vw;
+    height: 100dvh;
+
+    overflow: hidden;
 }
 
 .calculator-shell {
     position: relative;
 
-    /*width: min(90vw, calc(66dvh * 1760 / 3120));*/
-    height: 100vh;
-    aspect-ratio: 1760 / 3120;
+    width: 100vw;
+    height: calc(100vw * 3120 / 1760);
 
     overflow: hidden;
+}
+
+@media (min-aspect-ratio: 1760/3120) {
+    .calculator-shell {
+        width: calc(100dvh * 1760 / 3120);
+        height: 100dvh;
+    }
 }
 
 .calculator-stage {
