@@ -1,3 +1,4 @@
+import { assetUrl } from "../shared/assetUrl.ts";
 import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
 
 interface CalculatorDisplayProps {
@@ -29,7 +30,7 @@ function CalculatorDisplayInactiveLayer() {
                                     `calculator-display-digit--${position}`,
                                     "calculator-display-symbol--inactive",
                             ].join(" ")}
-                            src="/assets/calculator/display/display_digit8.webp"
+                            src={assetUrl("assets/calculator/display/display_digit8.webp")}
                             alt=""
                             draggable={false}
                         />
@@ -43,7 +44,7 @@ function CalculatorDisplayInactiveLayer() {
                                     `calculator-display-point--${position}`,
                                     "calculator-display-symbol--inactive",
                             ].join(" ")}
-                            src="/assets/calculator/display/display_point.webp"
+                            src={assetUrl("assets/calculator/display/display_point.webp")}
                             alt=""
                             draggable={false}
                         />
@@ -51,19 +52,19 @@ function CalculatorDisplayInactiveLayer() {
 
                     <img
                         className="calculator-display-indicator calculator-display-minus calculator-display-symbol--inactive"
-                        src="/assets/calculator/display/display_minus.webp"
+                        src={assetUrl("assets/calculator/display/display_minus.webp")}
                         alt=""
                         draggable={false}
                     />
                     <img
                         className="calculator-display-indicator calculator-display-memory calculator-display-symbol--inactive"
-                        src="/assets/calculator/display/display_memory.webp"
+                        src={assetUrl("assets/calculator/display/display_memory.webp")}
                         alt=""
                         draggable={false}
                     />
                     <img
                         className="calculator-display-indicator calculator-display-error calculator-display-symbol--inactive"
-                        src="/assets/calculator/display/display_error.webp"
+                        src={assetUrl("assets/calculator/display/display_error.webp")}
                         alt=""
                         draggable={false}
                     />
@@ -93,7 +94,7 @@ function CalculatorDisplayActiveLayer({
                                             `calculator-display-digit--${position}`,
                                             "calculator-display-symbol--active",
                                     ].join(" ")}
-                                    src={`/assets/calculator/display/display_digit${digit}.webp`}
+                                    src={assetUrl(`assets/calculator/display/display_digit${digit}.webp`)}
                                     alt=""
                                     draggable={false}
                                 />
@@ -107,7 +108,7 @@ function CalculatorDisplayActiveLayer({
                                     `calculator-display-point--${display.pointPos}`,
                                     "calculator-display-symbol--active",
                             ].join(" ")}
-                            src="/assets/calculator/display/display_point.webp"
+                            src={assetUrl("assets/calculator/display/display_point.webp")}
                             alt=""
                             draggable={false}
                         />
@@ -116,7 +117,7 @@ function CalculatorDisplayActiveLayer({
                     {display.negative && (
                         <img
                             className="calculator-display-indicator calculator-display-minus calculator-display-symbol--active"
-                            src="/assets/calculator/display/display_minus.webp"
+                            src={assetUrl("assets/calculator/display/display_minus.webp")}
                             alt=""
                             draggable={false}
                         />
@@ -125,7 +126,7 @@ function CalculatorDisplayActiveLayer({
                     {display.memory && (
                         <img
                             className="calculator-display-indicator calculator-display-memory calculator-display-symbol--active"
-                            src="/assets/calculator/display/display_memory.webp"
+                            src={assetUrl("assets/calculator/display/display_memory.webp")}
                             alt=""
                             draggable={false}
                         />
@@ -134,7 +135,7 @@ function CalculatorDisplayActiveLayer({
                     {display.error && (
                         <img
                             className="calculator-display-indicator calculator-display-error calculator-display-symbol--active"
-                            src="/assets/calculator/display/display_error.webp"
+                            src={assetUrl("assets/calculator/display/display_error.webp")}
                             alt=""
                             draggable={false}
                         />

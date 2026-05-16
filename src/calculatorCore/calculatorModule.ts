@@ -1,7 +1,8 @@
+import { assetUrl } from "../shared/assetUrl.ts";
 import type { CalculatorWasmModule } from "./calculatorWasmTypes.ts";
 
-const CALCULATOR_SCRIPT_URL = "/wasm/calculator.js";
-const CALCULATOR_WASM_URL = "/wasm/calculator.wasm";
+const CALCULATOR_SCRIPT_URL = assetUrl("wasm/calculator.js");
+const CALCULATOR_WASM_URL = assetUrl("wasm/calculator.wasm");
 
 let loadingPromise: Promise<CalculatorWasmModule> | undefined;
 
@@ -26,7 +27,7 @@ async function loadCalculatorModuleInternal(): Promise<CalculatorWasmModule> {
                 return CALCULATOR_WASM_URL;
             }
 
-            return `/wasm/${path}`;
+            return assetUrl(`wasm/${path}`);
         },
     });
 }

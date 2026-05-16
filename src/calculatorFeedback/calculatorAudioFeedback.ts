@@ -1,3 +1,4 @@
+import { assetUrl } from "../shared/assetUrl.ts";
 export type CalculatorSoundType =
     | "key-down"
     | "key-up"
@@ -8,9 +9,9 @@ export interface CalculatorAudioFeedbackOptions {
 }
 
 const SOUND_URLS: Record<CalculatorSoundType, string> = {
-    "key-down": "/sounds/key-down.ogg",
-    "key-up": "/sounds/key-up.ogg",
-    "tap": "/sounds/tap.ogg",
+    "key-down": assetUrl("sounds/key-down.ogg"),
+    "key-up": assetUrl("sounds/key-up.ogg"),
+    "tap": assetUrl("sounds/tap.ogg"),
 };
 
 export class CalculatorAudioFeedback {

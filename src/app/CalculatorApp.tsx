@@ -11,7 +11,7 @@ interface ActiveKeyboardPress {
     buttonCode: CalculatorButtonCode;
 }
 
-export function App() {
+export function CalculatorApp() {
     const calculator = useCalculatorCore();
     const audioFeedback = useCalculatorAudioFeedback();
     const hapticFeedback = useCalculatorHapticFeedback();

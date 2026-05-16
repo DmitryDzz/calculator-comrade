@@ -1,3 +1,4 @@
+import { assetUrl } from "../shared/assetUrl.ts";
 import { useLayoutEffect, useRef, useState } from "react";
 import { CalculatorAppButtons } from "./CalculatorAppButtons.tsx";
 import { CalculatorDisplay } from "./CalculatorDisplay.tsx";
@@ -66,7 +67,7 @@ function CalculatorView({
                     >
                         <img
                             className="calculator-body"
-                            src="/assets/calculator/body.webp"
+                            src={assetUrl("assets/calculator/body.webp")}
                             alt=""
                             draggable={false}
                         />

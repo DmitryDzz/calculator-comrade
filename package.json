@@ -1,12 +1,13 @@
 {
-  "name": "calculator-comrade-web",
+  "name": "calculator-comrade",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:pages": "tsc -b && vite build --mode pages && node scripts/create-404.js",
     "lint": "eslint .",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -26,5 +27,6 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10"
-  }
+  },
+  "description": "Calculator Comrade web app, site, and future multiplatform shell."
 }

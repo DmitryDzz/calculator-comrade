@@ -1,3 +1,5 @@
+import { assetUrl } from "./shared/assetUrl.ts";
+
 export function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) {
         return;
@@ -5,7 +7,10 @@ export function registerServiceWorker() {
 
     window.addEventListener("load", async () => {
         try {
-            const registration = await navigator.serviceWorker.register("/sw.js");
+            const registration = await navigator.serviceWorker.register(
+                assetUrl("sw.js"),
+                { scope: import.meta.env.BASE_URL },
+            );
 
             console.info("Service worker registered:", registration.scope);
         } catch (error: unknown) {
