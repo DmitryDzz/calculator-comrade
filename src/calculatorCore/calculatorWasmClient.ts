@@ -16,6 +16,8 @@ export interface CalculatorDisplaySnapshot {
     error: boolean;
 }
 
+const CALCULATOR_DUMP_MAX_SIZE = 256;
+
 export class CalculatorWasmClient {
     private readonly module: CalculatorWasmModule;
 
@@ -61,6 +63,49 @@ export class CalculatorWasmClient {
         const result = this.module._CalculatorInput(handle, buttonCode);
 
         this.throwIfError(result, "CalculatorInput");
+    }
+
+    public exportDump(handle: CalculatorHandle): Uint8Array {
+        const dumpPtr = this.module._malloc(CALCULATOR_DUMP_MAX_SIZE);
+        const dumpSizeOutPtr = this.module._malloc(1);
+
+        try {
+            const result = this.module._ExportDump(
+                handle,
+                dumpPtr,
+                dumpSizeOutPtr,
+            );
+
+            this.throwIfError(result, "ExportDump");
+
+            const dumpSize = this.module.HEAPU8[dumpSizeOutPtr];
+
+            return this.module.HEAPU8.slice(dumpPtr, dumpPtr + dumpSize);
+        } finally {
+            this.module._free(dumpSizeOutPtr);
+            this.module._free(dumpPtr);
+        }
+    }
+
+    public importDump(
+        handle: CalculatorHandle,
+        dump: Uint8Array,
+    ): void {
+        const dumpPtr = this.module._malloc(dump.length);
+
+        try {
+            this.module.HEAPU8.set(dump, dumpPtr);
+
+            const result = this.module._ImportDump(
+                handle,
+                dumpPtr,
+                dump.length,
+            );
+
+            this.throwIfError(result, "ImportDump");
+        } finally {
+            this.module._free(dumpPtr);
+        }
     }
 
     public readDisplay(handle: CalculatorHandle): CalculatorDisplaySnapshot {

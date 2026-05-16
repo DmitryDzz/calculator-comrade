@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CALC_OPTIONS_DEFAULT } from "./calculatorConstants.ts";
 import { loadCalculatorModule } from "./calculatorModule.ts";
+import type { CalculatorStateStorage } from "./calculatorStateStorage.ts";
 import {
     type CalculatorDisplaySnapshot,
     CalculatorWasmClient,
@@ -17,7 +18,9 @@ interface UseCalculatorCoreState {
     input: (buttonCode: CalculatorButtonCode) => void;
 }
 
-export function useCalculatorCore(): UseCalculatorCoreState {
+export function useCalculatorCore(
+    stateStorage: CalculatorStateStorage | null = null,
+): UseCalculatorCoreState {
     const clientRef = useRef<CalculatorWasmClient | null>(null);
     const handleRef = useRef<CalculatorHandle | null>(null);
 
@@ -38,6 +41,14 @@ export function useCalculatorCore(): UseCalculatorCoreState {
 
                 const client = new CalculatorWasmClient(module);
                 const handle = client.createCalculator(8, CALC_OPTIONS_DEFAULT);
+
+                await restoreCalculatorStateAsync(client, handle, stateStorage);
+
+                if (disposed) {
+                    client.disposeCalculator(handle);
+                    return;
+                }
+
                 const initialDisplay = client.readDisplay(handle);
 
                 clientRef.current = client;
@@ -70,7 +81,7 @@ export function useCalculatorCore(): UseCalculatorCoreState {
                 client.disposeCalculator(handle);
             }
         };
-    }, []);
+    }, [stateStorage]);
 
     const input = useCallback((buttonCode: CalculatorButtonCode) => {
         const client = clientRef.current;
@@ -84,10 +95,11 @@ export function useCalculatorCore(): UseCalculatorCoreState {
             client.input(handle, buttonCode);
             setDisplay(client.readDisplay(handle));
             setError(null);
+            void saveCalculatorState(client, handle, stateStorage);
         } catch (error: unknown) {
             setError(error instanceof Error ? error : new Error(String(error)));
         }
-    }, []);
+    }, [stateStorage]);
 
     return {
         loading,
@@ -95,4 +107,45 @@ export function useCalculatorCore(): UseCalculatorCoreState {
         display,
         input,
     };
+}
+
+async function restoreCalculatorStateAsync(
+    client: CalculatorWasmClient,
+    handle: CalculatorHandle,
+    stateStorage: CalculatorStateStorage | null,
+): Promise<void> {
+    if (stateStorage === null) {
+        return;
+    }
+
+    try {
+        const dump = await stateStorage.loadDump();
+
+        if (dump === null) {
+            return;
+        }
+
+        client.importDump(handle, dump);
+    } catch (error: unknown) {
+        await stateStorage.clearDump();
+        console.warn("Stored calculator state was ignored.", error);
+    }
+}
+
+async function saveCalculatorState(
+    client: CalculatorWasmClient,
+    handle: CalculatorHandle,
+    stateStorage: CalculatorStateStorage | null,
+): Promise<void> {
+    if (stateStorage === null) {
+        return;
+    }
+
+    try {
+        const dump = client.exportDump(handle);
+
+        await stateStorage.saveDump(dump);
+    } catch (error: unknown) {
+        console.warn("Failed to save calculator state.", error);
+    }
 }

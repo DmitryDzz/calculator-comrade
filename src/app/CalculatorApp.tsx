@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import CalculatorView from "../calculator/CalculatorView.tsx";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts.ts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore.ts";
+import { createWebLocalStorageCalculatorStateStorage } from "../calculatorCore/webLocalStorageCalculatorStateStorage.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
 import { useCalculatorAudioFeedback } from "../calculatorFeedback/useCalculatorAudioFeedback.ts";
 import { useCalculatorHapticFeedback } from "../calculatorFeedback/useCalculatorHapticFeedback.ts";
@@ -11,8 +12,10 @@ interface ActiveKeyboardPress {
     buttonCode: CalculatorButtonCode;
 }
 
+const calculatorStateStorage = createWebLocalStorageCalculatorStateStorage();
+
 export function CalculatorApp() {
-    const calculator = useCalculatorCore();
+    const calculator = useCalculatorCore(calculatorStateStorage);
     const audioFeedback = useCalculatorAudioFeedback();
     const hapticFeedback = useCalculatorHapticFeedback();
 
