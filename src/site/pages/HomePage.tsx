@@ -8,7 +8,9 @@ export function HomePage() {
                 <div className="hero__text">
                     <h1>First of all</h1>
                     <p className="lead">
-                        This is a calculator. It is free. No ads and no in-app purchases.
+                        This is a calculator.<br/>
+                        It is free.<br/>
+                        No ads, no in-app purchases.
                     </p>
                     <p>
                         Calculator Comrade is an emulator of an old pocket calculator.
@@ -16,13 +18,13 @@ export function HomePage() {
                         processor architecture and algorithms.
                     </p>
                     <p className="hero__actions">
-                        <a className="button-link" href={routes.calculator}>Open Calculator</a>
-                        <a className="text-link" href={routes.tips}>Read Tips & Tricks</a>
+                        <a className="hero__primary-action" href={routes.calculator}>Use Calculator</a>
+                        <a className="hero__secondary-action" href={routes.tips}>Read Tips & Tricks</a>
                     </p>
                 </div>
                 <img
                     className="hero__image"
-                    src={assetUrl("screenshots/screenshot-narrow.png")}
+                    src={assetUrl("screenshots/pixel2_277x512_framed.png")}
                     alt="Calculator Comrade screenshot"
                 />
             </section>

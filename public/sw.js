@@ -28,8 +28,8 @@ const STATIC_ASSET_PATHS = [
     "icons/maskable-icon-192.png",
     "icons/maskable-icon-512.png",
 
-    "screenshots/screenshot-wide.png",
-    "screenshots/screenshot-narrow.png",
+    // "screenshots/screenshot-wide.png",
+    // "screenshots/screenshot-narrow.png",
 
     "assets/calculator/body.webp",
 
