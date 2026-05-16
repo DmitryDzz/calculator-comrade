@@ -46,9 +46,6 @@ Thumbs.db
 *.dylib
 *.wasm.map
 
-# Keep final wasm only if it is generated
-# If wasm is built from calculator-comrade-lib, ignore it:
-*.wasm
 *.js.symbols
 
 # Capacitor
