@@ -8,9 +8,9 @@ export function HomePage() {
                 <div className="hero__text">
                     <h1>First of all</h1>
                     <p className="lead">
-                        This is a calculator.<br/>
-                        It is free.<br/>
-                        No ads, no in-app purchases.
+                        <span>This is a calculator.</span>
+                        <span>It is free.</span>
+                        <span>No ads, no in-app purchases.</span>
                     </p>
                     <p>
                         Calculator Comrade is an emulator of an old pocket calculator.

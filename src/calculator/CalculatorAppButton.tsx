@@ -4,7 +4,7 @@ import * as React from "react";
 interface CalculatorAppButtonProps {
     className?: string;
     ariaLabel: string;
-    src: string;
+    src: string | null;
     onPressStart: () => void;
     onPress: () => void;
 }
@@ -99,7 +99,7 @@ export function CalculatorAppButton({
         >
             <img
                 className="calculator-app-button__image"
-                src={src}
+                src={src ?? undefined}
                 alt=""
                 draggable={false}
             />

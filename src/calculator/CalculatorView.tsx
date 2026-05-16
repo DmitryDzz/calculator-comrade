@@ -9,14 +9,15 @@ import {
 } from "../calculatorCore/calculatorGeometry.ts";
 import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
+import type { CalculatorAppButtonAction } from "./calculatorAppButtonActions.ts";
 
 interface CalculatorViewProps {
     display: CalculatorDisplaySnapshot | null;
     onButtonPressStart: (buttonCode: CalculatorButtonCode) => void;
     onButtonPress: (buttonCode: CalculatorButtonCode) => void;
     pressedButtonCode: CalculatorButtonCode | null;
+    appButtonActions: CalculatorAppButtonAction[];
     onAppButtonPressStart: () => void;
-    onAppButtonPress: () => void;
 }
 
 function CalculatorView({
@@ -24,8 +25,8 @@ function CalculatorView({
     onButtonPressStart,
     onButtonPress,
     pressedButtonCode,
+    appButtonActions,
     onAppButtonPressStart,
-    onAppButtonPress,
 }: CalculatorViewProps) {
     const shellRef = useRef<HTMLDivElement | null>(null);
     const [scale, setScale] = useState<number | null>(null);
@@ -79,8 +80,8 @@ function CalculatorView({
                             pressedButtonCode={pressedButtonCode}
                         />
                         <CalculatorAppButtons
+                            actions={appButtonActions}
                             onPressStart={onAppButtonPressStart}
-                            onPress={onAppButtonPress}
                         />
                     </div>
                 )}

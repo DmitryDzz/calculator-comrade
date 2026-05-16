@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CalculatorView from "../calculator/CalculatorView.tsx";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts.ts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore.ts";
@@ -6,13 +6,19 @@ import { createWebLocalStorageCalculatorStateStorage } from "../calculatorCore/w
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
 import { useCalculatorAudioFeedback } from "../calculatorFeedback/useCalculatorAudioFeedback.ts";
 import { useCalculatorHapticFeedback } from "../calculatorFeedback/useCalculatorHapticFeedback.ts";
+import { currentAppPlatform } from "./appPlatform.ts";
+import { createWebCalculatorAppActions } from "./webCalculatorAppActions.ts";
+import { createCalculatorAppButtonActions } from "../calculator/calculatorAppButtonActions.ts";
+import type {CalculatorAppActions} from "./calculatorAppActions.ts";
+import type {CalculatorStateStorage} from "../calculatorCore/calculatorStateStorage.ts";
 
 interface ActiveKeyboardPress {
     keyboardCode: string;
     buttonCode: CalculatorButtonCode;
 }
 
-const calculatorStateStorage = createWebLocalStorageCalculatorStateStorage();
+const calculatorStateStorage: CalculatorStateStorage = createWebLocalStorageCalculatorStateStorage();
+const appActions: CalculatorAppActions = createWebCalculatorAppActions();
 
 export function CalculatorApp() {
     const calculator = useCalculatorCore(calculatorStateStorage);
@@ -43,11 +49,10 @@ export function CalculatorApp() {
         hapticFeedback.vibrateAppButtonTap();
     }, [audioFeedback, hapticFeedback]);
 
-    const handleAppButtonPress = useCallback(() => {
-        /*
-         * Reserved for future app actions.
-         */
-    }, []);
+    const appButtonActions = useMemo(() => createCalculatorAppButtonActions({
+        platform: currentAppPlatform,
+        appActions,
+    }), []);
 
     const calculatorButtonPressStartRef = useRef(handleCalculatorButtonPressStart);
     const calculatorButtonPressRef = useRef(handleCalculatorButtonPress);
@@ -125,8 +130,8 @@ export function CalculatorApp() {
                 onButtonPressStart={handleCalculatorButtonPressStart}
                 onButtonPress={handleCalculatorButtonPress}
                 pressedButtonCode={pressedButtonCode}
+                appButtonActions={appButtonActions}
                 onAppButtonPressStart={handleAppButtonPressStart}
-                onAppButtonPress={handleAppButtonPress}
             />
         </main>
     );

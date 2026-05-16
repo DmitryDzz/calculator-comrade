@@ -33,13 +33,10 @@ const STATIC_ASSET_PATHS = [
 
     "assets/calculator/body.webp",
 
-    "assets/calculator/buttons/app_button_info.webp",
-    "assets/calculator/buttons/app_button_rate.webp",
-    "assets/calculator/buttons/app_button_settings_off.webp",
-    "assets/calculator/buttons/app_button_settings_snd_vbr.webp",
-    "assets/calculator/buttons/app_button_settings_snd.webp",
-    "assets/calculator/buttons/app_button_settings_vbr.webp",
-    "assets/calculator/buttons/app_button_share.webp",
+    "assets/calculator/buttons/app_button_home.svg",
+    "assets/calculator/buttons/app_button_help.svg",
+    "assets/calculator/buttons/app_button_settings.svg",
+
     "assets/calculator/buttons/button_clear.webp",
     "assets/calculator/buttons/button_digit.webp",
     "assets/calculator/buttons/button_func.webp",

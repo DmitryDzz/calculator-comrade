@@ -402,17 +402,25 @@
     border: none;
     background: transparent;
 
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
+    transform-origin: center;
 
     cursor: pointer;
 
     -webkit-tap-highlight-color: transparent;
-    /*touch-action: manipulation;*/
     touch-action: none;
+
+    transition: transform 120ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .calculator-app-button:hover {
+        transform: translate(-50%, -50%) scale(1.18);
+    }
 }
 
 .calculator-app-button--pressed {
-    transform: translate(-50%, calc(-50% - 2px));
+    transform: translate(-50%, calc(-50% - 2px)) scale(1.08);
 }
 
 .calculator-app-button__image {
