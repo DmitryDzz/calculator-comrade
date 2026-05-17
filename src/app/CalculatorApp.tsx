@@ -12,11 +12,6 @@ import { createCalculatorAppButtonActions } from "../calculator/calculatorAppBut
 import type {CalculatorAppActions} from "./calculatorAppActions.ts";
 import type {CalculatorStateStorage} from "../calculatorCore/calculatorStateStorage.ts";
 
-interface ActiveKeyboardPress {
-    keyboardCode: string;
-    buttonCode: CalculatorButtonCode;
-}
-
 const calculatorStateStorage: CalculatorStateStorage = createWebLocalStorageCalculatorStateStorage();
 const appActions: CalculatorAppActions = createWebCalculatorAppActions();
 
@@ -25,10 +20,22 @@ export function CalculatorApp() {
     const audioFeedback = useCalculatorAudioFeedback();
     const hapticFeedback = useCalculatorHapticFeedback();
 
-    const [pressedButtonCode, setPressedButtonCode] =
-        useState<CalculatorButtonCode | null>(null);
+    const [pressedKeyboardButtonCodes, setPressedKeyboardButtonCodes] =
+        useState<CalculatorButtonCode[]>([]);
 
-    const activeKeyboardPressRef = useRef<ActiveKeyboardPress | null>(null);
+    const activeKeyboardPressesRef = useRef<Map<string, CalculatorButtonCode>>(new Map());
+
+    const updatePressedKeyboardButtonCodes = useCallback(() => {
+        setPressedKeyboardButtonCodes([
+            ...activeKeyboardPressesRef.current.values(),
+        ]);
+    }, []);
+
+    const isButtonPressed = useCallback(
+        (buttonCode: CalculatorButtonCode): boolean =>
+            pressedKeyboardButtonCodes.includes(buttonCode),
+        [pressedKeyboardButtonCodes],
+    );
 
     const handleCalculatorButtonPressStart = useCallback<
         (buttonCode: CalculatorButtonCode) => void
@@ -75,41 +82,41 @@ export function CalculatorApp() {
 
             event.preventDefault();
 
-            if (activeKeyboardPressRef.current !== null) {
+            if (event.repeat) {
                 return;
             }
 
-            activeKeyboardPressRef.current = {
-                keyboardCode: event.code,
-                buttonCode,
-            };
+            const activeKeyboardPresses = activeKeyboardPressesRef.current;
 
-            setPressedButtonCode(buttonCode);
+            if (activeKeyboardPresses.has(event.code)) {
+                return;
+            }
+
+            activeKeyboardPresses.set(event.code, buttonCode);
+            updatePressedKeyboardButtonCodes();
+
             calculatorButtonPressStartRef.current(buttonCode);
         };
 
         const handleKeyUp = (event: KeyboardEvent) => {
-            const activePress = activeKeyboardPressRef.current;
+            const activeKeyboardPresses = activeKeyboardPressesRef.current;
+            const buttonCode = activeKeyboardPresses.get(event.code);
 
-            if (activePress === null) {
-                return;
-            }
-
-            if (event.code !== activePress.keyboardCode) {
+            if (buttonCode === undefined) {
                 return;
             }
 
             event.preventDefault();
 
-            activeKeyboardPressRef.current = null;
-            setPressedButtonCode(null);
+            activeKeyboardPresses.delete(event.code);
+            updatePressedKeyboardButtonCodes();
 
-            calculatorButtonPressRef.current(activePress.buttonCode);
+            calculatorButtonPressRef.current(buttonCode);
         };
 
         const handleWindowBlur = () => {
-            activeKeyboardPressRef.current = null;
-            setPressedButtonCode(null);
+            activeKeyboardPressesRef.current.clear();
+            updatePressedKeyboardButtonCodes();
         };
 
         window.addEventListener("keydown", handleKeyDown);
@@ -121,7 +128,7 @@ export function CalculatorApp() {
             window.removeEventListener("keyup", handleKeyUp);
             window.removeEventListener("blur", handleWindowBlur);
         };
-    }, []);
+    }, [updatePressedKeyboardButtonCodes]);
 
     return (
         <main className="app">
@@ -129,7 +136,7 @@ export function CalculatorApp() {
                 display={calculator.display}
                 onButtonPressStart={handleCalculatorButtonPressStart}
                 onButtonPress={handleCalculatorButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
                 appButtonActions={appButtonActions}
                 onAppButtonPressStart={handleAppButtonPressStart}
             />

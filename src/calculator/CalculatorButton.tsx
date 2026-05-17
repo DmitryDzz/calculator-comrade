@@ -10,7 +10,7 @@ interface CalculatorButtonProps {
     labelSrc: string;
     onPressStart: (buttonCode: CalculatorButtonCode) => void;
     onPress: (buttonCode: CalculatorButtonCode) => void;
-    pressedButtonCode: CalculatorButtonCode | null;
+    isButtonPressed: (buttonCode: CalculatorButtonCode) => boolean;
 }
 
 export function CalculatorButton({
@@ -21,7 +21,7 @@ export function CalculatorButton({
                                      labelSrc,
                                      onPressStart,
                                      onPress,
-                                     pressedButtonCode,
+                                     isButtonPressed,
                                  }: CalculatorButtonProps) {
     const [pointerPressed, setPointerPressed] = useState(false);
 
@@ -39,7 +39,7 @@ export function CalculatorButton({
         onPress(buttonCode);
     }, [buttonCode, onPress]);
 
-    const pressed = pointerPressed || pressedButtonCode === buttonCode;
+    const pressed = pointerPressed || isButtonPressed(buttonCode);
 
     return (
         <button

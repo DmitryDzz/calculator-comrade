@@ -15,7 +15,7 @@ interface CalculatorViewProps {
     display: CalculatorDisplaySnapshot | null;
     onButtonPressStart: (buttonCode: CalculatorButtonCode) => void;
     onButtonPress: (buttonCode: CalculatorButtonCode) => void;
-    pressedButtonCode: CalculatorButtonCode | null;
+    isButtonPressed: (buttonCode: CalculatorButtonCode) => boolean;
     appButtonActions: CalculatorAppButtonAction[];
     onAppButtonPressStart: () => void;
 }
@@ -24,7 +24,7 @@ function CalculatorView({
     display,
     onButtonPressStart,
     onButtonPress,
-    pressedButtonCode,
+    isButtonPressed,
     appButtonActions,
     onAppButtonPressStart,
 }: CalculatorViewProps) {
@@ -77,7 +77,7 @@ function CalculatorView({
                         <CalculatorKeyboard
                             onButtonPressStart={onButtonPressStart}
                             onButtonPress={onButtonPress}
-                            pressedButtonCode={pressedButtonCode}
+                            isButtonPressed={isButtonPressed}
                         />
                         <CalculatorAppButtons
                             actions={appButtonActions}

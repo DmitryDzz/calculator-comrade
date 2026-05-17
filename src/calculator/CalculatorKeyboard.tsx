@@ -31,10 +31,10 @@ import { CalculatorButton } from "./CalculatorButton.tsx";
 interface CalculatorKeyboardProps {
     onButtonPressStart: (buttonCode: CalculatorButtonCode) => void;
     onButtonPress: (buttonCode: CalculatorButtonCode) => void;
-    pressedButtonCode: CalculatorButtonCode | null;
+    isButtonPressed: (buttonCode: CalculatorButtonCode) => boolean;
 }
 
-export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedButtonCode }: CalculatorKeyboardProps) {
+export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, isButtonPressed }: CalculatorKeyboardProps) {
     return (
         <>
             {/* Digits */}
@@ -46,7 +46,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D7}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="8"
@@ -56,7 +56,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D8}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="9"
@@ -66,7 +66,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D9}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="4"
@@ -76,7 +76,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D4}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="5"
@@ -86,7 +86,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D5}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="6"
@@ -96,7 +96,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D6}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="1"
@@ -106,7 +106,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D1}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="2"
@@ -116,7 +116,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D2}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="3"
@@ -126,7 +126,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D3}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="0"
@@ -136,7 +136,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_D0}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
 
             {/* Function row */}
@@ -148,7 +148,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_CECA}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="MU"
@@ -158,7 +158,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MU}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Percent"
@@ -168,7 +168,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_PERCENT}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Divide"
@@ -178,7 +178,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_DIV}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
 
             {/* Memory row */}
@@ -190,7 +190,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MEMRC}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Memory minus"
@@ -200,7 +200,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MEMMINUS}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Memory plus"
@@ -210,7 +210,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MEMPLUS}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Square root"
@@ -220,7 +220,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_SQRT}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Change sign"
@@ -230,7 +230,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_CHANGESIGN}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
 
             {/* Operation buttons */}
@@ -242,7 +242,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MUL}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Minus"
@@ -252,7 +252,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_MINUS}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Plus"
@@ -262,7 +262,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_PLUS}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
 
             {/* Bottom row */}
@@ -274,7 +274,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_POINT}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
             <CalculatorButton
                 ariaLabel="Equals"
@@ -284,7 +284,7 @@ export function CalculatorKeyboard({ onButtonPressStart, onButtonPress, pressedB
                 buttonCode={CALC_BUTTON_EQUALS}
                 onPressStart={onButtonPressStart}
                 onPress={onButtonPress}
-                pressedButtonCode={pressedButtonCode}
+                isButtonPressed={isButtonPressed}
             />
         </>
     );
