@@ -21,7 +21,16 @@ export function CalculatorAppButton({
     const activePointerIdRef = useRef<number | null>(null);
     const pointerPressedRef = useRef(false);
 
-    const releaseButton = useCallback(() => {
+    const cancelPress = useCallback(() => {
+        if (!pointerPressedRef.current) {
+            return;
+        }
+
+        pointerPressedRef.current = false;
+        setPointerPressed(false);
+    }, []);
+
+    const commitPress = useCallback(() => {
         if (!pointerPressedRef.current) {
             return;
         }
@@ -65,7 +74,7 @@ export function CalculatorAppButton({
                 }
 
                 if (!isPointerInsideElement(event, event.currentTarget)) {
-                    releaseButton();
+                    cancelPress();
                 }
             }}
             onPointerUp={(event) => {
@@ -79,7 +88,11 @@ export function CalculatorAppButton({
                     event.currentTarget.releasePointerCapture(event.pointerId);
                 }
 
-                releaseButton();
+                if (isPointerInsideElement(event, event.currentTarget)) {
+                    commitPress();
+                } else {
+                    cancelPress();
+                }
             }}
             onPointerCancel={(event) => {
                 if (event.pointerId !== activePointerIdRef.current) {
@@ -87,11 +100,11 @@ export function CalculatorAppButton({
                 }
 
                 activePointerIdRef.current = null;
-                releaseButton();
+                cancelPress();
             }}
             onLostPointerCapture={() => {
                 activePointerIdRef.current = null;
-                releaseButton();
+                cancelPress();
             }}
             onContextMenu={(event) => {
                 event.preventDefault();
@@ -107,7 +120,6 @@ export function CalculatorAppButton({
     );
 }
 
-// noinspection DuplicatedCode
 function isPrimaryPointer(event: React.PointerEvent<HTMLButtonElement>): boolean {
     if (!event.isPrimary) {
         return false;
