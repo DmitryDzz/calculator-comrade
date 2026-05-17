@@ -7,11 +7,9 @@ interface UseCalculatorAudioFeedbackResult {
     playAppButtonTapSound: () => void;
 }
 
-export function useCalculatorAudioFeedback(): UseCalculatorAudioFeedbackResult {
-    /*
-     * Later this value should come from user settings.
-     */
-    const soundEnabled = true;
+export function useCalculatorAudioFeedback(
+    soundEnabled: boolean,
+): UseCalculatorAudioFeedbackResult {
 
     const audioFeedback = useMemo(() => {
         return new CalculatorAudioFeedback({
@@ -29,7 +27,7 @@ export function useCalculatorAudioFeedback(): UseCalculatorAudioFeedbackResult {
 
     const playCalculatorButtonUpSound = useCallback(() => {
         //audioFeedback.play("key-up");
-    }, [/*audioFeedback*/]);
+    }, []);
 
     const playAppButtonTapSound = useCallback(() => {
         audioFeedback.play("tap");

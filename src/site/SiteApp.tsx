@@ -4,8 +4,9 @@ import { HomePage } from "./pages/HomePage.tsx";
 import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
 import { LicensePage } from "./pages/LicensePage.tsx";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage.tsx";
+import { TermsOfUsePage } from "./pages/TermsOfUsePage.tsx";
 
-function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "license" {
+function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "terms" | "license" {
     const baseUrl = import.meta.env.BASE_URL;
     const basePath = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
     let path = window.location.pathname;
@@ -24,6 +25,10 @@ function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "license
 
     if (path === "/privacy-policy" || path === "/privacy-policy/") {
         return "privacy";
+    }
+
+    if (path === "/terms-of-use" || path === "/terms-of-use/") {
+        return "terms";
     }
 
     if (path === "/license" || path === "/license/") {
@@ -48,6 +53,7 @@ export function SiteApp() {
                     <a href={routes.calculator}>Calculator</a>
                     <a href={routes.tips}>Tips & Tricks</a>
                     <a href={routes.privacy}>Privacy Policy</a>
+                    <a href={routes.terms}>Terms of Use</a>
                     <a href={routes.license}>License</a>
                 </nav>
             </header>
@@ -56,6 +62,7 @@ export function SiteApp() {
                 {currentPage === "home" && <HomePage />}
                 {currentPage === "tips" && <TipsAndTricksPage />}
                 {currentPage === "privacy" && <PrivacyPolicyPage />}
+                {currentPage === "terms" && <TermsOfUsePage />}
                 {currentPage === "license" && <LicensePage />}
             </main>
         </div>

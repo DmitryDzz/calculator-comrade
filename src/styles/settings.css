@@ -1,0 +1,188 @@
+.settings-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+
+    background: rgb(0 0 0 / 54%);
+    backdrop-filter: blur(3px);
+}
+
+.settings-dialog {
+    display: flex;
+    flex-direction: column;
+
+    width: min(520px, 100%);
+    max-height: min(720px, 100%);
+
+    overflow: hidden;
+
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 24px;
+
+    background: #f8f4ec80;
+    color: #17202a;
+
+    box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+}
+
+.settings-dialog__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+
+    min-height: 64px;
+    padding: 8px 12px;
+
+    border-bottom: 1px solid rgb(23 32 42 / 10%);
+    background: rgb(248 244 236 / 40%);
+    backdrop-filter: blur(10px);
+}
+
+.settings-dialog__back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 999px;
+
+    background: transparent;
+    color: inherit;
+
+    font-size: 1.7rem;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.settings-dialog__back-button:hover,
+.settings-dialog__back-button:focus-visible {
+    background: rgb(23 32 42 / 8%);
+}
+
+.settings-dialog__title {
+    margin: 0;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.settings-dialog__content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    padding: 18px;
+}
+
+.settings-group {
+    overflow: hidden;
+
+    border: 1px solid rgb(23 32 42 / 10%);
+    border-radius: 18px;
+
+    background: rgb(255 255 255 / 62%);
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    width: 100%;
+    min-height: 64px;
+    padding: 14px 16px;
+
+    border: none;
+    border-bottom: 1px solid rgb(23 32 42 / 9%);
+
+    background: transparent;
+    color: inherit;
+
+    text-align: left;
+}
+
+.settings-row:last-child {
+    border-bottom: none;
+}
+
+.settings-row--link {
+    cursor: pointer;
+}
+
+.settings-row--link:hover,
+.settings-row--link:focus-visible {
+    background: rgb(23 32 42 / 5%);
+}
+
+.settings-row__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.settings-row__title {
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.settings-row__description,
+.settings-row__value,
+.settings-row__chevron {
+    color: rgb(23 32 42 / 62%);
+}
+
+.settings-row__description {
+    font-size: 0.88rem;
+    line-height: 1.35;
+}
+
+.settings-row__value {
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.settings-row__chevron {
+    font-size: 1.45rem;
+    line-height: 1;
+}
+
+.settings-switch {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    accent-color: #16365c;
+}
+
+@media (max-width: 520px) {
+    .settings-dialog-backdrop {
+        align-items: stretch;
+        padding: 0;
+    }
+
+    .settings-dialog {
+        width: 100%;
+        max-height: 100%;
+        border-right: none;
+        border-left: none;
+        border-radius: 0;
+    }
+}

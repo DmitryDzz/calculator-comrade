@@ -17,7 +17,7 @@ export function PrivacyPolicyPage() {
             <h2>Contact Us</h2>
             <p>
                 If you have any questions or suggestions about this Privacy Policy, you can
-                contact the project maintainer by email: <a href="mailto:info@robot-mitya.ru">info@robot-mitya.ru</a>.
+                contact the project maintainer by email: <a href="mailto:dmitrydzz@protonmail.com">dmitrydzz@protonmail.com</a>.
             </p>
         </article>
     );

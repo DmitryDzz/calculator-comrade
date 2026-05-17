@@ -2,26 +2,24 @@ import { useCallback, useMemo } from "react";
 import { CalculatorHapticFeedback } from "./calculatorHapticFeedback";
 
 interface UseCalculatorHapticFeedbackResult {
+    vibrationSupported: boolean;
     vibrateCalculatorButtonDown: () => void;
     vibrateAppButtonTap: () => void;
 }
 
-export function useCalculatorHapticFeedback(): UseCalculatorHapticFeedbackResult {
-    /*
-     * Later this value should come from user settings.
-     *
-     * For now it is enabled. Unsupported browsers/devices will simply ignore it.
-     */
-    const vibrationEnabled = true;
+export function useCalculatorHapticFeedback(
+    vibrationEnabled: boolean,
+): UseCalculatorHapticFeedbackResult {
+    const vibrationSupported = "vibrate" in navigator;
 
     const hapticFeedback = useMemo(() => {
         return new CalculatorHapticFeedback({
-            vibrationEnabled,
+            vibrationEnabled: vibrationSupported && vibrationEnabled,
         });
-    }, [vibrationEnabled]);
+    }, [vibrationEnabled, vibrationSupported]);
 
     hapticFeedback.setOptions({
-        vibrationEnabled,
+        vibrationEnabled: vibrationSupported && vibrationEnabled,
     });
 
     const vibrateCalculatorButtonDown = useCallback(() => {
@@ -33,6 +31,7 @@ export function useCalculatorHapticFeedback(): UseCalculatorHapticFeedbackResult
     }, [hapticFeedback]);
 
     return {
+        vibrationSupported,
         vibrateCalculatorButtonDown,
         vibrateAppButtonTap,
     };

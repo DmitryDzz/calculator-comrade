@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CALC_OPTIONS_DEFAULT } from "./calculatorConstants.ts";
 import { loadCalculatorModule } from "./calculatorModule.ts";
-import type { CalculatorStateStorage } from "./calculatorStateStorage.ts";
+import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
 import {
     type CalculatorDisplaySnapshot,
     CalculatorWasmClient,
@@ -15,11 +15,12 @@ interface UseCalculatorCoreState {
     loading: boolean;
     error: Error | null;
     display: CalculatorDisplaySnapshot | null;
+    coreVersion: string;
     input: (buttonCode: CalculatorButtonCode) => void;
 }
 
 export function useCalculatorCore(
-    stateStorage: CalculatorStateStorage | null = null,
+    appActions: CalculatorAppActions,
 ): UseCalculatorCoreState {
     const clientRef = useRef<CalculatorWasmClient | null>(null);
     const handleRef = useRef<CalculatorHandle | null>(null);
@@ -27,6 +28,7 @@ export function useCalculatorCore(
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [display, setDisplay] = useState<CalculatorDisplaySnapshot | null>(null);
+    const [coreVersion, setCoreVersion] = useState("Unknown");
 
     useEffect(() => {
         let disposed = false;
@@ -42,7 +44,7 @@ export function useCalculatorCore(
                 const client = new CalculatorWasmClient(module);
                 const handle = client.createCalculator(8, CALC_OPTIONS_DEFAULT);
 
-                await restoreCalculatorStateAsync(client, handle, stateStorage);
+                await restoreCalculatorStateAsync(client, handle, appActions);
 
                 if (disposed) {
                     client.disposeCalculator(handle);
@@ -55,6 +57,7 @@ export function useCalculatorCore(
                 handleRef.current = handle;
 
                 setDisplay(initialDisplay);
+                setCoreVersion(client.getCoreVersion());
                 setError(null);
                 setLoading(false);
             } catch (error: unknown) {
@@ -63,6 +66,7 @@ export function useCalculatorCore(
                 }
 
                 setDisplay(null);
+                setCoreVersion("Unknown");
                 setError(error instanceof Error ? error : new Error(String(error)));
                 setLoading(false);
             }
@@ -81,7 +85,7 @@ export function useCalculatorCore(
                 client.disposeCalculator(handle);
             }
         };
-    }, [stateStorage]);
+    }, [appActions]);
 
     const input = useCallback((buttonCode: CalculatorButtonCode) => {
         const client = clientRef.current;
@@ -95,16 +99,17 @@ export function useCalculatorCore(
             client.input(handle, buttonCode);
             setDisplay(client.readDisplay(handle));
             setError(null);
-            void saveCalculatorState(client, handle, stateStorage);
+            void saveCalculatorState(client, handle, appActions);
         } catch (error: unknown) {
             setError(error instanceof Error ? error : new Error(String(error)));
         }
-    }, [stateStorage]);
+    }, [appActions]);
 
     return {
         loading,
         error,
         display,
+        coreVersion,
         input,
     };
 }
@@ -112,14 +117,10 @@ export function useCalculatorCore(
 async function restoreCalculatorStateAsync(
     client: CalculatorWasmClient,
     handle: CalculatorHandle,
-    stateStorage: CalculatorStateStorage | null,
+    appActions: CalculatorAppActions,
 ): Promise<void> {
-    if (stateStorage === null) {
-        return;
-    }
-
     try {
-        const dump = await stateStorage.loadDump();
+        const dump = await appActions.loadCalculatorDump();
 
         if (dump === null) {
             return;
@@ -127,7 +128,7 @@ async function restoreCalculatorStateAsync(
 
         client.importDump(handle, dump);
     } catch (error: unknown) {
-        await stateStorage.clearDump();
+        await appActions.clearCalculatorDump();
         console.warn("Stored calculator state was ignored.", error);
     }
 }
@@ -135,16 +136,12 @@ async function restoreCalculatorStateAsync(
 async function saveCalculatorState(
     client: CalculatorWasmClient,
     handle: CalculatorHandle,
-    stateStorage: CalculatorStateStorage | null,
+    appActions: CalculatorAppActions,
 ): Promise<void> {
-    if (stateStorage === null) {
-        return;
-    }
-
     try {
         const dump = client.exportDump(handle);
 
-        await stateStorage.saveDump(dump);
+        await appActions.saveCalculatorDump(dump);
     } catch (error: unknown) {
         console.warn("Failed to save calculator state.", error);
     }

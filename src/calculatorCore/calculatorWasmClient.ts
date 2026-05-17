@@ -56,6 +56,20 @@ export class CalculatorWasmClient {
         this.module._DisposeAll();
     }
 
+    public getCoreVersion(): string {
+        if (!this.module._GetCalculatorVersion || !this.module.UTF8ToString) {
+            return "Unknown";
+        }
+
+        const versionPtr = this.module._GetCalculatorVersion();
+
+        if (versionPtr === 0) {
+            return "Unknown";
+        }
+
+        return this.module.UTF8ToString(versionPtr);
+    }
+
     public input(
         handle: CalculatorHandle,
         buttonCode: CalculatorButtonCode,

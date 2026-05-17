@@ -1,5 +1,6 @@
 export type CalculatorResult = number;
 export type CalculatorHandle = number;
+export type CalculatorCStringPointer = number;
 export type CalculatorButtonCode = number;
 export type CalculatorOptions = number;
 
@@ -12,6 +13,8 @@ export interface CalculatorModuleFactoryOptions {
 export interface CalculatorWasmModule {
     HEAP8: Int8Array;
     HEAPU8: Uint8Array;
+
+    UTF8ToString?(ptr: number): string;
 
     _malloc(size: number): number;
     _free(ptr: number): void;
@@ -84,6 +87,8 @@ export interface CalculatorWasmModule {
         dumpPtr: number,
         dumpSize: number,
     ): CalculatorResult;
+
+    _GetCalculatorVersion?(): CalculatorCStringPointer;
 }
 
 export type CalculatorModuleFactory = (

@@ -2,23 +2,28 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CalculatorView from "../calculator/CalculatorView.tsx";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts.ts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore.ts";
-import { createWebLocalStorageCalculatorStateStorage } from "../calculatorCore/webLocalStorageCalculatorStateStorage.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
 import { useCalculatorAudioFeedback } from "../calculatorFeedback/useCalculatorAudioFeedback.ts";
 import { useCalculatorHapticFeedback } from "../calculatorFeedback/useCalculatorHapticFeedback.ts";
 import { currentAppPlatform } from "./appPlatform.ts";
 import { createWebCalculatorAppActions } from "./webCalculatorAppActions.ts";
 import { createCalculatorAppButtonActions } from "../calculator/calculatorAppButtonActions.ts";
-import type {CalculatorAppActions} from "./calculatorAppActions.ts";
-import type {CalculatorStateStorage} from "../calculatorCore/calculatorStateStorage.ts";
-
-const calculatorStateStorage: CalculatorStateStorage = createWebLocalStorageCalculatorStateStorage();
-const appActions: CalculatorAppActions = createWebCalculatorAppActions();
+import type { CalculatorAppActions } from "./calculatorAppActions.ts";
+import { useCalculatorAppSettings } from "../appSettings/useCalculatorAppSettings.ts";
+import { SettingsDialog } from "../settings/SettingsDialog.tsx";
+import { APP_VERSION } from "./appVersion.ts";
 
 export function CalculatorApp() {
-    const calculator = useCalculatorCore(calculatorStateStorage);
-    const audioFeedback = useCalculatorAudioFeedback();
-    const hapticFeedback = useCalculatorHapticFeedback();
+    const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+
+    const appActions = useMemo<CalculatorAppActions>(() => createWebCalculatorAppActions({
+        openSettings: () => setSettingsDialogOpen(true),
+    }), []);
+
+    const calculator = useCalculatorCore(appActions);
+    const appSettings = useCalculatorAppSettings(appActions);
+    const audioFeedback = useCalculatorAudioFeedback(appSettings.settings.soundEnabled);
+    const hapticFeedback = useCalculatorHapticFeedback(appSettings.settings.vibrationEnabled);
 
     const [pressedKeyboardButtonCodes, setPressedKeyboardButtonCodes] =
         useState<CalculatorButtonCode[]>([]);
@@ -59,7 +64,7 @@ export function CalculatorApp() {
     const appButtonActions = useMemo(() => createCalculatorAppButtonActions({
         platform: currentAppPlatform,
         appActions,
-    }), []);
+    }), [appActions]);
 
     const calculatorButtonPressStartRef = useRef(handleCalculatorButtonPressStart);
     const calculatorButtonPressRef = useRef(handleCalculatorButtonPress);
@@ -140,6 +145,19 @@ export function CalculatorApp() {
                 appButtonActions={appButtonActions}
                 onAppButtonPressStart={handleAppButtonPressStart}
             />
+
+            {settingsDialogOpen && (
+                <SettingsDialog
+                    settings={appSettings.settings}
+                    vibrationAvailable={appActions.isVibrationAvailable()}
+                    appActions={appActions}
+                    appVersion={APP_VERSION}
+                    coreVersion={calculator.coreVersion}
+                    onSoundEnabledChange={appSettings.setSoundEnabled}
+                    onVibrationEnabledChange={appSettings.setVibrationEnabled}
+                    onClose={() => setSettingsDialogOpen(false)}
+                />
+            )}
         </main>
     );
 }
