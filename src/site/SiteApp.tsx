@@ -1,10 +1,11 @@
 import { CalculatorApp } from "../app/CalculatorApp.tsx";
 import { routes } from "../shared/routes.ts";
 import { HomePage } from "./pages/HomePage.tsx";
-import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage.tsx";
 import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
+import { LicensePage } from "./pages/LicensePage.tsx";
+import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage.tsx";
 
-function getCurrentPage(): "home" | "calculator" | "privacy" | "tips" {
+function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "license" {
     const baseUrl = import.meta.env.BASE_URL;
     const basePath = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
     let path = window.location.pathname;
@@ -17,12 +18,16 @@ function getCurrentPage(): "home" | "calculator" | "privacy" | "tips" {
         return "calculator";
     }
 
+    if (path === "/tips-n-tricks" || path === "/tips-n-tricks/") {
+        return "tips";
+    }
+
     if (path === "/privacy-policy" || path === "/privacy-policy/") {
         return "privacy";
     }
 
-    if (path === "/tips-n-tricks" || path === "/tips-n-tricks/") {
-        return "tips";
+    if (path === "/license" || path === "/license/") {
+        return "license";
     }
 
     return "home";
@@ -41,15 +46,17 @@ export function SiteApp() {
                 <a className="site-title" href={routes.home}>Calculator Comrade</a>
                 <nav className="site-nav" aria-label="Main navigation">
                     <a href={routes.calculator}>Calculator</a>
-                    <a href={routes.privacy}>Privacy Policy</a>
                     <a href={routes.tips}>Tips & Tricks</a>
+                    <a href={routes.privacy}>Privacy Policy</a>
+                    <a href={routes.license}>License</a>
                 </nav>
             </header>
 
             <main className="site-main">
                 {currentPage === "home" && <HomePage />}
-                {currentPage === "privacy" && <PrivacyPolicyPage />}
                 {currentPage === "tips" && <TipsAndTricksPage />}
+                {currentPage === "privacy" && <PrivacyPolicyPage />}
+                {currentPage === "license" && <LicensePage />}
             </main>
         </div>
     );

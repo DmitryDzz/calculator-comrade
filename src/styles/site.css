@@ -203,3 +203,20 @@
     outline: 3px solid rgb(29 73 120 / 28%);
     outline-offset: 3px;
 }
+
+
+.legal-text {
+    overflow-x: auto;
+    padding: 1rem;
+
+    border: 1px solid rgba(31, 41, 51, 0.14);
+    border-radius: 0.75rem;
+
+    background: rgba(255, 255, 255, 0.55);
+    color: #1f2933;
+
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+}

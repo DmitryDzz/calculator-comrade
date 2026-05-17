@@ -4,6 +4,7 @@ export const routes = {
     home: assetUrl(""),
     calculator: assetUrl("calculator/"),
     privacy: assetUrl("privacy-policy/"),
+    license: assetUrl("license/"),
     tips: assetUrl("tips-n-tricks/"),
 };
 
