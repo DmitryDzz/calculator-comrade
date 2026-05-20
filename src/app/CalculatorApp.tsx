@@ -3,8 +3,6 @@ import CalculatorView from "../calculator/CalculatorView.tsx";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts.ts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
-import { useCalculatorAudioFeedback } from "../calculatorFeedback/useCalculatorAudioFeedback.ts";
-import { useCalculatorHapticFeedback } from "../calculatorFeedback/useCalculatorHapticFeedback.ts";
 import { currentAppPlatform } from "./appPlatform.ts";
 import { createWebCalculatorAppActions } from "./webCalculatorAppActions.ts";
 import { createCalculatorAppButtonActions } from "../calculator/calculatorAppButtonActions.ts";
@@ -22,9 +20,6 @@ export function CalculatorApp() {
 
     const calculator = useCalculatorCore(appActions);
     const appSettings = useCalculatorAppSettings(appActions);
-    const audioFeedback = useCalculatorAudioFeedback(appSettings.settings.soundEnabled);
-    const hapticFeedback = useCalculatorHapticFeedback(appSettings.settings.vibrationEnabled);
-
     const [pressedKeyboardButtonCodes, setPressedKeyboardButtonCodes] =
         useState<CalculatorButtonCode[]>([]);
 
@@ -45,21 +40,21 @@ export function CalculatorApp() {
     const handleCalculatorButtonPressStart = useCallback<
         (buttonCode: CalculatorButtonCode) => void
     >((buttonCode: CalculatorButtonCode) => {
-        audioFeedback.playCalculatorButtonDownSound();
-        hapticFeedback.vibrateCalculatorButtonDown();
+        appActions.playCalculatorButtonDownSound();
+        appActions.vibrateCalculatorButtonDown();
         calculator.input(buttonCode);
-    }, [audioFeedback, hapticFeedback, calculator]);
+    }, [appActions, calculator]);
 
     const handleCalculatorButtonPress = useCallback<
         (buttonCode: CalculatorButtonCode) => void
     >(() => {
-        audioFeedback.playCalculatorButtonUpSound();
-    }, [audioFeedback]);
+        appActions.playCalculatorButtonUpSound();
+    }, [appActions]);
 
     const handleAppButtonPressStart = useCallback(() => {
-        audioFeedback.playAppButtonTapSound();
-        hapticFeedback.vibrateAppButtonTap();
-    }, [audioFeedback, hapticFeedback]);
+        appActions.playAppButtonTapSound();
+        appActions.vibrateAppButtonTap();
+    }, [appActions]);
 
     const appButtonActions = useMemo(() => createCalculatorAppButtonActions({
         platform: currentAppPlatform,

@@ -2,6 +2,10 @@ import {
     DEFAULT_CALCULATOR_APP_SETTINGS,
     type CalculatorAppSettings,
 } from "../appSettings/calculatorAppSettings.ts";
+import { createCalculatorSoundFeedback, type CalculatorSoundUrls } from "./calculatorSoundFeedback.ts";
+import { createWebCalculatorSoundPlayer } from "./webCalculatorSoundPlayer.ts";
+import { createWebCalculatorHapticFeedback } from "./webCalculatorHapticFeedback.ts";
+import { assetUrl } from "../shared/assetUrl.ts";
 import { routes } from "../shared/routes.ts";
 import type { CalculatorAppActions } from "./calculatorAppActions.ts";
 
@@ -12,9 +16,23 @@ interface CreateWebCalculatorAppActionsOptions {
 const SETTINGS_STORAGE_KEY = "calculator-comrade.settings.v1";
 const CALCULATOR_DUMP_STORAGE_KEY = "calculator-comrade.calculator.dump.v1";
 
+const WEB_CALCULATOR_SOUND_URLS: CalculatorSoundUrls = {
+    "key-down": assetUrl("sounds/key-down.ogg"),
+    "key-up": assetUrl("sounds/key-up.ogg"),
+    "tap": assetUrl("sounds/tap.ogg"),
+};
+
 export function createWebCalculatorAppActions(
     options: CreateWebCalculatorAppActionsOptions = {},
 ): CalculatorAppActions {
+    const initialSettings = loadCalculatorAppSettingsFromLocalStorage();
+    const soundFeedback = createCalculatorSoundFeedback({
+        initialSettings,
+        soundPlayer: createWebCalculatorSoundPlayer(WEB_CALCULATOR_SOUND_URLS),
+        soundUrls: WEB_CALCULATOR_SOUND_URLS,
+    });
+    const hapticFeedback = createWebCalculatorHapticFeedback(initialSettings);
+
     return {
         openHome: () => {
             window.location.assign(routes.home);
@@ -53,7 +71,29 @@ export function createWebCalculatorAppActions(
         loadSettings: () => loadCalculatorAppSettingsFromLocalStorage(),
 
         saveSettings: (settings: CalculatorAppSettings) => {
+            soundFeedback.setSettings(settings);
+            hapticFeedback.setSettings(settings);
             saveCalculatorAppSettingsToLocalStorage(settings);
+        },
+
+        playCalculatorButtonDownSound: () => {
+            soundFeedback.playCalculatorButtonDownSound();
+        },
+
+        playCalculatorButtonUpSound: () => {
+            soundFeedback.playCalculatorButtonUpSound();
+        },
+
+        playAppButtonTapSound: () => {
+            soundFeedback.playAppButtonTapSound();
+        },
+
+        vibrateCalculatorButtonDown: () => {
+            hapticFeedback.vibrateCalculatorButtonDown();
+        },
+
+        vibrateAppButtonTap: () => {
+            hapticFeedback.vibrateAppButtonTap();
         },
 
         loadCalculatorDump: () => loadCalculatorDumpFromLocalStorage(),

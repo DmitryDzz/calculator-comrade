@@ -10,6 +10,11 @@ export interface CalculatorAppActions {
     openPrivacyPolicy: () => void;
     openTermsOfUse: () => void;
     isVibrationAvailable: () => boolean;
+    playCalculatorButtonDownSound: () => void;
+    playCalculatorButtonUpSound: () => void;
+    playAppButtonTapSound: () => void;
+    vibrateCalculatorButtonDown: () => void;
+    vibrateAppButtonTap: () => void;
     loadSettings: () => MaybePromise<CalculatorAppSettings>;
     saveSettings: (settings: CalculatorAppSettings) => MaybePromise<void>;
     loadCalculatorDump: () => MaybePromise<Uint8Array | null>;
