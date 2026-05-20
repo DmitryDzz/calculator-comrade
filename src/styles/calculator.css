@@ -5,6 +5,7 @@
 
     width: 100vw;
     height: 100dvh;
+    padding: var(--calculator-viewport-padding-y) var(--calculator-viewport-padding-x);
 
     overflow: hidden;
 }
@@ -12,16 +13,16 @@
 .calculator-shell {
     position: relative;
 
-    width: 100vw;
-    height: calc(100vw * 3120 / 1760);
+    width: var(--calculator-shell-width);
+    height: var(--calculator-shell-height);
 
     overflow: hidden;
 }
 
 @media (min-aspect-ratio: 1760/3120) {
-    .calculator-shell {
-        width: calc(100dvh * 1760 / 3120);
-        height: 100dvh;
+    .app {
+        --calculator-shell-width: calc((100dvh - 2 * var(--calculator-viewport-padding-y)) * 1760 / 3120);
+        --calculator-shell-height: calc(100dvh - 2 * var(--calculator-viewport-padding-y));
     }
 }
 

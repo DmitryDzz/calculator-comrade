@@ -7,18 +7,22 @@
     align-items: center;
     justify-content: center;
 
-    padding: max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
-
     background: rgb(0 0 0 / 54%);
     backdrop-filter: blur(3px);
 }
 
 .settings-dialog {
+    --settings-dialog-header-height: 80px;
+    --settings-scrollbar-top: 12px;
+    --settings-scrollbar-bottom: 18px;
+
+    position: relative;
+
     display: flex;
     flex-direction: column;
 
-    width: min(520px, 100%);
-    max-height: min(720px, 100%);
+    width: var(--calculator-shell-width);
+    max-height: var(--calculator-shell-height);
 
     overflow: hidden;
 
@@ -32,6 +36,8 @@
 }
 
 .settings-dialog__header {
+    flex: 0 0 auto;
+
     position: sticky;
     top: 0;
     z-index: 1;
@@ -40,7 +46,8 @@
     grid-template-columns: 48px 1fr 48px;
     align-items: center;
 
-    min-height: 64px;
+    height: var(--settings-dialog-header-height);
+    min-height: var(--settings-dialog-header-height);
     padding: 8px 12px;
 
     border-bottom: 1px solid rgb(23 32 42 / 10%);
@@ -86,13 +93,61 @@
     flex-direction: column;
     gap: 18px;
 
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: calc(var(--calculator-shell-height) - var(--settings-dialog-header-height));
+
     overflow-y: auto;
     overscroll-behavior: contain;
+    scrollbar-width: none;
 
-    padding: 18px;
+    padding: 18px 22px 18px 18px;
+}
+
+.settings-dialog__content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.settings-dialog__scrollbar {
+    position: absolute;
+
+    right: 6px;
+    top: calc(var(--settings-dialog-header-height) + var(--settings-scrollbar-top));
+    bottom: var(--settings-scrollbar-bottom);
+    width: 4px;
+
+    z-index: 2;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: rgb(23 32 42 / 14%);
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+.settings-dialog__scrollbar--visible {
+    opacity: 1;
+}
+
+.settings-dialog__scrollbar-thumb {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    border-radius: 999px;
+    background: rgb(23 32 42 / 45%);
 }
 
 .settings-group {
+    flex: 0 0 auto;
+
     overflow: hidden;
 
     border: 1px solid rgb(23 32 42 / 10%);
@@ -118,6 +173,8 @@
     color: inherit;
 
     text-align: left;
+
+    flex: 0 0 auto;
 }
 
 .settings-row:last-child {
@@ -170,19 +227,4 @@
     height: 22px;
     flex: 0 0 auto;
     accent-color: #16365c;
-}
-
-@media (max-width: 520px) {
-    .settings-dialog-backdrop {
-        align-items: stretch;
-        padding: 0;
-    }
-
-    .settings-dialog {
-        width: 100%;
-        max-height: 100%;
-        border-right: none;
-        border-left: none;
-        border-radius: 0;
-    }
 }

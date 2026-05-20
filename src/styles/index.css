@@ -28,6 +28,11 @@ select {
 }
 
 .app {
+  --calculator-viewport-padding-x: clamp(8px, 3vw, 16px);
+  --calculator-viewport-padding-y: clamp(8px, 1.2dvh, 16px);
+  --calculator-shell-width: calc(100vw - 2 * var(--calculator-viewport-padding-x));
+  --calculator-shell-height: calc(var(--calculator-shell-width) * 3120 / 1760);
+
   min-height: 100dvh;
   display: flex;
   align-items: center;

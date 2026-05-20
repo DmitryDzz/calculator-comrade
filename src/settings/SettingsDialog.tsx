@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
 import type { CalculatorAppSettings } from "../appSettings/calculatorAppSettings.ts";
 
@@ -23,6 +23,14 @@ export function SettingsDialog({
     onVibrationEnabledChange,
     onClose,
 }: SettingsDialogProps) {
+    const contentRef = useRef<HTMLDivElement | null>(null);
+    const scrollbarTrackRef = useRef<HTMLDivElement | null>(null);
+    const [scrollbarState, setScrollbarState] = useState({
+        visible: false,
+        thumbHeight: 0,
+        thumbTop: 0,
+    });
+
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key !== "Escape") {
@@ -39,6 +47,68 @@ export function SettingsDialog({
             window.removeEventListener("keydown", handleKeyDown);
         };
     }, [onClose]);
+
+    useEffect(() => {
+        const content = contentRef.current;
+
+        if (!content) {
+            return undefined;
+        }
+
+        const updateScrollbar = () => {
+            const content = contentRef.current;
+            const track = scrollbarTrackRef.current;
+
+            if (!content) {
+                return;
+            }
+
+            const { clientHeight, scrollHeight, scrollTop } = content;
+            const maxScrollTop = scrollHeight - clientHeight;
+
+            if (maxScrollTop <= 1 || !track) {
+                setScrollbarState({
+                    visible: false,
+                    thumbHeight: 0,
+                    thumbTop: 0,
+                });
+                return;
+            }
+
+            const trackHeight = track.clientHeight;
+
+            const thumbHeight = Math.max(
+                28,
+                (clientHeight / scrollHeight) * trackHeight,
+            );
+
+            const maxThumbTop = trackHeight - thumbHeight;
+
+            const thumbTop =
+                maxScrollTop > 0
+                    ? (scrollTop / maxScrollTop) * maxThumbTop
+                    : 0;
+
+            setScrollbarState({
+                visible: true,
+                thumbHeight,
+                thumbTop,
+            });
+        };
+        updateScrollbar();
+
+        const resizeObserver = new ResizeObserver(updateScrollbar);
+        resizeObserver.observe(content);
+
+        content.addEventListener("scroll", updateScrollbar, { passive: true });
+        window.addEventListener("resize", updateScrollbar);
+
+        return () => {
+            content.removeEventListener("scroll", updateScrollbar);
+            window.removeEventListener("resize", updateScrollbar);
+            resizeObserver.disconnect();
+        };
+    }, [vibrationAvailable]);
 
     const openAfterClose = (open: () => void) => {
         onClose();
@@ -68,7 +138,7 @@ export function SettingsDialog({
                     </h1>
                 </header>
 
-                <div className="settings-dialog__content">
+                <div ref={contentRef} className="settings-dialog__content">
                     <div className="settings-group" aria-label="Feedback settings">
                         <SettingSwitch
                             title="Sound"
@@ -106,6 +176,23 @@ export function SettingsDialog({
                         <SettingValue title="Core version" value={coreVersion} />
                         <SettingValue title="App version" value={appVersion} />
                     </div>
+                </div>
+
+                <div
+                    ref={scrollbarTrackRef}
+                    className={[
+                        "settings-dialog__scrollbar",
+                        scrollbarState.visible ? "settings-dialog__scrollbar--visible" : "",
+                    ].join(" ")}
+                    aria-hidden="true"
+                >
+                    <div
+                        className="settings-dialog__scrollbar-thumb"
+                        style={{
+                            height: `${scrollbarState.thumbHeight}px`,
+                            transform: `translateY(${scrollbarState.thumbTop}px)`,
+                        }}
+                    />
                 </div>
             </section>
         </div>
