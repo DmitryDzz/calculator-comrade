@@ -43,7 +43,11 @@ export function createWebCalculatorAppActions(
         },
 
         isVibrationAvailable: () => {
-            return typeof navigator !== "undefined" && "vibrate" in navigator;
+            return (
+                typeof navigator !== "undefined" &&
+                typeof navigator.vibrate === "function" &&
+                isMobileLikeBrowser()
+            );
         },
 
         loadSettings: () => loadCalculatorAppSettingsFromLocalStorage(),
@@ -143,6 +147,22 @@ function saveCalculatorDumpToLocalStorage(dump: Uint8Array): void {
          * Stored state is useful, but calculator input must not depend on storage.
          */
     }
+}
+
+function isMobileLikeBrowser(): boolean {
+    const navigatorLike = navigator as Navigator & {
+        userAgentData?: {
+            mobile?: boolean;
+        };
+    };
+
+    // Chromium-based browsers: Chrome, Edge, Android WebView, etc.
+    if (typeof navigatorLike.userAgentData?.mobile === "boolean") {
+        return navigatorLike.userAgentData.mobile;
+    }
+
+    // Fallback for browsers without User-Agent Client Hints.
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 function encodeBytesToBase64(bytes: Uint8Array): string {
