@@ -212,7 +212,43 @@ async function getBuildAssetsFromIndex() {
         const assetRegex = /(?:src|href)="([^"]*\/assets\/[^"]+\.(?:js|css))"/g;
 
         for (const match of html.matchAll(assetRegex)) {
-            assetUrls.add(new URL(match[1], self.location.origin).href);
+            const url = new URL(match[1], self.location.origin).href;
+            assetUrls.add(url);
+        }
+
+        const cssUrls = [...assetUrls].filter((url) => url.endsWith(".css"));
+
+        for (const cssUrl of cssUrls) {
+            const cssResponse = await fetch(cssUrl, { cache: "no-cache" });
+
+            if (!cssResponse.ok) {
+                continue;
+            }
+
+            const css = await cssResponse.text();
+            const cssUrlRegex = /url\((?:"|')?([^"')]+)(?:"|')?\)/g;
+
+            for (const match of css.matchAll(cssUrlRegex)) {
+                const rawUrl = match[1];
+
+                if (
+                    rawUrl.startsWith("data:") ||
+                    rawUrl.startsWith("http://") ||
+                    rawUrl.startsWith("https://")
+                ) {
+                    continue;
+                }
+
+                const url = new URL(rawUrl, cssUrl);
+
+                if (
+                    url.origin === self.location.origin &&
+                    url.pathname.includes("/assets/") &&
+                    /\.(woff2|woff|ttf|otf)$/.test(url.pathname)
+                ) {
+                    assetUrls.add(url.href);
+                }
+            }
         }
 
         return [...assetUrls];

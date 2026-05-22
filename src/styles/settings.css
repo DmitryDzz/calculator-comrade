@@ -16,6 +16,9 @@
     --settings-scrollbar-top: 12px;
     --settings-scrollbar-bottom: 18px;
 
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-weight: 700;
+
     position: relative;
 
     display: flex;
@@ -84,7 +87,10 @@
     margin: 0;
 
     font-size: 1.2rem;
-    font-weight: 700;
+
+    /*font-weight: 700;*/
+    font-weight: inherit;
+
     text-align: center;
 }
 
@@ -198,7 +204,9 @@
 
 .settings-row__title {
     font-size: 1rem;
-    font-weight: 650;
+
+    /*font-weight: 650;*/
+    font-weight: inherit;
 }
 
 .settings-row__description,

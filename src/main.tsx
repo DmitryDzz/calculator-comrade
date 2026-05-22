@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { SiteApp } from "./site/SiteApp.tsx";
+import "@fontsource/orbitron/latin-700.css";
 import "./styles/index.css";
 import "./styles/calculator.css";
 import "./styles/site.css";
