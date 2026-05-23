@@ -45,3 +45,16 @@ select {
   font-size: 2rem;
   font-weight: 600;
 }
+
+.app--calculator {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app--calculator img,
+.app--calculator svg {
+  -webkit-user-drag: none;
+  user-select: none;
+}

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
 import type { CalculatorAppSettings } from "../appSettings/calculatorAppSettings.ts";
+import { assetUrl } from "../shared/assetUrl.ts";
+import * as React from "react";
 
 interface SettingsDialogProps {
     settings: CalculatorAppSettings;
@@ -131,10 +133,16 @@ export function SettingsDialog({
                         aria-label="Close settings"
                         onClick={onClose}
                     >
-                        ←
+                        <span
+                            className="settings-dialog__back-icon"
+                            style={{
+                                "--settings-back-icon-url": `url("${assetUrl("assets/settings/arrow-left.svg")}")`,
+                            } as React.CSSProperties}
+                            aria-hidden="true"
+                        />
                     </button>
                     <h1 id="settings-dialog-title" className="settings-dialog__title">
-                        Settings
+                        SETTINGS
                     </h1>
                 </header>
 
@@ -206,20 +214,82 @@ interface SettingSwitchProps {
     onChange: (checked: boolean) => void;
 }
 
-function SettingSwitch({ title, description, checked, onChange }: SettingSwitchProps) {
+function SettingSwitch({ title, checked, onChange }: SettingSwitchProps) {
     return (
         <label className="settings-row settings-row--switch">
-            <span className="settings-row__text">
-                <span className="settings-row__title">{title}</span>
-                {description && <span className="settings-row__description">{description}</span>}
+            <span className="settings-row__title">{title}</span>
+
+            <span className="settings-switch-control">
+                <input
+                    className="settings-switch"
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(event) => onChange(event.target.checked)}
+                />
+
+                <SettingsToggleIcon checked={checked} />
             </span>
-            <input
-                className="settings-switch"
-                type="checkbox"
-                checked={checked}
-                onChange={(event) => onChange(event.currentTarget.checked)}
-            />
         </label>
+    );
+}
+
+interface SettingsToggleIconProps {
+    checked: boolean;
+}
+
+function SettingsToggleIcon({ checked }: SettingsToggleIconProps) {
+    if (checked) {
+        return (
+            <svg
+                className="settings-switch-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
+                <rect
+                    // className="settings-switch-icon__knob"
+                    width="20"
+                    height="14"
+                    x="2"
+                    y="5"
+                    rx="7"
+                />
+                <circle
+                    className="settings-switch-icon__knob"
+                    cx="15"
+                    cy="12"
+                    r="4"
+                    // fill="red"
+                    stroke="none"
+                />
+            </svg>
+        );
+    }
+
+    return (
+        <svg
+            className="settings-switch-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+        >
+            <circle cx="9" cy="12" r="3" />
+            <rect width="20" height="14" x="2" y="5" rx="7" />
+        </svg>
     );
 }
 
@@ -232,7 +302,13 @@ function SettingLink({ title, onClick }: SettingLinkProps) {
     return (
         <button className="settings-row settings-row--link" type="button" onClick={onClick}>
             <span className="settings-row__title">{title}</span>
-            <span className="settings-row__chevron" aria-hidden="true">›</span>
+            <span
+                className="settings-dialog__chevron-right-icon"
+                style={{
+                    "--settings-chevron-right-icon-url": `url("${assetUrl("assets/settings/chevron-right.svg")}")`,
+                } as React.CSSProperties}
+                aria-hidden="true"
+            />
         </button>
     );
 }

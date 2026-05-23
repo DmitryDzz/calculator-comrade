@@ -73,7 +73,20 @@ export function CalculatorApp() {
     }, [handleCalculatorButtonPress]);
 
     useEffect(() => {
+        if (!settingsDialogOpen) {
+            return;
+        }
+
+        activeKeyboardPressesRef.current.clear();
+        updatePressedKeyboardButtonCodes();
+    }, [settingsDialogOpen, updatePressedKeyboardButtonCodes]);
+
+    useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            if (settingsDialogOpen) {
+                return;
+            }
+
             const buttonCode = getCalculatorButtonCodeFromKeyboardEvent(event);
 
             if (buttonCode === null) {
@@ -99,6 +112,10 @@ export function CalculatorApp() {
         };
 
         const handleKeyUp = (event: KeyboardEvent) => {
+            if (settingsDialogOpen) {
+                return;
+            }
+
             const activeKeyboardPresses = activeKeyboardPressesRef.current;
             const buttonCode = activeKeyboardPresses.get(event.code);
 
@@ -128,10 +145,13 @@ export function CalculatorApp() {
             window.removeEventListener("keyup", handleKeyUp);
             window.removeEventListener("blur", handleWindowBlur);
         };
-    }, [updatePressedKeyboardButtonCodes]);
+    }, [settingsDialogOpen, updatePressedKeyboardButtonCodes]);
 
     return (
-        <main className="app">
+        <main
+            className="app app--calculator"
+            onContextMenu={(event) => event.preventDefault()}
+        >
             <CalculatorView
                 display={calculator.display}
                 onButtonPressStart={handleCalculatorButtonPressStart}

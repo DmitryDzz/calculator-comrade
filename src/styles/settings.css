@@ -16,6 +16,16 @@
     --settings-scrollbar-top: 12px;
     --settings-scrollbar-bottom: 18px;
 
+    --settings-dialog-header-fontcolor: rgb(23 32 42 / 62%);
+    --settings-toggle-active-color: rgb(23 32 42 / 62%);
+    --settings-option-fontcolor: rgb(96 96 96);
+    --settings-value-fontcolor: rgb(118 118 118);
+
+    --settings-back-icon-url: "";
+    --settings-chevron-right-icon-url: "";
+
+    -webkit-tap-highlight-color: transparent;
+
     font-family: "Orbitron", system-ui, sans-serif;
     font-weight: 700;
 
@@ -33,7 +43,7 @@
     border-radius: 24px;
 
     background: #f8f4ec80;
-    color: #17202a;
+    color: var(--settings-dialog-header-fontcolor);
 
     box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
 }
@@ -46,7 +56,7 @@
     z-index: 1;
 
     display: grid;
-    grid-template-columns: 48px 1fr 48px;
+    grid-template-columns: 54px 1fr 54px;
     align-items: center;
 
     height: var(--settings-dialog-header-height);
@@ -63,24 +73,75 @@
     align-items: center;
     justify-content: center;
 
-    width: 42px;
-    height: 42px;
+    width: 54px;
+    height: 54px;
 
     border: none;
-    border-radius: 999px;
+    border-radius: 16px;
+
+    outline: none;
 
     background: transparent;
-    color: inherit;
-
-    font-size: 1.7rem;
-    line-height: 1;
+    color: var(--settings-dialog-header-fontcolor);
 
     cursor: pointer;
+
+    transition:
+            background-color 120ms ease,
+            color 120ms ease,
+            transform 120ms ease;
 }
 
 .settings-dialog__back-button:hover,
 .settings-dialog__back-button:focus-visible {
-    background: rgb(23 32 42 / 8%);
+    background: rgb(23 32 42 / 10%);
+}
+
+.settings-dialog__back-button:active {
+    transform: scale(0.96);
+    background: rgb(23 32 42 / 16%);
+}
+
+.settings-dialog__back-icon {
+    width: 32px;
+    height: 32px;
+
+    display: block;
+
+    background-color: currentColor;
+
+    mask-image: var(--settings-back-icon-url);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+
+    -webkit-mask-image: var(--settings-back-icon-url);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+
+    pointer-events: none;
+}
+
+.settings-dialog__chevron-right-icon {
+    width: 32px;
+    height: 32px;
+
+    display: block;
+
+    background-color: currentColor;
+
+    mask-image: var(--settings-chevron-right-icon-url);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+
+    -webkit-mask-image: var(--settings-chevron-right-icon-url);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+
+    pointer-events: none;
 }
 
 .settings-dialog__title {
@@ -175,8 +236,10 @@
     border: none;
     border-bottom: 1px solid rgb(23 32 42 / 9%);
 
+    outline: none;
+
     background: transparent;
-    color: inherit;
+    color: var(--settings-option-fontcolor);
 
     text-align: left;
 
@@ -185,6 +248,15 @@
 
 .settings-row:last-child {
     border-bottom: none;
+}
+
+.settings-row--switch {
+    cursor: pointer;
+}
+
+.settings-row--switch:hover,
+.settings-row--switch:focus-within {
+    background: rgb(23 32 42 / 5%);
 }
 
 .settings-row--link {
@@ -203,7 +275,7 @@
 }
 
 .settings-row__title {
-    font-size: 1rem;
+    font-size: 1.5rem;
 
     /*font-weight: 650;*/
     font-weight: inherit;
@@ -212,7 +284,7 @@
 .settings-row__description,
 .settings-row__value,
 .settings-row__chevron {
-    color: rgb(23 32 42 / 62%);
+    color: var(--settings-value-fontcolor);
 }
 
 .settings-row__description {
@@ -221,18 +293,61 @@
 }
 
 .settings-row__value {
-    font-size: 0.95rem;
+    font-size: 1.6rem;
     white-space: nowrap;
 }
 
 .settings-row__chevron {
-    font-size: 1.45rem;
+    font-size: 2.45rem;
     line-height: 1;
 }
 
-.settings-switch {
-    width: 22px;
-    height: 22px;
+.settings-switch-control {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
     flex: 0 0 auto;
-    accent-color: #16365c;
+
+    color: var(--settings-dialog-header-fontcolor);
+}
+
+.settings-switch {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+
+    border: 0;
+
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+}
+
+.settings-switch-icon {
+    width: 48px;
+    height: 48px;
+
+    display: block;
+
+    color: var(--settings-dialog-header-fontcolor);
+
+    pointer-events: none;
+}
+
+.settings-switch-icon__knob {
+    fill: var(--settings-toggle-active-color);
+    /*stroke: var(--settings-toggle-active-color);*/
 }

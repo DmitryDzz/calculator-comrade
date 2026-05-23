@@ -31,6 +31,9 @@ const STATIC_ASSET_PATHS = [
     // "screenshots/screenshot-wide.png",
     // "screenshots/screenshot-narrow.png",
 
+    "assets/settings/arrow-left.svg",
+    "assets/settings/chevron-right.svg",
+
     "assets/calculator/body.webp",
 
     "assets/calculator/buttons/app_button_home.svg",
