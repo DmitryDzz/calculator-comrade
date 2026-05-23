@@ -118,13 +118,12 @@ export function SettingsDialog({
     };
 
     return (
-        <div className="settings-dialog-backdrop" role="presentation" onPointerDown={onClose}>
+        <div className="settings-dialog-backdrop" role="presentation">
             <section
                 className="settings-dialog"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="settings-dialog-title"
-                onPointerDown={(event) => event.stopPropagation()}
             >
                 <header className="settings-dialog__header">
                     <button
