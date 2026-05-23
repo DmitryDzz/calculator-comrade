@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
+import type { CalculatorAppActions } from "../../platforms/calculatorAppActions.ts";
 import {
     DEFAULT_CALCULATOR_APP_SETTINGS,
     type CalculatorAppSettings,

@@ -1,5 +1,5 @@
-import { assetUrl } from "../shared/assetUrl.ts";
-import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
+import { assetUrl } from "../../shared/assetUrl.ts";
+import type { CalculatorDisplaySnapshot } from "../../calculatorCore/calculatorWasmClient.ts";
 
 interface CalculatorDisplayProps {
         display: CalculatorDisplaySnapshot | null;

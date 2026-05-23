@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import CalculatorView from "../calculator/CalculatorView.tsx";
+import CalculatorView from "./calculator/CalculatorView.tsx";
 import { getCalculatorButtonCodeFromKeyboardEvent } from "../calculatorCore/calculatorKeyboardShortcuts.ts";
 import { useCalculatorCore } from "../calculatorCore/useCalculatorCore.ts";
 import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
-import { currentAppPlatform } from "./appPlatform.ts";
-import { createWebCalculatorAppActions } from "./webCalculatorAppActions.ts";
-import { createCalculatorAppButtonActions } from "../calculator/calculatorAppButtonActions.ts";
-import type { CalculatorAppActions } from "./calculatorAppActions.ts";
-import { useCalculatorAppSettings } from "../appSettings/useCalculatorAppSettings.ts";
-import { SettingsDialog } from "../settings/SettingsDialog.tsx";
+import { currentAppPlatform } from "../platforms/appPlatform.ts";
+import { createWebCalculatorAppActions } from "../platforms/web/webCalculatorAppActions.ts";
+import { createCalculatorAppButtonActions } from "./calculator/calculatorAppButtonActions.ts";
+import type { CalculatorAppActions } from "../platforms/calculatorAppActions.ts";
+import { useCalculatorAppSettings } from "./settings/useCalculatorAppSettings.ts";
+import { SettingsDialog } from "./settings/SettingsDialog.tsx";
 import { APP_VERSION } from "./appVersion.ts";
 
 export function CalculatorApp() {

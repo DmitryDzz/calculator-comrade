@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CALC_OPTIONS_DEFAULT } from "./calculatorConstants.ts";
 import { loadCalculatorModule } from "./calculatorModule.ts";
-import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
+import type { CalculatorAppActions } from "../platforms/calculatorAppActions.ts";
 import {
     type CalculatorDisplaySnapshot,
     CalculatorWasmClient,

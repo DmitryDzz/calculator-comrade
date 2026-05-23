@@ -1,4 +1,4 @@
-import { assetUrl } from "../shared/assetUrl.ts";
+import { assetUrl } from "../../shared/assetUrl.ts";
 import {
     CALC_BUTTON_CECA,
     CALC_BUTTON_CHANGESIGN,
@@ -24,8 +24,8 @@ import {
     CALC_BUTTON_PLUS,
     CALC_BUTTON_POINT,
     CALC_BUTTON_SQRT,
-} from "../calculatorCore/calculatorConstants.ts";
-import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
+} from "../../calculatorCore/calculatorConstants.ts";
+import type { CalculatorButtonCode } from "../../calculatorCore/calculatorWasmTypes.ts";
 import { CalculatorButton } from "./CalculatorButton.tsx";
 
 interface CalculatorKeyboardProps {

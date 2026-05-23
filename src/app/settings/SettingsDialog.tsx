@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
-import type { CalculatorAppSettings } from "../appSettings/calculatorAppSettings.ts";
-import { assetUrl } from "../shared/assetUrl.ts";
+import type { CalculatorAppActions } from "../../platforms/calculatorAppActions.ts";
+import type { CalculatorAppSettings } from "./calculatorAppSettings.ts";
+import { assetUrl } from "../../shared/assetUrl.ts";
 import * as React from "react";
 
 interface SettingsDialogProps {

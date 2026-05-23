@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import * as React from "react";
-import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
+import type { CalculatorButtonCode } from "../../calculatorCore/calculatorWasmTypes.ts";
 
 interface CalculatorButtonProps {
     className?: string;

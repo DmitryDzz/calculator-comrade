@@ -1,6 +1,6 @@
-import type { AppPlatform } from "../app/appPlatform.ts";
-import type { CalculatorAppActions } from "../app/calculatorAppActions.ts";
-import { assetUrl } from "../shared/assetUrl.ts";
+import type { AppPlatform } from "../../platforms/appPlatform.ts";
+import type { CalculatorAppActions } from "../../platforms/calculatorAppActions.ts";
+import { assetUrl } from "../../shared/assetUrl.ts";
 
 export type CalculatorAppButtonActionId =
     | "home"

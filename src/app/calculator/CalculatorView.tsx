@@ -1,4 +1,4 @@
-import { assetUrl } from "../shared/assetUrl.ts";
+import { assetUrl } from "../../shared/assetUrl.ts";
 import { useLayoutEffect, useRef, useState } from "react";
 import { CalculatorAppButtons } from "./CalculatorAppButtons.tsx";
 import { CalculatorDisplay } from "./CalculatorDisplay.tsx";
@@ -6,9 +6,9 @@ import { CalculatorKeyboard } from "./CalculatorKeyboard.tsx";
 import {
     CALCULATOR_BODY_HEIGHT,
     CALCULATOR_BODY_WIDTH,
-} from "../calculatorCore/calculatorGeometry.ts";
-import type { CalculatorDisplaySnapshot } from "../calculatorCore/calculatorWasmClient.ts";
-import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes.ts";
+} from "../../calculatorCore/calculatorGeometry.ts";
+import type { CalculatorDisplaySnapshot } from "../../calculatorCore/calculatorWasmClient.ts";
+import type { CalculatorButtonCode } from "../../calculatorCore/calculatorWasmTypes.ts";
 import type { CalculatorAppButtonAction } from "./calculatorAppButtonActions.ts";
 
 interface CalculatorViewProps {

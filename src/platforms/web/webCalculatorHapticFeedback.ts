@@ -1,4 +1,4 @@
-import type { CalculatorAppSettings } from "../appSettings/calculatorAppSettings.ts";
+import type { CalculatorAppSettings } from "../../app/settings/calculatorAppSettings.ts";
 
 type CalculatorHapticType =
     | "key-down"

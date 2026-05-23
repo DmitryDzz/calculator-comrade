@@ -1,11 +1,10 @@
-import type {
-    CalculatorSoundPlayer,
-    CalculatorSoundUrls,
-} from "./calculatorSoundFeedback.ts";
+export type WebCalculatorSoundUrls = Record<string, string>;
 
-export function createWebCalculatorSoundPlayer(
-    soundUrls: CalculatorSoundUrls,
-): CalculatorSoundPlayer {
+export interface WebCalculatorSoundPlayer {
+    playSound: (soundUrl: string) => void;
+}
+
+export function createWebCalculatorSoundPlayer(soundUrls: WebCalculatorSoundUrls): WebCalculatorSoundPlayer {
     const sounds = preloadSounds(soundUrls);
 
     return {
@@ -34,10 +33,10 @@ export function createWebCalculatorSoundPlayer(
     };
 }
 
-function preloadSounds(soundUrls: CalculatorSoundUrls): Map<string, HTMLAudioElement> {
+function preloadSounds(soundUrls: WebCalculatorSoundUrls): Map<string, HTMLAudioElement> {
     const sounds = new Map<string, HTMLAudioElement>();
 
-    for (const soundUrl of Object.values(soundUrls) as string[]) {
+    for (const soundUrl of Object.values(soundUrls)) {
         const sound = new Audio(soundUrl);
 
         sound.preload = "auto";

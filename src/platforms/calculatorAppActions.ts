@@ -1,4 +1,4 @@
-import type { CalculatorAppSettings } from "../appSettings/calculatorAppSettings.ts";
+import type { CalculatorAppSettings } from "../app/settings/calculatorAppSettings.ts";
 
 export type MaybePromise<T> = T | Promise<T>;
 
