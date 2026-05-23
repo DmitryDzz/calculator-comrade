@@ -455,3 +455,23 @@
     left: calc(880px + 544.20436px);
     top: calc(1560px - 1266.6582px);
 }
+
+@keyframes calculator-settings-gear-attention-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(240deg);
+    }
+}
+
+.calculator-app-button--settings .calculator-app-button__image {
+    transform-origin: center;
+    animation: calculator-settings-gear-attention-spin 2000ms cubic-bezier(0.16, 1, 0.3, 1) 700ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calculator-app-button--settings .calculator-app-button__image {
+        animation: none;
+    }
+}
