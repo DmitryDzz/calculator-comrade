@@ -53,6 +53,14 @@ function getCurrentPage(): SitePage {
     return "home";
 }
 
+function getPageLinkClassName(page: SitePage, currentPage: SitePage, baseClassName: string): string {
+    return page === currentPage ? `${baseClassName} ${baseClassName}--active` : baseClassName;
+}
+
+function getAriaCurrent(page: SitePage, currentPage: SitePage): "page" | undefined {
+    return page === currentPage ? "page" : undefined;
+}
+
 export function SiteApp() {
     const [currentPage, setCurrentPage] = useState(getCurrentPage);
 
@@ -71,11 +79,21 @@ export function SiteApp() {
             <header className="site-header">
                 <a className="site-title" href={routes.home}>Calculator Comrade</a>
                 <nav className="site-nav" aria-label="Main navigation">
-                    <a href={routes.calculator}>Calculator</a>
-                    <a href={routes.tips}>Tips & Tricks</a>
-                    <a href={routes.privacy}>Privacy Policy</a>
-                    <a href={routes.terms}>Terms of Use</a>
-                    <a href={routes.license}>License</a>
+                    <a
+                        className={getPageLinkClassName("home", currentPage, "site-nav__link")}
+                        aria-current={getAriaCurrent("home", currentPage)}
+                        href={routes.home}
+                    >
+                        Home
+                    </a>
+                    <a className="site-nav__link" href={routes.calculator}>Calculator</a>
+                    <a
+                        className={getPageLinkClassName("tips", currentPage, "site-nav__link")}
+                        aria-current={getAriaCurrent("tips", currentPage)}
+                        href={routes.tips}
+                    >
+                        Tips & Tricks
+                    </a>
                 </nav>
             </header>
 
@@ -86,6 +104,32 @@ export function SiteApp() {
                 {currentPage === "terms" && <TermsOfUsePage />}
                 {currentPage === "license" && <LicensePage />}
             </main>
+
+            <footer className="site-footer">
+                <nav className="site-footer__nav" aria-label="Legal navigation">
+                    <a
+                        className={getPageLinkClassName("privacy", currentPage, "site-footer__link")}
+                        aria-current={getAriaCurrent("privacy", currentPage)}
+                        href={routes.privacy}
+                    >
+                        Privacy Policy
+                    </a>
+                    <a
+                        className={getPageLinkClassName("terms", currentPage, "site-footer__link")}
+                        aria-current={getAriaCurrent("terms", currentPage)}
+                        href={routes.terms}
+                    >
+                        Terms of Use
+                    </a>
+                    <a
+                        className={getPageLinkClassName("license", currentPage, "site-footer__link")}
+                        aria-current={getAriaCurrent("license", currentPage)}
+                        href={routes.license}
+                    >
+                        License
+                    </a>
+                </nav>
+            </footer>
         </div>
     );
 }
