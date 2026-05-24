@@ -38,7 +38,9 @@ export function CalculatorAppButton({
         pointerPressedRef.current = false;
         setPointerPressed(false);
 
-        onPress();
+        window.setTimeout(() => {
+            onPress();
+        }, 0);
     }, [onPress]);
 
     return (
