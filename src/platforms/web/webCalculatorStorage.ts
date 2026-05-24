@@ -1,8 +1,8 @@
 import {type CalculatorAppSettings, DEFAULT_CALCULATOR_APP_SETTINGS} from "../../app/settings/calculatorAppSettings.ts";
 import {decodeBase64ToBytes, encodeBytesToBase64} from "../appPlatform.ts";
 
-const SETTINGS_STORAGE_KEY = "calculator-comrade.settings.v1";
-const CALCULATOR_DUMP_STORAGE_KEY = "calculator-comrade.calculator.dump.v1";
+const SETTINGS_STORAGE_KEY = "calculator-comrade.settings.v1.0";
+const CALCULATOR_DUMP_STORAGE_KEY = "calculator-comrade.calculator.dump.v1.0";
 
 export function loadCalculatorAppSettingsFromLocalStorage(): CalculatorAppSettings {
     try {
