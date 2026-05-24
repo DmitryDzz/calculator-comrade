@@ -346,3 +346,40 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+.home-page__calculator-variable {
+    white-space: nowrap;
+}
+.home-page__calculator-variable var {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+}
+
+.site-page .tips-table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.site-page .tips-table {
+    display: inline-table;
+
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+
+    margin: 1rem 0;
+
+    table-layout: auto;
+}
+
+.site-page .tips-table th,
+.site-page .tips-table td {
+    width: auto;
+    min-width: 0;
+
+    padding: 0.25rem 0.5rem;
+
+    line-height: 1.25;
+    white-space: nowrap;
+}
