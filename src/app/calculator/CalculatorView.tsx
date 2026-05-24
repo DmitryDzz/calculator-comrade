@@ -18,6 +18,7 @@ interface CalculatorViewProps {
     isButtonPressed: (buttonCode: CalculatorButtonCode) => boolean;
     appButtonActions: CalculatorAppButtonAction[];
     onAppButtonPressStart: () => void;
+    settingsButtonAttention: boolean;
 }
 
 function CalculatorView({
@@ -27,6 +28,7 @@ function CalculatorView({
     isButtonPressed,
     appButtonActions,
     onAppButtonPressStart,
+    settingsButtonAttention,
 }: CalculatorViewProps) {
     const shellRef = useRef<HTMLDivElement | null>(null);
     const [scale, setScale] = useState<number | null>(null);
@@ -82,6 +84,7 @@ function CalculatorView({
                         <CalculatorAppButtons
                             actions={appButtonActions}
                             onPressStart={onAppButtonPressStart}
+                            settingsButtonAttention={settingsButtonAttention}
                         />
                     </div>
                 )}

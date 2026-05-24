@@ -13,6 +13,9 @@ import { APP_VERSION } from "./appVersion.ts";
 import { routes } from "../shared/routes.ts";
 import { goBackOrReplace, navigateTo } from "../platforms/web/webNavigation.ts";
 
+
+const SETTINGS_BUTTON_ATTENTION_FALLBACK_MS = 2500;
+
 interface CalculatorAppProps {
     settingsDialogOpen: boolean;
 }
@@ -26,8 +29,10 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
     const appSettings = useCalculatorAppSettings(appActions);
     const [pressedKeyboardButtonCodes, setPressedKeyboardButtonCodes] =
         useState<CalculatorButtonCode[]>([]);
+    const [settingsButtonAttention, setSettingsButtonAttention] = useState(false);
 
     const activeKeyboardPressesRef = useRef<Map<string, CalculatorButtonCode>>(new Map());
+    const previousSettingsDialogOpenRef = useRef(settingsDialogOpen);
 
     const updatePressedKeyboardButtonCodes = useCallback(() => {
         setPressedKeyboardButtonCodes([
@@ -75,6 +80,32 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
     useEffect(() => {
         calculatorButtonPressRef.current = handleCalculatorButtonPress;
     }, [handleCalculatorButtonPress]);
+
+
+    useEffect(() => {
+        const wasSettingsDialogOpen = previousSettingsDialogOpenRef.current;
+        previousSettingsDialogOpenRef.current = settingsDialogOpen;
+        const timeoutIds: number[] = [];
+
+        if (settingsDialogOpen) {
+            timeoutIds.push(window.setTimeout(() => {
+                setSettingsButtonAttention(false);
+            }, 0));
+        } else if (wasSettingsDialogOpen) {
+            timeoutIds.push(window.setTimeout(() => {
+                setSettingsButtonAttention(true);
+            }, 0));
+            timeoutIds.push(window.setTimeout(() => {
+                setSettingsButtonAttention(false);
+            }, SETTINGS_BUTTON_ATTENTION_FALLBACK_MS));
+        }
+
+        return () => {
+            for (const timeoutId of timeoutIds) {
+                window.clearTimeout(timeoutId);
+            }
+        };
+    }, [settingsDialogOpen]);
 
     useEffect(() => {
         if (!settingsDialogOpen) {
@@ -163,6 +194,7 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
                 isButtonPressed={isButtonPressed}
                 appButtonActions={appButtonActions}
                 onAppButtonPressStart={handleAppButtonPressStart}
+                settingsButtonAttention={settingsButtonAttention}
             />
 
             {settingsDialogOpen && (

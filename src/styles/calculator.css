@@ -465,13 +465,13 @@
     }
 }
 
-.calculator-app-button--settings .calculator-app-button__image {
+.calculator-app-button--settings.calculator-app-button--attention .calculator-app-button__image {
     transform-origin: center;
-    animation: calculator-settings-gear-attention-spin 2000ms cubic-bezier(0.16, 1, 0.3, 1) 70ms both;
+    animation: calculator-settings-gear-attention-spin 2000ms cubic-bezier(0.16, 1, 0.3, 1) 70ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .calculator-app-button--settings .calculator-app-button__image {
+    .calculator-app-button--settings.calculator-app-button--attention .calculator-app-button__image {
         animation: none;
     }
 }

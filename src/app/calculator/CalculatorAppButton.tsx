@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 
 interface CalculatorAppButtonProps {
@@ -10,16 +10,27 @@ interface CalculatorAppButtonProps {
 }
 
 export function CalculatorAppButton({
-                                        className,
-                                        ariaLabel,
-                                        src,
-                                        onPressStart,
-                                        onPress,
-                                    }: CalculatorAppButtonProps) {
+    className,
+    ariaLabel,
+    src,
+    onPressStart,
+    onPress,
+}: CalculatorAppButtonProps) {
     const [pointerPressed, setPointerPressed] = useState(false);
 
     const activePointerIdRef = useRef<number | null>(null);
     const pointerPressedRef = useRef(false);
+    const pendingPressTimeoutRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (pendingPressTimeoutRef.current === null) {
+                return;
+            }
+
+            window.clearTimeout(pendingPressTimeoutRef.current);
+        };
+    }, []);
 
     const cancelPress = useCallback(() => {
         if (!pointerPressedRef.current) {
@@ -38,7 +49,12 @@ export function CalculatorAppButton({
         pointerPressedRef.current = false;
         setPointerPressed(false);
 
-        window.setTimeout(() => {
+        if (pendingPressTimeoutRef.current !== null) {
+            window.clearTimeout(pendingPressTimeoutRef.current);
+        }
+
+        pendingPressTimeoutRef.current = window.setTimeout(() => {
+            pendingPressTimeoutRef.current = null;
             onPress();
         }, 0);
     }, [onPress]);
