@@ -10,12 +10,16 @@ import type { CalculatorAppActions } from "../platforms/calculatorAppActions.ts"
 import { useCalculatorAppSettings } from "./settings/useCalculatorAppSettings.ts";
 import { SettingsDialog } from "./settings/SettingsDialog.tsx";
 import { APP_VERSION } from "./appVersion.ts";
+import { routes } from "../shared/routes.ts";
+import { goBackOrReplace, navigateTo } from "../platforms/web/webNavigation.ts";
 
-export function CalculatorApp() {
-    const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+interface CalculatorAppProps {
+    settingsDialogOpen: boolean;
+}
 
+export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
     const appActions = useMemo<CalculatorAppActions>(() => createWebCalculatorAppActions({
-        openSettings: () => setSettingsDialogOpen(true),
+        openSettings: () => navigateTo(routes.calculatorSettings),
     }), []);
 
     const calculator = useCalculatorCore(appActions);
@@ -170,7 +174,7 @@ export function CalculatorApp() {
                     coreVersion={calculator.coreVersion}
                     onSoundEnabledChange={appSettings.setSoundEnabled}
                     onVibrationEnabledChange={appSettings.setVibrationEnabled}
-                    onClose={() => setSettingsDialogOpen(false)}
+                    onClose={() => goBackOrReplace(routes.calculator)}
                 />
             )}
         </main>

@@ -1,18 +1,33 @@
+import { useEffect, useState } from "react";
 import { CalculatorApp } from "../app/CalculatorApp.tsx";
 import { routes } from "../shared/routes.ts";
+import { subscribeToNavigationChanges } from "../platforms/web/webNavigation.ts";
 import { HomePage } from "./pages/HomePage.tsx";
 import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
 import { LicensePage } from "./pages/LicensePage.tsx";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage.tsx";
 import { TermsOfUsePage } from "./pages/TermsOfUsePage.tsx";
 
-function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "terms" | "license" {
+type SitePage =
+    | "home"
+    | "calculator"
+    | "calculatorSettings"
+    | "tips"
+    | "privacy"
+    | "terms"
+    | "license";
+
+function getCurrentPage(): SitePage {
     const baseUrl = import.meta.env.BASE_URL;
     const basePath = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
     let path = window.location.pathname;
 
     if (basePath !== "/" && path.startsWith(basePath)) {
         path = `/${path.slice(basePath.length)}`;
+    }
+
+    if (path === "/calculator/settings" || path === "/calculator/settings/") {
+        return "calculatorSettings";
     }
 
     if (path === "/calculator" || path === "/calculator/") {
@@ -39,10 +54,16 @@ function getCurrentPage(): "home" | "calculator" | "tips" | "privacy" | "terms" 
 }
 
 export function SiteApp() {
-    const currentPage = getCurrentPage();
+    const [currentPage, setCurrentPage] = useState(getCurrentPage);
 
-    if (currentPage === "calculator") {
-        return <CalculatorApp />;
+    useEffect(() => {
+        return subscribeToNavigationChanges(() => {
+            setCurrentPage(getCurrentPage());
+        });
+    }, []);
+
+    if (currentPage === "calculator" || currentPage === "calculatorSettings") {
+        return <CalculatorApp settingsDialogOpen={currentPage === "calculatorSettings"} />;
     }
 
     return (

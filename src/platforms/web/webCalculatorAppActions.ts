@@ -3,6 +3,7 @@ import {createWebCalculatorSoundPlayer, type WebCalculatorSoundPlayer} from "./w
 import { createWebCalculatorHapticFeedback } from "./webCalculatorHapticFeedback.ts";
 import { assetUrl } from "../../shared/assetUrl.ts";
 import { routes } from "../../shared/routes.ts";
+import { navigateTo } from "./webNavigation.ts";
 import type { CalculatorAppActions } from "../calculatorAppActions.ts";
 import {
     clearCalculatorDumpInLocalStorage,
@@ -36,11 +37,11 @@ export function createWebCalculatorAppActions(
 
     return {
         openHome: () => {
-            window.location.assign(routes.home);
+            navigateTo(routes.home);
         },
 
         openHelp: () => {
-            window.location.assign(routes.tips);
+            navigateTo(routes.tips);
         },
 
         openSettings: options.openSettings ?? (() => {
@@ -50,15 +51,15 @@ export function createWebCalculatorAppActions(
         }),
 
         openLicense: () => {
-            window.location.assign(routes.license);
+            navigateTo(routes.license);
         },
 
         openPrivacyPolicy: () => {
-            window.location.assign(routes.privacy);
+            navigateTo(routes.privacy);
         },
 
         openTermsOfUse: () => {
-            window.location.assign(routes.terms);
+            navigateTo(routes.terms);
         },
 
         isVibrationAvailable: () => {

@@ -112,8 +112,7 @@ export function SettingsDialog({
         };
     }, [vibrationAvailable]);
 
-    const openAfterClose = (open: () => void) => {
-        onClose();
+    const openDocument = (open: () => void) => {
         open();
     };
 
@@ -167,15 +166,15 @@ export function SettingsDialog({
                     <div className="settings-group" aria-label="Documents">
                         <SettingLink
                             title="License"
-                            onClick={() => openAfterClose(appActions.openLicense)}
+                            onClick={() => openDocument(appActions.openLicense)}
                         />
                         <SettingLink
                             title="Privacy Policy"
-                            onClick={() => openAfterClose(appActions.openPrivacyPolicy)}
+                            onClick={() => openDocument(appActions.openPrivacyPolicy)}
                         />
                         <SettingLink
                             title="Terms of Use"
-                            onClick={() => openAfterClose(appActions.openTermsOfUse)}
+                            onClick={() => openDocument(appActions.openTermsOfUse)}
                         />
                     </div>
 
