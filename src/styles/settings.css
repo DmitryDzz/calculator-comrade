@@ -1,4 +1,6 @@
 .settings-dialog-backdrop {
+    --settings-backdrop-background: rgb(0 0 0 / 54%);
+
     position: fixed;
     inset: 0;
     z-index: 100;
@@ -8,24 +10,30 @@
     justify-content: center;
 
     background: var(--settings-backdrop-background);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(0.1875rem);
 }
 
 .settings-dialog {
-    --settings-dialog-header-height: 80px;
-    --settings-scrollbar-top: 12px;
-    --settings-scrollbar-bottom: 18px;
+    --settings-dialog-header-height: 5em;
+    --settings-dialog-content-gap: 1.125em;
+    --settings-dialog-content-padding-top: 1.125em;
+    --settings-dialog-content-padding-right: 1.375em;
+    --settings-dialog-content-padding-bottom: 1.125em;
+    --settings-dialog-content-padding-left: 1.125em;
+
+    --settings-scrollbar-top: 0.75em;
+    --settings-scrollbar-right: 0.375em;
+    --settings-scrollbar-bottom: 1.125em;
+    --settings-scrollbar-width: 0.25em;
 
     --settings-back-icon-url: "";
     --settings-chevron-right-icon-url: "";
 
     --settings-primary-color: rgb(96 96 96);
 
-    --settings-backdrop-background: rgb(0 0 0 / 54%);
-
     --settings-dialog-background: rgb(248 244 236 / 50%);
     --settings-dialog-border-color: rgb(255 255 255 / 14%);
-    --settings-dialog-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+    --settings-dialog-shadow: 0 1.5em 5em rgb(0 0 0 / 45%);
 
     --settings-header-background: rgb(248 244 236 / 40%);
     --settings-hairline-color: rgb(23 32 42 / 10%);
@@ -48,6 +56,15 @@
     -webkit-tap-highlight-color: transparent;
 
     font-family: "Orbitron", system-ui, sans-serif;
+    /*
+     * The whole settings layout is expressed in em units.
+     * Therefore this font-size is the dialog scale.
+     * It must follow the actual calculator/dialog width, not the viewport width:
+     * in very narrow/tall windows the calculator is constrained by height and can
+     * become much narrower than 100vw.
+     */
+    font-size: clamp(0.25rem, calc(var(--calculator-shell-width) / 22), 1.4rem);
+
     font-weight: 700;
 
     position: relative;
@@ -60,8 +77,8 @@
 
     overflow: hidden;
 
-    border: 1px solid var(--settings-dialog-border-color);
-    border-radius: 24px;
+    border: 0.0625em solid var(--settings-dialog-border-color);
+    border-radius: 0.9em;
 
     background: var(--settings-dialog-background);
     color: var(--settings-primary-color);
@@ -77,16 +94,16 @@
     z-index: 1;
 
     display: grid;
-    grid-template-columns: 54px 1fr 54px;
+    grid-template-columns: 3.375em 1fr 3.375em;
     align-items: center;
 
     height: var(--settings-dialog-header-height);
     min-height: var(--settings-dialog-header-height);
-    padding: 8px 12px;
+    padding: 0.5em 0.75em;
 
-    border-bottom: 1px solid var(--settings-hairline-color);
+    border-bottom: 0.0625em solid var(--settings-hairline-color);
     background: var(--settings-header-background);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(0.625em);
 }
 
 .settings-dialog__back-button {
@@ -94,11 +111,11 @@
     align-items: center;
     justify-content: center;
 
-    width: 54px;
-    height: 54px;
+    width: 3.375em;
+    height: 3.375em;
 
     border: none;
-    border-radius: 16px;
+    border-radius: 0.7em;
 
     outline: none;
 
@@ -125,8 +142,8 @@
 
 .settings-dialog__back-icon,
 .settings-dialog__chevron-right-icon {
-    width: 32px;
-    height: 32px;
+    width: 2em;
+    height: 2em;
 
     display: block;
 
@@ -153,11 +170,15 @@
     -webkit-mask-image: var(--settings-chevron-right-icon-url);
 }
 
-.settings-dialog__title {
+.settings-dialog .settings-dialog__title {
+    min-width: 0;
     margin: 0;
 
-    font-size: 1.2rem;
+    color: var(--settings-dialog-header-fontcolor);
+
+    font-size: 2.2em;
     font-weight: inherit;
+    line-height: 1.1;
 
     text-align: center;
 }
@@ -165,7 +186,7 @@
 .settings-dialog__content {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: var(--settings-dialog-content-gap);
 
     flex: 0 1 auto;
     min-height: 0;
@@ -175,7 +196,11 @@
     overscroll-behavior: contain;
     scrollbar-width: none;
 
-    padding: 18px 22px 18px 18px;
+    padding:
+            var(--settings-dialog-content-padding-top)
+            var(--settings-dialog-content-padding-right)
+            var(--settings-dialog-content-padding-bottom)
+            var(--settings-dialog-content-padding-left);
 }
 
 .settings-dialog__content::-webkit-scrollbar {
@@ -186,16 +211,16 @@
 .settings-dialog__scrollbar {
     position: absolute;
 
-    right: 6px;
+    right: var(--settings-scrollbar-right);
     top: calc(var(--settings-dialog-header-height) + var(--settings-scrollbar-top));
     bottom: var(--settings-scrollbar-bottom);
-    width: 4px;
+    width: var(--settings-scrollbar-width);
 
     z-index: 2;
 
     overflow: hidden;
 
-    border-radius: 999px;
+    border-radius: 999em;
 
     background: var(--settings-scrollbar-track-background);
     pointer-events: none;
@@ -215,7 +240,7 @@
 
     width: 100%;
 
-    border-radius: 999px;
+    border-radius: 999em;
     background: var(--settings-scrollbar-thumb-background);
 }
 
@@ -224,8 +249,8 @@
 
     overflow: hidden;
 
-    border: 1px solid var(--settings-hairline-color);
-    border-radius: 18px;
+    border: 0.0625em solid var(--settings-hairline-color);
+    border-radius: 0.7em;
 
     background: var(--settings-group-background);
 }
@@ -234,14 +259,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
+    gap: 1.125em;
 
     width: 100%;
-    min-height: 64px;
-    padding: 14px 16px;
+    min-height: 4em;
+    padding: 0.875em 1em;
 
     border: none;
-    border-bottom: 1px solid var(--settings-hairline-color);
+    border-bottom: 0.0625em solid var(--settings-hairline-color);
 
     outline: none;
 
@@ -278,12 +303,17 @@
 .settings-row__text {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 0.1875em;
+
+    min-width: 0;
 }
 
 .settings-row__title {
-    font-size: 1.5rem;
+    min-width: 0;
+
+    font-size: 1.5em;
     font-weight: inherit;
+    line-height: 1.15;
 }
 
 .settings-row__description,
@@ -293,17 +323,23 @@
 }
 
 .settings-row__description {
-    font-size: 0.88rem;
+    font-size: 0.88em;
     line-height: 1.35;
 }
 
 .settings-row__value {
-    font-size: 1.6rem;
+    min-width: 0;
+
+    overflow: hidden;
+
+    font-size: 1.6em;
+    line-height: 1.15;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .settings-row__chevron {
-    font-size: 2.45rem;
+    font-size: 2.45em;
     line-height: 1;
 }
 
@@ -314,8 +350,8 @@
     align-items: center;
     justify-content: center;
 
-    width: 48px;
-    height: 48px;
+    width: 3em;
+    height: 3em;
 
     flex: 0 0 auto;
 
@@ -325,10 +361,10 @@
 .settings-switch {
     position: absolute;
 
-    width: 1px;
-    height: 1px;
+    width: 0.0625em;
+    height: 0.0625em;
 
-    margin: -1px;
+    margin: -0.0625em;
     padding: 0;
 
     overflow: hidden;
@@ -342,8 +378,8 @@
 }
 
 .settings-switch-icon {
-    width: 48px;
-    height: 48px;
+    width: 3em;
+    height: 3em;
 
     display: block;
 

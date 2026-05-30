@@ -79,8 +79,11 @@ export function SettingsDialog({
 
             const trackHeight = track.clientHeight;
 
+            const fontSize = Number.parseFloat(window.getComputedStyle(content).fontSize);
+            const minThumbHeight = Number.isFinite(fontSize) ? fontSize * 1.75 : 28;
+
             const thumbHeight = Math.max(
-                28,
+                minThumbHeight,
                 (clientHeight / scrollHeight) * trackHeight,
             );
 
