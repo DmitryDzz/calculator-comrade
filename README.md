@@ -23,3 +23,17 @@ See [AUTHORS.md](AUTHORS.md).
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+# TODO
+
+## Linux desktop build
+
+Prepare host machine...
+
+### Dependencies
+
+### Build x86_64
+
+### Build arm64
+
+### Output packages

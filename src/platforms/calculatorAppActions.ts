@@ -1,6 +1,24 @@
 import type { CalculatorAppSettings } from "../app/settings/calculatorAppSettings.ts";
+import {assetUrl} from "../shared/assetUrl.ts";
 
 export type MaybePromise<T> = T | Promise<T>;
+
+export interface CreateCalculatorAppActionsOptions {
+    openSettings?: () => void;
+}
+
+export type CalculatorSoundType =
+    | "key-down"
+    | "key-up"
+    | "tap";
+
+export type CalculatorSoundUrls = Record<CalculatorSoundType, string>;
+
+export const WEB_CALCULATOR_SOUND_URLS: CalculatorSoundUrls = {
+    "key-down": assetUrl("sounds/key-down.ogg"),
+    "key-up": assetUrl("sounds/key-up.ogg"),
+    "tap": assetUrl("sounds/tap.ogg"),
+};
 
 export interface CalculatorAppActions {
     openHome: () => void;

@@ -2,6 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => ({
-  base: mode === "pages" ? "/calculator-comrade/" : "/",
-  plugins: [react()],
+    base:
+        mode === "pages"
+            ? "/calculator-comrade/"
+            : mode === "desktop"
+                ? "./"
+                : "/",
+    plugins: [react()],
 }));

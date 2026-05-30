@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CalculatorApp } from "../app/CalculatorApp.tsx";
 import { routes } from "../shared/routes.ts";
 import { subscribeToNavigationChanges } from "../platforms/web/webNavigation.ts";
+import { isStandaloneApp } from "../platforms/appEnvironment.ts";
 import { HomePage } from "./pages/HomePage.tsx";
 import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
 import { LicensePage } from "./pages/LicensePage.tsx";
@@ -61,16 +62,34 @@ function getAriaCurrent(page: SitePage, currentPage: SitePage): "page" | undefin
     return page === currentPage ? "page" : undefined;
 }
 
+function isStandalonePage(page: SitePage): boolean {
+    return page === "calculator" || page === "calculatorSettings";
+}
+
+function getCurrentAppPage(): SitePage {
+    const currentPage = getCurrentPage();
+
+    if (!isStandaloneApp) {
+        return currentPage;
+    }
+
+    if (currentPage === "calculator" || currentPage === "calculatorSettings") {
+        return currentPage;
+    }
+
+    return "calculator";
+}
+
 export function SiteApp() {
-    const [currentPage, setCurrentPage] = useState(getCurrentPage);
+    const [currentPage, setCurrentPage] = useState(getCurrentAppPage);
 
     useEffect(() => {
         return subscribeToNavigationChanges(() => {
-            setCurrentPage(getCurrentPage());
+            setCurrentPage(getCurrentAppPage());
         });
     }, []);
 
-    if (currentPage === "calculator" || currentPage === "calculatorSettings") {
+    if (isStandalonePage(currentPage)) {
         return <CalculatorApp settingsDialogOpen={currentPage === "calculatorSettings"} />;
     }
 

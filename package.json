@@ -6,9 +6,14 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --mode pages && node scripts/create-404.js",
+    "build:desktop": "tsc -b && vite build --mode desktop",
     "lint": "eslint .",
     "dev": "vite",
-    "preview": "vite preview"
+    "dev:desktop": "vite --mode desktop",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
   "dependencies": {
     "@fontsource/orbitron": "^5.2.8",
@@ -17,6 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

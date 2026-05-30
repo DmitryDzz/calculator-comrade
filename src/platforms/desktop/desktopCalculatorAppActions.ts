@@ -1,33 +1,40 @@
-import {type CalculatorAppSettings} from "../../app/settings/calculatorAppSettings.ts";
-import {createWebCalculatorSoundPlayer, type WebCalculatorSoundPlayer} from "./webCalculatorSoundPlayer.ts";
-import { createWebCalculatorHapticFeedback } from "./webCalculatorHapticFeedback.ts";
-import { routes } from "../../shared/routes.ts";
-import { navigateTo } from "./webNavigation.ts";
+import type { CalculatorAppSettings } from "../../app/settings/calculatorAppSettings.ts";
 import {
-    type CalculatorAppActions, type CalculatorSoundType,
+    type CalculatorAppActions,
+    type CalculatorSoundType,
     type CreateCalculatorAppActionsOptions,
-    WEB_CALCULATOR_SOUND_URLS
+    WEB_CALCULATOR_SOUND_URLS,
 } from "../calculatorAppActions.ts";
 import {
+    createWebCalculatorSoundPlayer,
+    type WebCalculatorSoundPlayer,
+} from "../web/webCalculatorSoundPlayer.ts";
+import {
     clearCalculatorDumpInLocalStorage,
-    loadCalculatorAppSettingsFromLocalStorage, loadCalculatorDumpFromLocalStorage,
-    saveCalculatorAppSettingsToLocalStorage, saveCalculatorDumpToLocalStorage
-} from "./webCalculatorStorage.ts";
+    loadCalculatorAppSettingsFromLocalStorage,
+    loadCalculatorDumpFromLocalStorage,
+    saveCalculatorAppSettingsToLocalStorage,
+    saveCalculatorDumpToLocalStorage,
+} from "./desktopCalculatorStorage.ts";
 
-export function createWebCalculatorAppActions(
+export function createDesktopCalculatorAppActions(
     options: CreateCalculatorAppActionsOptions = {},
 ): CalculatorAppActions {
     let settings = loadCalculatorAppSettingsFromLocalStorage();
     const soundPlayer = createWebCalculatorSoundPlayer(WEB_CALCULATOR_SOUND_URLS);
-    const hapticFeedback = createWebCalculatorHapticFeedback(settings);
 
     return {
         openHome: () => {
-            navigateTo(routes.home);
+            /*
+             * In the desktop shell, site pages should be opened in the system
+             * browser later through a platform-specific external-link action.
+             */
         },
 
         openHelp: () => {
-            navigateTo(routes.tips);
+            /*
+             * In the desktop shell, help should be opened in the system browser later.
+             */
         },
 
         openSettings: options.openSettings ?? (() => {
@@ -37,38 +44,41 @@ export function createWebCalculatorAppActions(
         }),
 
         openLicense: () => {
-            navigateTo(routes.license);
+            /*
+             * Open externally later through the desktop platform layer.
+             */
         },
 
         openPrivacyPolicy: () => {
-            navigateTo(routes.privacy);
+            /*
+             * Open externally later through the desktop platform layer.
+             */
         },
 
         openTermsOfUse: () => {
-            navigateTo(routes.terms);
+            /*
+             * Open externally later through the desktop platform layer.
+             */
         },
 
-        isVibrationAvailable: () => {
-            return (
-                typeof navigator !== "undefined" &&
-                typeof navigator.vibrate === "function" &&
-                isMobileLikeBrowser()
-            );
-        },
+        isVibrationAvailable: () => false,
 
         vibrateCalculatorButtonDown: () => {
-            hapticFeedback.vibrateCalculatorButtonDown();
+            /*
+             * Desktop shell has no haptic feedback.
+             */
         },
 
         vibrateAppButtonTap: () => {
-            hapticFeedback.vibrateAppButtonTap();
+            /*
+             * Desktop shell has no haptic feedback.
+             */
         },
 
         loadSettings: () => loadCalculatorAppSettingsFromLocalStorage(),
 
         saveSettings: (nextSettings: CalculatorAppSettings) => {
             settings = nextSettings;
-            hapticFeedback.setSettings(nextSettings);
             saveCalculatorAppSettingsToLocalStorage(nextSettings);
         },
 
@@ -99,20 +109,14 @@ export function createWebCalculatorAppActions(
 
         rateApp: () => {
             /*
-             * The web app is not distributed through an app store.
+             * Desktop shell is not distributed through an app store yet.
              */
         },
 
         shareApp: () => {
-            if (!navigator.share) {
-                return;
-            }
-
-            void navigator.share({
-                title: "Calculator Comrade",
-                text: "A free calculator with no ads and no in-app purchases.",
-                url: routes.home,
-            });
+            /*
+             * Desktop sharing can be added later through a platform-specific layer.
+             */
         },
     };
 }
@@ -127,20 +131,4 @@ function playSoundIfEnabled(
     }
 
     soundPlayer.playSound(WEB_CALCULATOR_SOUND_URLS[soundType]);
-}
-
-function isMobileLikeBrowser(): boolean {
-    const navigatorLike = navigator as Navigator & {
-        userAgentData?: {
-            mobile?: boolean;
-        };
-    };
-
-    // Chromium-based browsers: Chrome, Edge, Android WebView, etc.
-    if (typeof navigatorLike.userAgentData?.mobile === "boolean") {
-        return navigatorLike.userAgentData.mobile;
-    }
-
-    // Fallback for browsers without User-Agent Client Hints.
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }

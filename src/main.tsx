@@ -7,6 +7,7 @@ import "./styles/calculator.css";
 import "./styles/site.css";
 import "./styles/settings.css";
 import { registerServiceWorker } from "./registerServiceWorker.ts";
+import { isStandaloneApp } from "./platforms/appEnvironment.ts";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -14,6 +15,6 @@ createRoot(document.getElementById("root")!).render(
     </StrictMode>,
 );
 
-if (import.meta.env.PROD) {
+if (import.meta.env.PROD && !isStandaloneApp) {
     registerServiceWorker();
 }
