@@ -25,6 +25,7 @@ export function SettingsDialog({
     onVibrationEnabledChange,
     onClose,
 }: SettingsDialogProps) {
+    const dialogRef = useRef<HTMLElement | null>(null);
     const contentRef = useRef<HTMLDivElement | null>(null);
     const scrollbarTrackRef = useRef<HTMLDivElement | null>(null);
     const [scrollbarState, setScrollbarState] = useState({
@@ -32,6 +33,43 @@ export function SettingsDialog({
         thumbHeight: 0,
         thumbTop: 0,
     });
+
+    const [dialogFontSize, setDialogFontSize] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        const dialog = dialogRef.current;
+
+        if (!dialog) {
+            return undefined;
+        }
+
+        const updateDialogFontSize = () => {
+            const width = dialog.getBoundingClientRect().width;
+
+            const minFontSize = 4;      // 0.25rem при root 16px
+            const maxFontSize = 18.4;   // 1.15rem при root 16px
+            const preferredFontSize = width / 28;
+
+            const nextFontSize = Math.min(
+                maxFontSize,
+                Math.max(minFontSize, preferredFontSize),
+            );
+
+            setDialogFontSize(`${nextFontSize}px`);
+        };
+
+        updateDialogFontSize();
+
+        const resizeObserver = new ResizeObserver(updateDialogFontSize);
+        resizeObserver.observe(dialog);
+
+        window.addEventListener("resize", updateDialogFontSize);
+
+        return () => {
+            window.removeEventListener("resize", updateDialogFontSize);
+            resizeObserver.disconnect();
+        };
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -122,10 +160,14 @@ export function SettingsDialog({
     return (
         <div className="settings-dialog-backdrop" role="presentation">
             <section
+                ref={dialogRef}
                 className="settings-dialog"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="settings-dialog-title"
+                style={{
+                    fontSize: dialogFontSize,
+                }}
             >
                 <header className="settings-dialog__header">
                     <button

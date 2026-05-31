@@ -57,13 +57,11 @@
 
     font-family: "Orbitron", system-ui, sans-serif;
     /*
-     * The whole settings layout is expressed in em units.
-     * Therefore this font-size is the dialog scale.
-     * It must follow the actual calculator/dialog width, not the viewport width:
-     * in very narrow/tall windows the calculator is constrained by height and can
-     * become much narrower than 100vw.
+     * Fallback only. The actual Settings scale is set from SettingsDialog.tsx
+     * using the measured dialog width. The whole dialog layout is expressed
+     * in em units, so this single font-size controls the internal scale.
      */
-    font-size: clamp(0.25rem, calc(var(--calculator-shell-width) / 22), 1.4rem);
+    font-size: 1rem;
 
     font-weight: 700;
 
