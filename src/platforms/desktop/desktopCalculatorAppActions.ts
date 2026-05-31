@@ -3,12 +3,8 @@ import {
     type CalculatorAppActions,
     type CalculatorSoundType,
     type CreateCalculatorAppActionsOptions,
-    WEB_CALCULATOR_SOUND_URLS,
 } from "../calculatorAppActions.ts";
-import {
-    createWebCalculatorSoundPlayer,
-    type WebCalculatorSoundPlayer,
-} from "../web/webCalculatorSoundPlayer.ts";
+import { createDesktopCalculatorSoundPlayer } from "./desktopCalculatorSoundPlayer.ts";
 import {
     clearCalculatorDumpInLocalStorage,
     loadCalculatorAppSettingsFromLocalStorage,
@@ -21,7 +17,7 @@ export function createDesktopCalculatorAppActions(
     options: CreateCalculatorAppActionsOptions = {},
 ): CalculatorAppActions {
     let settings = loadCalculatorAppSettingsFromLocalStorage();
-    const soundPlayer = createWebCalculatorSoundPlayer(WEB_CALCULATOR_SOUND_URLS);
+    const soundPlayer = createDesktopCalculatorSoundPlayer();
 
     return {
         openHome: () => {
@@ -123,12 +119,12 @@ export function createDesktopCalculatorAppActions(
 
 function playSoundIfEnabled(
     settings: CalculatorAppSettings,
-    soundPlayer: WebCalculatorSoundPlayer,
+    soundPlayer: ReturnType<typeof createDesktopCalculatorSoundPlayer>,
     soundType: CalculatorSoundType,
 ): void {
     if (!settings.soundEnabled) {
         return;
     }
 
-    soundPlayer.playSound(WEB_CALCULATOR_SOUND_URLS[soundType]);
+    soundPlayer.playSound(soundType);
 }

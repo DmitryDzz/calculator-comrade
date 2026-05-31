@@ -24,16 +24,67 @@ See [AUTHORS.md](AUTHORS.md).
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-# TODO
-
 ## Linux desktop build
 
-Prepare host machine...
+The desktop shell is built with Tauri. The frontend is still built by Vite,
+but desktop builds use `desktop` mode and native Rust commands for platform
+integration such as sound playback.
 
 ### Dependencies
 
+On Ubuntu 24.04, install the Tauri build dependencies and ALSA development
+files required by the native desktop sound backend:
+
+```bash
+sudo apt update
+sudo apt install \
+  build-essential \
+  curl \
+  wget \
+  file \
+  libssl-dev \
+  libgtk-3-dev \
+  libayatana-appindicator3-dev \
+  librsvg2-dev \
+  patchelf \
+  pkg-config \
+  libwebkit2gtk-4.1-dev \
+  libasound2-dev
+```
+
+On Ubuntu 24.04 and newer, the runtime ALSA package is usually
+`libasound2t64`. On Ubuntu 22.04 and older, it is usually `libasound2`.
+The Debian package metadata declares the dependency as
+`libasound2 | libasound2t64` to support both families.
+
+### Development
+
+```bash
+npm install
+npm run tauri:dev
+```
+
 ### Build x86_64
+
+```bash
+npm run tauri:build
+```
 
 ### Build arm64
 
+For now, prefer building on an actual arm64 Linux machine or arm64 CI runner.
+Cross-compilation is possible, but it needs matching WebKitGTK, OpenSSL and
+ALSA development packages for the target architecture.
+
 ### Output packages
+
+Linux packages are generated under:
+
+```text
+src-tauri/target/release/bundle/deb/
+src-tauri/target/release/bundle/appimage/
+```
+
+The `.deb` package includes Debian dependency metadata for ALSA runtime
+libraries. AppImage does not have Debian dependency metadata; it still expects
+the host system to provide a working Linux audio stack.
