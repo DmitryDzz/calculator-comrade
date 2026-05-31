@@ -9,7 +9,7 @@
     "build:desktop": "tsc -b && vite build --mode desktop",
     "lint": "eslint .",
     "dev": "vite",
-    "dev:desktop": "vite --mode desktop",
+    "dev:desktop": "vite --mode desktop --host 127.0.0.1 --port 5174 --strictPort",
     "preview": "vite preview",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
