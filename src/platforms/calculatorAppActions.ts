@@ -15,9 +15,9 @@ export type CalculatorSoundType =
 export type CalculatorSoundUrls = Record<CalculatorSoundType, string>;
 
 export const WEB_CALCULATOR_SOUND_URLS: CalculatorSoundUrls = {
-    "key-down": assetUrl("sounds/key-down.ogg"),
-    "key-up": assetUrl("sounds/key-up.ogg"),
-    "tap": assetUrl("sounds/tap.ogg"),
+    "key-down": assetUrl("sounds/key-down.wav"),
+    "key-up": assetUrl("sounds/key-up.wav"),
+    "tap": assetUrl("sounds/tap.wav"),
 };
 
 export interface CalculatorAppActions {
