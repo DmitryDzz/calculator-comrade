@@ -26,9 +26,6 @@
     --settings-scrollbar-bottom: 1.125em;
     --settings-scrollbar-width: 0.25em;
 
-    --settings-back-icon-url: "";
-    --settings-chevron-right-icon-url: "";
-
     --settings-primary-color: rgb(96 96 96);
 
     --settings-dialog-background: rgb(248 244 236 / 50%);
@@ -145,27 +142,9 @@
 
     display: block;
 
-    background-color: currentColor;
-
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    -webkit-mask-size: contain;
+    color: currentColor;
 
     pointer-events: none;
-}
-
-.settings-dialog__back-icon {
-    mask-image: var(--settings-back-icon-url);
-    -webkit-mask-image: var(--settings-back-icon-url);
-}
-
-.settings-dialog__chevron-right-icon {
-    mask-image: var(--settings-chevron-right-icon-url);
-    -webkit-mask-image: var(--settings-chevron-right-icon-url);
 }
 
 .settings-dialog .settings-dialog__title {

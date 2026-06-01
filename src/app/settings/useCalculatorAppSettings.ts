@@ -9,6 +9,7 @@ export function useCalculatorAppSettings(appActions: CalculatorAppActions) {
     const [settings, setSettings] = useState<CalculatorAppSettings>(
         DEFAULT_CALCULATOR_APP_SETTINGS,
     );
+    const [settingsLoaded, setSettingsLoaded] = useState(false);
 
     useEffect(() => {
         let disposed = false;
@@ -19,9 +20,15 @@ export function useCalculatorAppSettings(appActions: CalculatorAppActions) {
 
                 if (!disposed) {
                     setSettings(loadedSettings);
+                    setSettingsLoaded(true);
                 }
             } catch (error: unknown) {
                 console.warn("Stored app settings were ignored.", error);
+
+                if (!disposed) {
+                    setSettings(DEFAULT_CALCULATOR_APP_SETTINGS);
+                    setSettingsLoaded(true);
+                }
             }
         })();
 
@@ -31,6 +38,10 @@ export function useCalculatorAppSettings(appActions: CalculatorAppActions) {
     }, [appActions]);
 
     useEffect(() => {
+        if (!settingsLoaded) {
+            return;
+        }
+
         void (async () => {
             try {
                 await appActions.saveSettings(settings);
@@ -38,7 +49,7 @@ export function useCalculatorAppSettings(appActions: CalculatorAppActions) {
                 console.warn("Failed to save app settings.", error);
             }
         })();
-    }, [appActions, settings]);
+    }, [appActions, settings, settingsLoaded]);
 
     const setSoundEnabled = useCallback((soundEnabled: boolean) => {
         setSettings((currentSettings) => ({

@@ -10,7 +10,6 @@ const STATIC_ASSET_PATHS = [
     "wasm/calculator.wasm",
 
     "sounds/key-down.wav",
-    "sounds/key-up.wav",
     "sounds/tap.wav",
 
     "favicon-48.png",

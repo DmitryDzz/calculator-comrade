@@ -14,7 +14,7 @@ import { SettingsDialog } from "./settings/SettingsDialog.tsx";
 import { APP_VERSION } from "./appVersion.ts";
 import { routes } from "../shared/routes.ts";
 import { goBackOrReplace, navigateTo } from "../platforms/web/webNavigation.ts";
-
+import { listenDesktopWindowSize } from "../platforms/desktop/logDesktopWindowSize.ts";
 
 const SETTINGS_BUTTON_ATTENTION_FALLBACK_MS = 2500;
 
@@ -46,6 +46,14 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
         setPressedKeyboardButtonCodes([
             ...activeKeyboardPressesRef.current.values(),
         ]);
+    }, []);
+
+    useEffect(() => {
+        if (!isStandaloneApp) {
+            return undefined;
+        }
+
+        return listenDesktopWindowSize();
     }, []);
 
     const isButtonPressed = useCallback(

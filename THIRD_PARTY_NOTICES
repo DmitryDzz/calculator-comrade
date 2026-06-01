@@ -104,6 +104,27 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO
 USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 
 
+Sounds
+
+This project uses edited sound effects based on sounds from Freesound.
+
+Calculator button click sound
+
+Based on "key-clack1" by chris112233.
+Source: https://freesound.org/s/738440/
+License: Creative Commons 0
+
+Application tap sound
+
+Based on "Buttons and Knobs 10.wav" by potentjello.
+Source: https://freesound.org/s/194071/
+License: Creative Commons 0
+
+Creative Commons 0 allows copying, modification, distribution, and use for
+any purpose without requiring attribution. Attribution is included here for
+transparency and to preserve the source information.
+
+
 Lucide Icons
 
 This project uses icons from Lucide.

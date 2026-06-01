@@ -5,7 +5,6 @@ use std::thread;
 use rodio::{Decoder, OutputStream, Sink};
 
 const KEY_DOWN_SOUND: &[u8] = include_bytes!("../../public/sounds/key-down.wav");
-const KEY_UP_SOUND: &[u8] = include_bytes!("../../public/sounds/key-up.wav");
 const TAP_SOUND: &[u8] = include_bytes!("../../public/sounds/tap.wav");
 
 pub struct AudioPlayer {
@@ -89,7 +88,6 @@ pub fn play_sound(sound_type: String, player: tauri::State<'_, AudioPlayer>) -> 
 fn sound_bytes_for_type(sound_type: &str) -> Option<&'static [u8]> {
     match sound_type {
         "key-down" => Some(KEY_DOWN_SOUND),
-        "key-up" => Some(KEY_UP_SOUND),
         "tap" => Some(TAP_SOUND),
         _ => None,
     }

@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CalculatorAppActions } from "../../platforms/calculatorAppActions.ts";
 import type { CalculatorAppSettings } from "./calculatorAppSettings.ts";
-import { assetUrl } from "../../shared/assetUrl.ts";
-import * as React from "react";
 
 interface SettingsDialogProps {
     settings: CalculatorAppSettings;
@@ -153,8 +151,10 @@ export function SettingsDialog({
         };
     }, [vibrationAvailable]);
 
-    const openDocument = (open: () => void) => {
-        open();
+    const runWithTapFeedback = (action: () => void) => {
+        appActions.playAppButtonTapSound();
+        appActions.vibrateAppButtonTap();
+        action();
     };
 
     return (
@@ -174,15 +174,9 @@ export function SettingsDialog({
                         className="settings-dialog__back-button"
                         type="button"
                         aria-label="Close settings"
-                        onClick={onClose}
+                        onClick={() => runWithTapFeedback(onClose)}
                     >
-                        <span
-                            className="settings-dialog__back-icon"
-                            style={{
-                                "--settings-back-icon-url": `url("${assetUrl("assets/settings/arrow-left.svg")}")`,
-                            } as React.CSSProperties}
-                            aria-hidden="true"
-                        />
+                        <SettingsBackIcon />
                     </button>
                     <h1 id="settings-dialog-title" className="settings-dialog__title">
                         SETTINGS
@@ -195,7 +189,9 @@ export function SettingsDialog({
                             title="Sound"
                             // description="Play calculator button sounds."
                             checked={settings.soundEnabled}
-                            onChange={onSoundEnabledChange}
+                            onChange={(enabled) =>
+                                runWithTapFeedback(() => onSoundEnabledChange(enabled))
+                            }
                         />
 
                         <div hidden={!vibrationAvailable}>
@@ -203,7 +199,9 @@ export function SettingsDialog({
                                 title="Vibration"
                                 // description="Use short haptic feedback on supported devices."
                                 checked={settings.vibrationEnabled}
-                                onChange={onVibrationEnabledChange}
+                                onChange={(enabled) =>
+                                    runWithTapFeedback(() => onVibrationEnabledChange(enabled))
+                                }
                             />
                         </div>
                     </div>
@@ -211,15 +209,15 @@ export function SettingsDialog({
                     <div className="settings-group" aria-label="Documents">
                         <SettingLink
                             title="License"
-                            onClick={() => openDocument(appActions.openLicense)}
+                            onClick={() => runWithTapFeedback(appActions.openLicense)}
                         />
                         <SettingLink
                             title="Privacy Policy"
-                            onClick={() => openDocument(appActions.openPrivacyPolicy)}
+                            onClick={() => runWithTapFeedback(appActions.openPrivacyPolicy)}
                         />
                         <SettingLink
                             title="Terms of Use"
-                            onClick={() => openDocument(appActions.openTermsOfUse)}
+                            onClick={() => runWithTapFeedback(appActions.openTermsOfUse)}
                         />
                     </div>
 
@@ -247,6 +245,43 @@ export function SettingsDialog({
                 </div>
             </section>
         </div>
+    );
+}
+
+function SettingsBackIcon() {
+    return (
+        <svg
+            className="settings-dialog__back-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+        >
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+        </svg>
+    );
+}
+
+function SettingsChevronRightIcon() {
+    return (
+        <svg
+            className="settings-dialog__chevron-right-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+        >
+            <path d="m16 18 6-6-6-6" />
+        </svg>
     );
 }
 
@@ -345,13 +380,7 @@ function SettingLink({ title, onClick }: SettingLinkProps) {
     return (
         <button className="settings-row settings-row--link" type="button" onClick={onClick}>
             <span className="settings-row__title">{title}</span>
-            <span
-                className="settings-dialog__chevron-right-icon"
-                style={{
-                    "--settings-chevron-right-icon-url": `url("${assetUrl("assets/settings/chevron-right.svg")}")`,
-                } as React.CSSProperties}
-                aria-hidden="true"
-            />
+            <SettingsChevronRightIcon />
         </button>
     );
 }

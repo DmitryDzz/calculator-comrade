@@ -9,14 +9,12 @@ export interface CreateCalculatorAppActionsOptions {
 
 export type CalculatorSoundType =
     | "key-down"
-    | "key-up"
     | "tap";
 
 export type CalculatorSoundUrls = Record<CalculatorSoundType, string>;
 
 export const WEB_CALCULATOR_SOUND_URLS: CalculatorSoundUrls = {
     "key-down": assetUrl("sounds/key-down.wav"),
-    "key-up": assetUrl("sounds/key-up.wav"),
     "tap": assetUrl("sounds/tap.wav"),
 };
 
