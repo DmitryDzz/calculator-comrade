@@ -72,8 +72,8 @@ export function createWebCalculatorAppActions(
             saveCalculatorAppSettingsToLocalStorage(nextSettings);
         },
 
-        playCalculatorButtonDownSound: () => {
-            playSoundIfEnabled(settings, soundPlayer, "key-down");
+        playCalculatorButtonDownSound: async () => {
+            await playSoundIfEnabledAsync(settings, soundPlayer, "key-down");
         },
 
         playCalculatorButtonUpSound: () => {
@@ -83,8 +83,8 @@ export function createWebCalculatorAppActions(
              */
         },
 
-        playAppButtonTapSound: () => {
-            playSoundIfEnabled(settings, soundPlayer, "tap");
+        playAppButtonTapSound: async () => {
+            await playSoundIfEnabledAsync(settings, soundPlayer, "tap");
         },
 
         loadCalculatorDump: () => loadCalculatorDumpFromLocalStorage(),
@@ -117,16 +117,17 @@ export function createWebCalculatorAppActions(
     };
 }
 
-function playSoundIfEnabled(
+async function playSoundIfEnabledAsync(
     settings: CalculatorAppSettings,
     soundPlayer: WebCalculatorSoundPlayer,
     soundType: CalculatorSoundType,
-): void {
+): Promise<void> {
     if (!settings.soundEnabled) {
         return;
     }
 
-    soundPlayer.playSound(WEB_CALCULATOR_SOUND_URLS[soundType]);
+    await soundPlayer.unlockAsync();
+    await soundPlayer.playSoundAsync(WEB_CALCULATOR_SOUND_URLS[soundType]);
 }
 
 function isMobileLikeBrowser(): boolean {

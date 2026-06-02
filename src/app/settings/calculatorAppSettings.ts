@@ -1,5 +1,5 @@
-export const SETTINGS_STORAGE_KEY = "calculator-comrade.settings.v1.0";
-export const CALCULATOR_DUMP_STORAGE_KEY = "calculator-comrade.calculator.dump.v1.0";
+export const SETTINGS_STORAGE_KEY = "calculator-comrade.settings.v0.0.1";
+export const CALCULATOR_DUMP_STORAGE_KEY = "calculator-comrade.calculator.dump.v0.0.1";
 
 export interface CalculatorAppSettings {
     soundEnabled: boolean;

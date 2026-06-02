@@ -1,48 +1,90 @@
 export type WebCalculatorSoundUrls = Record<string, string>;
 
 export interface WebCalculatorSoundPlayer {
-    playSound: (soundUrl: string) => void;
+    unlockAsync: () => Promise<void>;
+    playSoundAsync: (soundUrl: string) => Promise<void>;
 }
 
-export function createWebCalculatorSoundPlayer(soundUrls: WebCalculatorSoundUrls): WebCalculatorSoundPlayer {
-    const sounds = preloadSounds(soundUrls);
+export function createWebCalculatorSoundPlayer(
+    soundUrls: WebCalculatorSoundUrls,
+): WebCalculatorSoundPlayer {
+    const audioContext = createAudioContext();
+    const sounds = new Map<string, AudioBuffer>();
+
+    void preloadSoundsAsync(audioContext, soundUrls, sounds);
 
     return {
-        playSound: (soundUrl: string) => {
-            const sound = sounds.get(soundUrl);
-
-            if (!sound) {
-                return;
-            }
-
+        unlockAsync: async () => {
             try {
-                sound.currentTime = 0;
+                await audioContext.resume();
+            } catch { /* empty */ }
+        },
 
-                void sound.play().catch(() => {
-                    /*
-                     * Audio may be blocked before a user gesture or by browser policy.
-                     * Sound feedback must never break calculator input.
-                     */
-                });
-            } catch {
-                /*
-                 * Keep calculator input independent from optional sound feedback.
-                 */
-            }
+        playSoundAsync: async (soundUrl: string) => {
+            try {
+                await playSoundAsync(audioContext, sounds, soundUrl);
+            } catch { /* empty */ }
         },
     };
 }
 
-function preloadSounds(soundUrls: WebCalculatorSoundUrls): Map<string, HTMLAudioElement> {
-    const sounds = new Map<string, HTMLAudioElement>();
-
+async function preloadSoundsAsync(
+    audioContext: AudioContext,
+    soundUrls: WebCalculatorSoundUrls,
+    sounds: Map<string, AudioBuffer>,
+): Promise<void> {
     for (const soundUrl of Object.values(soundUrls)) {
-        const sound = new Audio(soundUrl);
+        try {
+            const response = await fetch(soundUrl);
+            const arrayBuffer = await response.arrayBuffer();
+            const soundBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            sounds.set(soundUrl, soundBuffer);
+        } catch (error: unknown) {
+            console.error("[sound] preload failed:", soundUrl, error);
+        }
+    }
+}
 
-        sound.preload = "auto";
-
-        sounds.set(soundUrl, sound);
+async function playSoundAsync(
+    audioContext: AudioContext,
+    sounds: Map<string, AudioBuffer>,
+    soundUrl: string,
+): Promise<void> {
+    const soundBuffer = sounds.get(soundUrl);
+    if (!soundBuffer) {
+        console.warn("[sound] skipped, buffer not loaded:", soundUrl);
+        return;
     }
 
-    return sounds;
+    try {
+        if (audioContext.state !== "running") {
+            console.warn("[sound] skipped, context is not running:", audioContext.state);
+            return;
+        }
+
+        const source = audioContext.createBufferSource();
+
+        source.buffer = soundBuffer;
+        source.connect(audioContext.destination);
+
+        source.start(0);
+    } catch (error: unknown) {
+        console.error("[sound] play failed:", soundUrl, error);
+    }
+}
+
+function createAudioContext(): AudioContext {
+    const AudioContextCtor =
+        window.AudioContext ||
+        (
+            window as typeof window & {
+                webkitAudioContext?: typeof AudioContext;
+            }
+        ).webkitAudioContext;
+
+    if (!AudioContextCtor) {
+        throw new Error("Web Audio API is not supported.");
+    }
+
+    return new AudioContextCtor();
 }
