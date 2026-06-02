@@ -12,6 +12,22 @@ import {
     saveCalculatorAppSettingsToLocalStorage,
     saveCalculatorDumpToLocalStorage,
 } from "./desktopCalculatorStorage.ts";
+import { openUrl } from "@tauri-apps/plugin-opener";
+
+const DESKTOP_HOME_URL = "https://dmitrydzz.github.io/calculator-comrade/";
+const DESKTOP_HELP_URL = "https://dmitrydzz.github.io/calculator-comrade/tips-n-tricks/";
+const DESKTOP_LICENSE_URL = "https://dmitrydzz.github.io/calculator-comrade/license/";
+const DESKTOP_PRIVACY_POLICY_URL = "https://dmitrydzz.github.io/calculator-comrade/privacy-policy/";
+const DESKTOP_TERMS_OF_USE_URL = "https://dmitrydzz.github.io/calculator-comrade/terms-of-use/";
+
+function openExternalUrl(url: string): void {
+    void openUrl(url).catch((error: unknown) => {
+        console.warn("Failed to open external URL.", {
+            url,
+            error,
+        });
+    });
+}
 
 export function createDesktopCalculatorAppActions(
     options: CreateCalculatorAppActionsOptions = {},
@@ -21,16 +37,11 @@ export function createDesktopCalculatorAppActions(
 
     return {
         openHome: () => {
-            /*
-             * In the desktop shell, site pages should be opened in the system
-             * browser later through a platform-specific external-link action.
-             */
+            openExternalUrl(DESKTOP_HOME_URL);
         },
 
         openHelp: () => {
-            /*
-             * In the desktop shell, help should be opened in the system browser later.
-             */
+            openExternalUrl(DESKTOP_HELP_URL);
         },
 
         openSettings: options.openSettings ?? (() => {
@@ -40,21 +51,15 @@ export function createDesktopCalculatorAppActions(
         }),
 
         openLicense: () => {
-            /*
-             * Open externally later through the desktop platform layer.
-             */
+            openExternalUrl(DESKTOP_LICENSE_URL);
         },
 
         openPrivacyPolicy: () => {
-            /*
-             * Open externally later through the desktop platform layer.
-             */
+            openExternalUrl(DESKTOP_PRIVACY_POLICY_URL);
         },
 
         openTermsOfUse: () => {
-            /*
-             * Open externally later through the desktop platform layer.
-             */
+            openExternalUrl(DESKTOP_TERMS_OF_USE_URL);
         },
 
         isVibrationAvailable: () => false,
