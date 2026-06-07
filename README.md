@@ -1,10 +1,15 @@
 # Calculator Comrade
 
-Calculator Comrade is a web app and project site for an old-school 8-digit pocket calculator emulator.
+Calculator Comrade is a multiplatform application and project site for an
+old-school 8-digit pocket calculator emulator. It currently includes the web
+application, GitHub Pages site, PWA files, legal/support pages, and desktop
+wrappers for Linux and Windows.
 
-The calculator engine is developed as a separate open-source library [calculator-comrade-lib](https://github.com/DmitryDzz/calculator-comrade-lib).
+The calculator engine is developed as our separate open-source library
+[calculator-comrade-lib](https://github.com/DmitryDzz/calculator-comrade-lib).
 
-This repository contains the product/application layer. It contains the web application, GitHub Pages site, PWA files, legal/support pages, and later the Android, Windows, and Linux wrappers.
+This repository contains the product/application layer built around that
+library.
 
 ## License
 This project is licensed under the MIT License.
@@ -14,7 +19,7 @@ Copyright (c) 2019-2026 Dmitry Dzakhov (dmitrydzz).
 See [LICENSE](LICENSE) for details.
 
 Third-party open-source components and assets are listed in
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES).
 
 ## Authors
 
@@ -24,13 +29,96 @@ See [AUTHORS.md](AUTHORS.md).
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-## Linux desktop build
+## Desktop builds
 
-The desktop shell is built with Tauri. The frontend is still built by Vite,
-but desktop builds use `desktop` mode and native Rust commands for platform
-integration such as sound playback.
+The desktop application is built with Tauri. The frontend is still built by
+Vite, but desktop builds use `desktop` mode and native Rust commands for
+platform integration such as sound playback.
 
-### Dependencies
+Desktop packages are built on the matching host operating system:
+
+- build the Linux app on a Linux host;
+- build the Windows app on a Windows host.
+
+Cross-compilation is not the default workflow for this project.
+
+### Common requirements
+
+Install the project dependencies from the lock file:
+
+```bash
+npm ci
+```
+
+A reasonably recent Node.js version is required by the frontend toolchain.
+If an older Node.js version is selected on the machine, switch to a newer one
+before running `npm ci`.
+
+The desktop build also requires Rust and Cargo. Install them with `rustup` if
+they are not already available on the host machine.
+
+### Web development and preview
+
+Run the web application on localhost in development mode:
+
+```bash
+npm run dev
+```
+
+This starts the Vite development server. Open the localhost URL printed by Vite
+in a browser.
+
+To check a production-style frontend build locally, build the web app and serve
+the generated files with Vite preview:
+
+```bash
+npm run build
+npm run preview
+```
+
+Do not open files from `dist/` directly in a browser. The built application is
+expected to be served by a web server, even for local testing.
+
+### Desktop development
+
+Run the desktop app in development mode:
+
+```bash
+npm run tauri:dev
+```
+
+This starts the Vite dev server in `desktop` mode and launches the Tauri shell.
+
+### Build scripts
+
+Use the explicit platform build scripts instead of relying on the default Tauri
+bundle target list:
+
+```json
+"tauri:build:linux": "tauri build --bundles deb,appimage",
+"tauri:build:windows": "tauri build --bundles nsis"
+```
+
+The frontend-only desktop build is still available separately:
+
+```bash
+npm run build:desktop
+```
+
+It writes the Vite output to:
+
+```text
+dist/
+```
+
+This command only builds the frontend assets for the desktop mode. It does not
+create a native executable or installer, and the generated `dist/` directory
+still needs to be served by a web server if you want to inspect it in a browser.
+
+The full Tauri build creates a native executable and then packages it for the
+selected platform.
+
+### Linux host build
 
 On Ubuntu 24.04, install the Tauri build dependencies and ALSA development
 files required by the native desktop sound backend:
@@ -57,28 +145,19 @@ On Ubuntu 24.04 and newer, the runtime ALSA package is usually
 The Debian package metadata declares the dependency as
 `libasound2 | libasound2t64` to support both families.
 
-### Development
+Build the Linux app and packages:
 
 ```bash
-npm install
-npm run tauri:dev
+npm run tauri:build:linux
 ```
 
-### Build x86_64
+The native release executable is written under:
 
-```bash
-npm run tauri:build
+```text
+src-tauri/target/release/
 ```
 
-### Build arm64
-
-For now, prefer building on an actual arm64 Linux machine or arm64 CI runner.
-Cross-compilation is possible, but it needs matching WebKitGTK, OpenSSL and
-ALSA development packages for the target architecture.
-
-### Output packages
-
-Linux packages are generated under:
+The Linux packages are generated under:
 
 ```text
 src-tauri/target/release/bundle/deb/
@@ -88,3 +167,51 @@ src-tauri/target/release/bundle/appimage/
 The `.deb` package includes Debian dependency metadata for ALSA runtime
 libraries. AppImage does not have Debian dependency metadata; it still expects
 the host system to provide a working Linux audio stack.
+
+For arm64 Linux, prefer building on an actual arm64 Linux machine or arm64 CI
+runner. Cross-compilation is possible, but it needs matching WebKitGTK, OpenSSL
+and ALSA development packages for the target architecture.
+
+### Windows host build
+
+On Windows, install the Tauri Windows prerequisites before building:
+
+- Node.js and npm;
+- Rust and Cargo via `rustup`;
+- Microsoft C++ Build Tools with the **Desktop development with C++** workload;
+- Microsoft Edge WebView2 Runtime.
+
+Windows 11 usually already includes WebView2, but it is still worth checking if
+a clean machine fails to start the Tauri app.
+
+Build the Windows app and NSIS installer:
+
+```powershell
+npm run tauri:build:windows
+```
+
+The native release executable is written under:
+
+```text
+src-tauri/target/release/
+```
+
+On Windows, the executable currently uses the Rust package name from
+`src-tauri/Cargo.toml`, so the raw executable may be named like this:
+
+```text
+src-tauri/target/release/calculator-comrade.exe
+```
+
+The Windows NSIS installer is generated under:
+
+```text
+src-tauri/target/release/bundle/nsis/
+```
+
+The installer file name is based on the Tauri product name, version and target
+architecture, for example:
+
+```text
+Calculator Comrade_0.0.1_x64-setup.exe
+```

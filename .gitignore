@@ -24,6 +24,9 @@ pnpm-debug.log*
 # TypeScript
 *.tsbuildinfo
 
+# Node.js version
+.nvmrc
+
 # IDEs
 .idea/
 .vscode/*

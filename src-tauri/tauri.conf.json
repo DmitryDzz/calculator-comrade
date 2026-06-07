@@ -25,10 +25,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": [
-      "deb",
-      "appimage"
-    ],
+    "targets": [],
     "category": "Utility",
     "shortDescription": "Classic pocket calculator emulator",
     "longDescription": "Calculator Comrade is an old-school 8-digit pocket calculator emulator.",
