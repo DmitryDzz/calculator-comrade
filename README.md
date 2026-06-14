@@ -29,6 +29,45 @@ See [AUTHORS.md](AUTHORS.md).
 
 See [CHANGELOG.md](CHANGELOG.md).
 
+
+## Android build
+
+The Android application is built with Capacitor. The frontend is built by Vite
+in `android` mode and then synced into the native Android project.
+
+Install the project dependencies from the lock file:
+
+```bash
+npm ci
+```
+
+Build the Android frontend assets and sync them into the Android project:
+
+```bash
+npm run cap:sync:android
+```
+
+Open the native Android project in Android Studio:
+
+```bash
+npm run cap:open:android
+```
+
+The Android project lives in:
+
+```text
+android/
+```
+
+The Android Vite mode uses relative asset paths, the same as the desktop mode,
+because the application is loaded by the native WebView from packaged local
+assets.
+
+The first Android implementation uses Capacitor for the native shell, browser
+links, sharing and haptic feedback. Short calculator sounds still use the
+existing web sound player for now; a small native Android sound layer can be
+added later if WebView audio startup behavior is not good enough on devices.
+
 ## Desktop builds
 
 The desktop application is built with Tauri. The frontend is still built by

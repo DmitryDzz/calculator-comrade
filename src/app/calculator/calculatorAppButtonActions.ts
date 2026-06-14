@@ -85,8 +85,14 @@ function getPlatformAppButtonIcon(
     platform: AppPlatform,
     actionId: CalculatorAppButtonActionId,
 ): string | null {
-    if (platform === "ios" && actionId === "shareApp") {
-        return assetUrl("assets/calculator/buttons/app_button_share_ios.svg");
+    if (actionId === "shareApp") {
+        if (platform === "ios") {
+            return assetUrl("assets/calculator/buttons/app_button_share_ios.svg");
+        }
+
+        if (platform === "android") {
+            return assetUrl("assets/calculator/buttons/app_button_share_android.svg");
+        }
     }
 
     return commonAppButtonIcons[actionId];
@@ -96,6 +102,6 @@ const commonAppButtonIcons: Record<CalculatorAppButtonActionId, string | null> =
     home: assetUrl("assets/calculator/buttons/app_button_home.svg"),
     help: assetUrl("assets/calculator/buttons/app_button_help.svg"),
     settings: assetUrl("assets/calculator/buttons/app_button_settings.svg"),
-    rateApp: null,
-    shareApp: null,
+    rateApp: assetUrl("assets/calculator/buttons/app_button_rate.webp"),
+    shareApp: assetUrl("assets/calculator/buttons/app_button_share.webp"),
 };

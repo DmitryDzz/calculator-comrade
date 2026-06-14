@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { CalculatorApp } from "../app/CalculatorApp.tsx";
 import { routes } from "../shared/routes.ts";
-import { subscribeToNavigationChanges } from "../platforms/web/webNavigation.ts";
-import { isStandaloneApp } from "../platforms/appEnvironment.ts";
+import { goBackOrReplace, subscribeToNavigationChanges } from "../platforms/web/webNavigation.ts";
+import { isAndroidApp, isStandaloneApp } from "../platforms/appEnvironment.ts";
+import { App as CapacitorApp } from "@capacitor/app";
 import { HomePage } from "./pages/HomePage.tsx";
 import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
 import { LicensePage } from "./pages/LicensePage.tsx";
@@ -88,6 +89,38 @@ export function SiteApp() {
             setCurrentPage(getCurrentAppPage());
         });
     }, []);
+
+    useEffect(() => {
+        if (!isAndroidApp) {
+            return undefined;
+        }
+
+        let listenerRemoved = false;
+        let removeListener: (() => void) | null = null;
+
+        void CapacitorApp.addListener("backButton", () => {
+            if (currentPage === "calculatorSettings") {
+                goBackOrReplace(routes.calculator);
+                return;
+            }
+
+            void CapacitorApp.minimizeApp();
+        }).then((listenerHandle) => {
+            if (listenerRemoved) {
+                void listenerHandle.remove();
+                return;
+            }
+
+            removeListener = () => {
+                void listenerHandle.remove();
+            };
+        });
+
+        return () => {
+            listenerRemoved = true;
+            removeListener?.();
+        };
+    }, [currentPage]);
 
     if (isStandalonePage(currentPage)) {
         return <CalculatorApp settingsDialogOpen={currentPage === "calculatorSettings"} />;

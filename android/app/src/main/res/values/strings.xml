@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Comrade</string>
+    <string name="title_activity_main">Comrade</string>
+    <string name="package_name">com.dmitrydzz.calculatorcomrade</string>
+    <string name="custom_url_scheme">com.dmitrydzz.calculatorcomrade</string>
+</resources>

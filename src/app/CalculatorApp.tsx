@@ -6,7 +6,8 @@ import type { CalculatorButtonCode } from "../calculatorCore/calculatorWasmTypes
 import { currentAppPlatform } from "../platforms/appPlatform.ts";
 import { createWebCalculatorAppActions } from "../platforms/web/webCalculatorAppActions.ts";
 import { createDesktopCalculatorAppActions } from "../platforms/desktop/desktopCalculatorAppActions.ts";
-import { isStandaloneApp } from "../platforms/appEnvironment.ts";
+import { createAndroidCalculatorAppActions } from "../platforms/android/androidCalculatorAppActions.ts";
+import { isAndroidApp, isDesktopApp } from "../platforms/appEnvironment.ts";
 import { createCalculatorAppButtonActions } from "./calculator/calculatorAppButtonActions.ts";
 import type { CalculatorAppActions } from "../platforms/calculatorAppActions.ts";
 import { useCalculatorAppSettings } from "./settings/useCalculatorAppSettings.ts";
@@ -24,9 +25,11 @@ interface CalculatorAppProps {
 
 export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
     const appActions = useMemo<CalculatorAppActions>(() => {
-        const createCalculatorAppActions = isStandaloneApp
-            ? createDesktopCalculatorAppActions
-            : createWebCalculatorAppActions;
+        const createCalculatorAppActions = isAndroidApp
+            ? createAndroidCalculatorAppActions
+            : isDesktopApp
+                ? createDesktopCalculatorAppActions
+                : createWebCalculatorAppActions;
 
         return createCalculatorAppActions({
             openSettings: () => navigateTo(routes.calculatorSettings),
@@ -49,7 +52,7 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
     }, []);
 
     useEffect(() => {
-        if (!isStandaloneApp) {
+        if (!isDesktopApp) {
             return undefined;
         }
 

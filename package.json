@@ -7,10 +7,14 @@
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --mode pages && node scripts/create-404.js",
     "build:desktop": "tsc -b && vite build --mode desktop",
+    "build:android": "tsc -b && vite build --mode android",
     "lint": "eslint .",
     "dev": "vite",
     "dev:desktop": "vite --mode desktop --host 127.0.0.1 --port 5174 --strictPort",
     "preview": "vite preview",
+    "cap": "cap",
+    "cap:sync:android": "npm run build:android && cap sync android",
+    "cap:open:android": "cap open android",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
@@ -18,6 +22,12 @@
     "tauri:build:windows": "tauri build --bundles nsis"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/browser": "^8.0.3",
+    "@capacitor/core": "^8.4.0",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/share": "^8.0.1",
     "@fontsource/orbitron": "^5.2.8",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-opener": "^2.5.4",
@@ -25,6 +35,8 @@
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.4.0",
     "@eslint/js": "^10.0.1",
     "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^24.12.2",
@@ -37,7 +49,7 @@
     "globals": "^17.5.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.16"
   },
   "description": "Calculator Comrade web app, site, and future multiplatform shell."
 }

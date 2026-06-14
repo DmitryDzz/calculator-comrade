@@ -1,4 +1,4 @@
-import { isStandaloneApp } from "./appEnvironment.ts";
+import { isAndroidApp, isDesktopApp } from "./appEnvironment.ts";
 
 export type AppPlatform =
     | "web"
@@ -8,7 +8,11 @@ export type AppPlatform =
     | "windows"
     | "linux";
 
-export const currentAppPlatform: AppPlatform = isStandaloneApp ? "desktop" : "web";
+export const currentAppPlatform: AppPlatform = isAndroidApp
+    ? "android"
+    : isDesktopApp
+        ? "desktop"
+        : "web";
 
 export function encodeBytesToBase64(bytes: Uint8Array): string {
     let binary = "";
