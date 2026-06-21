@@ -3,9 +3,11 @@ import {
     type CalculatorAppActions,
     type CalculatorSoundType,
     type CreateCalculatorAppActionsOptions,
-    WEB_CALCULATOR_SOUND_URLS,
 } from "../calculatorAppActions.ts";
-import { createWebCalculatorSoundPlayer, type WebCalculatorSoundPlayer } from "../web/webCalculatorSoundPlayer.ts";
+import {
+    createAndroidCalculatorSoundPlayer,
+    type AndroidCalculatorSoundPlayer,
+} from "./androidCalculatorSoundPlayer.ts";
 import {
     clearCalculatorDumpInLocalStorage,
     loadCalculatorAppSettingsFromLocalStorage,
@@ -27,7 +29,7 @@ export function createAndroidCalculatorAppActions(
     options: CreateCalculatorAppActionsOptions = {},
 ): CalculatorAppActions {
     let settings = loadCalculatorAppSettingsFromLocalStorage();
-    const soundPlayer = createWebCalculatorSoundPlayer(WEB_CALCULATOR_SOUND_URLS);
+    const soundPlayer = createAndroidCalculatorSoundPlayer();
 
     return {
         openHome: () => {
@@ -73,8 +75,8 @@ export function createAndroidCalculatorAppActions(
             saveCalculatorAppSettingsToLocalStorage(nextSettings);
         },
 
-        playCalculatorButtonDownSound: async () => {
-            await playSoundIfEnabledAsync(settings, soundPlayer, "key-down");
+        playCalculatorButtonDownSound: () => {
+            playSoundIfEnabled(settings, soundPlayer, "key-down");
         },
 
         playCalculatorButtonUpSound: () => {
@@ -84,8 +86,8 @@ export function createAndroidCalculatorAppActions(
              */
         },
 
-        playAppButtonTapSound: async () => {
-            await playSoundIfEnabledAsync(settings, soundPlayer, "tap");
+        playAppButtonTapSound: () => {
+            playSoundIfEnabled(settings, soundPlayer, "tap");
         },
 
         loadCalculatorDump: () => loadCalculatorDumpFromLocalStorage(),
@@ -136,15 +138,14 @@ function impactIfEnabled(settings: CalculatorAppSettings, style: ImpactStyle): v
     });
 }
 
-async function playSoundIfEnabledAsync(
+function playSoundIfEnabled(
     settings: CalculatorAppSettings,
-    soundPlayer: WebCalculatorSoundPlayer,
+    soundPlayer: AndroidCalculatorSoundPlayer,
     soundType: CalculatorSoundType,
-): Promise<void> {
+): void {
     if (!settings.soundEnabled) {
         return;
     }
 
-    await soundPlayer.unlockAsync();
-    await soundPlayer.playSoundAsync(WEB_CALCULATOR_SOUND_URLS[soundType]);
+    soundPlayer.playSound(soundType);
 }
