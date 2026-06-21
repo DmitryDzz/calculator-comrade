@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebView;
 
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -17,20 +19,26 @@ import com.getcapacitor.BridgeActivity;
 public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
         super.onCreate(savedInstanceState);
 
         applyRequestedOrientation();
+        applyBlackStartupBackground();
         applySystemBarAppearance();
 
         View decorView = getWindow().getDecorView();
-        decorView.post(this::applySystemBarAppearance);
+        decorView.post(() -> {
+            applyBlackStartupBackground();
+            applySystemBarAppearance();
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        applySystemBarAppearance();
+        applyBlackStartupBackground();
         applySystemBarAppearance();
     }
 
@@ -39,7 +47,7 @@ public class MainActivity extends BridgeActivity {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            applySystemBarAppearance();
+            applyBlackStartupBackground();
             applySystemBarAppearance();
         }
     }
@@ -49,16 +57,42 @@ public class MainActivity extends BridgeActivity {
         super.onConfigurationChanged(newConfig);
 
         applyRequestedOrientation();
+        applyBlackStartupBackground();
         applySystemBarAppearance();
+    }
+
+    private void applyBlackStartupBackground() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        decorView.setBackgroundColor(Color.BLACK);
+
+        View contentView = findViewById(android.R.id.content);
+        if (contentView != null) {
+            contentView.setBackgroundColor(Color.BLACK);
+            applyBlackBackgroundToWebViews(contentView);
+        }
+    }
+
+    private void applyBlackBackgroundToWebViews(View view) {
+        if (view instanceof WebView) {
+            view.setBackgroundColor(Color.BLACK);
+            return;
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                applyBlackBackgroundToWebViews(viewGroup.getChildAt(i));
+            }
+        }
     }
 
     @SuppressLint("ObsoleteSdkInt")
     private void applySystemBarAppearance() {
         Window window = getWindow();
         View decorView = window.getDecorView();
-
-        window.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        decorView.setBackgroundColor(Color.BLACK);
 
         window.setStatusBarColor(Color.BLACK);
         window.setNavigationBarColor(Color.BLACK);

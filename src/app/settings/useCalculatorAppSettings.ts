@@ -67,6 +67,7 @@ export function useCalculatorAppSettings(appActions: CalculatorAppActions) {
 
     return {
         settings,
+        settingsLoaded,
         setSoundEnabled,
         setVibrationEnabled,
     };

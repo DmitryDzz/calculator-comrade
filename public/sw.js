@@ -1,104 +1,19 @@
-const CACHE_NAME = "calculator-comrade-v1";
+const CACHE_NAME = "calculator-comrade-v2";
 const BASE_PATH = new URL(self.registration.scope).pathname;
-
-const STATIC_ASSET_PATHS = [
-    "",
-    "index.html",
-    "manifest.webmanifest",
-
-    "wasm/calculator.js",
-    "wasm/calculator.wasm",
-
-    "sounds/key-down.wav",
-    "sounds/tap.wav",
-
-    "favicon-48.png",
-    "favicon-72.png",
-    "favicon-96.png",
-    "favicon-144.png",
-    "favicon-192.png",
-
-    "icons/icon-48.png",
-    "icons/icon-72.png",
-    "icons/icon-96.png",
-    "icons/icon-144.png",
-    "icons/icon-192.png",
-    "icons/icon-512.png",
-    "icons/maskable-icon-192.png",
-    "icons/maskable-icon-512.png",
-
-    // "screenshots/screenshot-wide.png",
-    // "screenshots/screenshot-narrow.png",
-
-    "assets/settings/arrow-left.svg",
-    "assets/settings/chevron-right.svg",
-
-    "assets/calculator/body.webp",
-
-    "assets/calculator/buttons/app_button_home.svg",
-    "assets/calculator/buttons/app_button_help.svg",
-    "assets/calculator/buttons/app_button_settings.svg",
-
-    "assets/calculator/buttons/button_clear.webp",
-    "assets/calculator/buttons/button_digit.webp",
-    "assets/calculator/buttons/button_func.webp",
-    "assets/calculator/buttons/button_plus.webp",
-
-    "assets/calculator/display/display_digit0.webp",
-    "assets/calculator/display/display_digit1.webp",
-    "assets/calculator/display/display_digit2.webp",
-    "assets/calculator/display/display_digit3.webp",
-    "assets/calculator/display/display_digit4.webp",
-    "assets/calculator/display/display_digit5.webp",
-    "assets/calculator/display/display_digit6.webp",
-    "assets/calculator/display/display_digit7.webp",
-    "assets/calculator/display/display_digit8.webp",
-    "assets/calculator/display/display_digit9.webp",
-    "assets/calculator/display/display_error.webp",
-    "assets/calculator/display/display_memory.webp",
-    "assets/calculator/display/display_minus.webp",
-    "assets/calculator/display/display_point.webp",
-
-    "assets/calculator/labels/label0.webp",
-    "assets/calculator/labels/label1.webp",
-    "assets/calculator/labels/label2.webp",
-    "assets/calculator/labels/label3.webp",
-    "assets/calculator/labels/label4.webp",
-    "assets/calculator/labels/label5.webp",
-    "assets/calculator/labels/label6.webp",
-    "assets/calculator/labels/label7.webp",
-    "assets/calculator/labels/label8.webp",
-    "assets/calculator/labels/label9.webp",
-    "assets/calculator/labels/label_ce_ca.webp",
-    "assets/calculator/labels/label_change_sign.webp",
-    "assets/calculator/labels/label_div.webp",
-    "assets/calculator/labels/label_equals.webp",
-    "assets/calculator/labels/label_mem_minus.webp",
-    "assets/calculator/labels/label_mem_plus.webp",
-    "assets/calculator/labels/label_minus.webp",
-    "assets/calculator/labels/label_mrc.webp",
-    "assets/calculator/labels/label_mul.webp",
-    "assets/calculator/labels/label_mu.webp",
-    "assets/calculator/labels/label_percent.webp",
-    "assets/calculator/labels/label_plus.webp",
-    "assets/calculator/labels/label_point.webp",
-    "assets/calculator/labels/label_sqrt.webp",
-];
-
-const STATIC_ASSETS = STATIC_ASSET_PATHS.map(toScopedUrl);
-
-function toScopedUrl(path) {
-    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
-
-    return `${BASE_PATH}${normalizedPath}`;
-}
+const ASSET_MANIFEST_PATH = "asset-manifest.json";
 
 self.addEventListener("install", (event) => {
     event.waitUntil(
         (async () => {
             const cache = await caches.open(CACHE_NAME);
 
-            await cacheAssets(cache, STATIC_ASSETS);
+            const assetManifest = await getAssetManifest();
+            const staticAssets = [
+                toScopedUrl(ASSET_MANIFEST_PATH),
+                ...assetManifest.precache.map(toScopedUrl),
+            ];
+
+            await cacheAssets(cache, staticAssets);
 
             const buildAssets = await getBuildAssetsFromIndex();
             await cacheAssets(cache, buildAssets);
@@ -137,6 +52,48 @@ self.addEventListener("fetch", (event) => {
 
     event.respondWith(handleFetch(event.request));
 });
+
+function toScopedUrl(path) {
+    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+
+    return `${BASE_PATH}${normalizedPath}`;
+}
+
+async function getAssetManifest() {
+    try {
+        const response = await fetch(toScopedUrl(ASSET_MANIFEST_PATH), {
+            cache: "no-cache",
+        });
+
+        if (!response.ok) {
+            console.warn("Asset manifest was not loaded:", response.status);
+            return createEmptyAssetManifest();
+        }
+
+        const manifest = await response.json();
+
+        return {
+            precache: normalizeAssetPathList(manifest.precache),
+        };
+    } catch (error) {
+        console.warn("Asset manifest was not loaded:", error);
+        return createEmptyAssetManifest();
+    }
+}
+
+function createEmptyAssetManifest() {
+    return {
+        precache: [],
+    };
+}
+
+function normalizeAssetPathList(value) {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value.filter((path) => typeof path === "string");
+}
 
 async function handleFetch(request) {
     const cachedResponse = await findCachedResponse(request);
@@ -218,44 +175,9 @@ async function getBuildAssetsFromIndex() {
             assetUrls.add(url);
         }
 
-        const cssUrls = [...assetUrls].filter((url) => url.endsWith(".css"));
-
-        for (const cssUrl of cssUrls) {
-            const cssResponse = await fetch(cssUrl, { cache: "no-cache" });
-
-            if (!cssResponse.ok) {
-                continue;
-            }
-
-            const css = await cssResponse.text();
-            const cssUrlRegex = /url\((?:"|')?([^"')]+)(?:"|')?\)/g;
-
-            for (const match of css.matchAll(cssUrlRegex)) {
-                const rawUrl = match[1];
-
-                if (
-                    rawUrl.startsWith("data:") ||
-                    rawUrl.startsWith("http://") ||
-                    rawUrl.startsWith("https://")
-                ) {
-                    continue;
-                }
-
-                const url = new URL(rawUrl, cssUrl);
-
-                if (
-                    url.origin === self.location.origin &&
-                    url.pathname.includes("/assets/") &&
-                    /\.(woff2|woff|ttf|otf)$/.test(url.pathname)
-                ) {
-                    assetUrls.add(url.href);
-                }
-            }
-        }
-
         return [...assetUrls];
     } catch (error) {
-        console.warn("Build assets were not discovered from index.html:", error);
+        console.warn("Build assets were not detected:", error);
         return [];
     }
 }

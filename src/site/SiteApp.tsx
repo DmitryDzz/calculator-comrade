@@ -9,6 +9,7 @@ import { TipsAndTricksPage } from "./pages/TipsAndTricksPage.tsx";
 import { LicensePage } from "./pages/LicensePage.tsx";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage.tsx";
 import { TermsOfUsePage } from "./pages/TermsOfUsePage.tsx";
+import { markAppStartupReady } from "../app/startup/appStartupCover.ts";
 
 type SitePage =
     | "home"
@@ -89,6 +90,16 @@ export function SiteApp() {
             setCurrentPage(getCurrentAppPage());
         });
     }, []);
+
+    useEffect(() => {
+        if (isStandalonePage(currentPage)) {
+            return;
+        }
+
+        window.requestAnimationFrame(() => {
+            markAppStartupReady();
+        });
+    }, [currentPage]);
 
     useEffect(() => {
         if (!isAndroidApp) {

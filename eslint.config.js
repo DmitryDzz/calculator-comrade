@@ -9,6 +9,10 @@ export default defineConfig([
   globalIgnores([
     'dist',
     'src-tauri/target',
+
+    'android/build',
+    'android/app/build',
+    'android/.gradle',
   ]),
   {
     files: ['**/*.{ts,tsx}'],

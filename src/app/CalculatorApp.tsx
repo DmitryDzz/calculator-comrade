@@ -16,6 +16,11 @@ import { APP_VERSION } from "./appVersion.ts";
 import { routes } from "../shared/routes.ts";
 import { goBackOrReplace, navigateTo } from "../platforms/web/webNavigation.ts";
 import { listenDesktopWindowSize } from "../platforms/desktop/logDesktopWindowSize.ts";
+import {
+    markAppStartupReady,
+    preloadCalculatorFirstPaintAssets,
+    waitForCalculatorFirstPaintReady,
+} from "./startup/appStartupCover.ts";
 
 const SETTINGS_BUTTON_ATTENTION_FALLBACK_MS = 2500;
 
@@ -58,6 +63,39 @@ export function CalculatorApp({ settingsDialogOpen }: CalculatorAppProps) {
 
         return listenDesktopWindowSize();
     }, []);
+    useEffect(() => {
+        void preloadCalculatorFirstPaintAssets();
+    }, []);
+
+    useEffect(() => {
+        if (calculator.loading || !appSettings.settingsLoaded) {
+            return undefined;
+        }
+
+        if (calculator.display === null && calculator.error === null) {
+            return undefined;
+        }
+
+        let disposed = false;
+
+        void (async () => {
+            await waitForCalculatorFirstPaintReady();
+
+            if (!disposed) {
+                markAppStartupReady();
+            }
+        })();
+
+        return () => {
+            disposed = true;
+        };
+    }, [
+        appSettings.settingsLoaded,
+        calculator.display,
+        calculator.error,
+        calculator.loading,
+    ]);
+
 
     const isButtonPressed = useCallback(
         (buttonCode: CalculatorButtonCode): boolean =>
