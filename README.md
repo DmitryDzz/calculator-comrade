@@ -12,6 +12,7 @@ This repository contains the product/application layer built around that
 library.
 
 ## License
+
 This project is licensed under the MIT License.
 
 Copyright (c) 2019-2026 Dmitry Dzakhov (dmitrydzz).
@@ -28,7 +29,6 @@ See [AUTHORS.md](AUTHORS.md).
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
-
 
 ## Android build
 
